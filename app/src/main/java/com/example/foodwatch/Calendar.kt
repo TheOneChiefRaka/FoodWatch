@@ -1,29 +1,28 @@
 package com.example.foodwatch
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import android.widget.Button;
 
-
-class MainActivity : AppCompatActivity() {
-
-
-
+class Calendar : AppCompatActivity() {
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_calendar)
 
-        val calButton = findViewById<Button>(R.id.calendarButton)
+        val returnButton = findViewById<Button>(R.id.returnHomeButton)
 
-        calButton.setOnClickListener{
-            val screen = Intent(this,Calendar::class.java)
+        returnButton.setOnClickListener{
+            val screen = Intent(this,MainActivity::class.java)
             startActivity(screen)
         }
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -31,6 +30,4 @@ class MainActivity : AppCompatActivity() {
             insets
         }
     }
-
-
 }
