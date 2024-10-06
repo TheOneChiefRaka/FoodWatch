@@ -5,61 +5,85 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#EEF5EB"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/reportsButton2"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="24dp"
-        android:text="Reports"
-        app:icon="@android:drawable/btn_star_big_on"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/accountButton"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="24dp"
-        android:text="Account"
-        app:icon="@android:drawable/ic_menu_myplaces"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
-        android:id="@+id/foodWatch"
+        android:id="@+id/foodWatchTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
-        android:text="Food Watch"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="220dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/inter_medium"
+        android:text="@string/app.title"
+        android:textAlignment="center"
+        android:textColor="#569831"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/foodWatchSubtitle"
+        app:layout_constraintEnd_toEndOf="@+id/addMeal"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/calendarButton"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="24dp"
-        android:text="Button"
-        app:icon="@android:drawable/ic_menu_my_calendar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/accountButton" />
+    <TextView
+        android:id="@+id/foodWatchSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="63dp"
+        android:fontFamily="@font/inter_medium"
+        android:text="@string/app.subtitle"
+        android:textColor="#569831"
+        app:layout_constraintBottom_toTopOf="@+id/addMeal"
+        app:layout_constraintEnd_toEndOf="@+id/foodWatchTitle"
+        app:layout_constraintTop_toBottomOf="@+id/foodWatchTitle" />
 
     <Button
-        android:id="@+id/reportsButton"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="24dp"
-        android:text="Reports"
-        app:icon="@android:drawable/ic_menu_sort_by_size"
+        android:id="@+id/addMeal"
+        android:layout_width="230dp"
+        android:layout_height="81dp"
+        android:layout_marginBottom="26dp"
+        android:backgroundTint="#81B266"
+        android:fontFamily="@font/inter_medium"
+        android:text="@string/button.add_meal"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/addReaction"
+        app:layout_constraintEnd_toEndOf="@+id/addReaction"
+        app:layout_constraintStart_toStartOf="@+id/addReaction"
+        app:layout_constraintTop_toBottomOf="@+id/foodWatchSubtitle"
+        app:strokeColor="#6BA54B"
+        app:strokeWidth="2dp" />
+
+    <Button
+        android:id="@+id/addReaction"
+        android:layout_width="230dp"
+        android:layout_height="81dp"
+        android:layout_marginBottom="26dp"
+        android:backgroundTint="#81B266"
+        android:fontFamily="@font/inter_medium"
+        android:text="@string/button.add_reaction"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/findRecipes"
+        app:layout_constraintEnd_toEndOf="@+id/findRecipes"
+        app:layout_constraintStart_toStartOf="@+id/findRecipes"
+        app:layout_constraintTop_toBottomOf="@+id/addMeal"
+        app:strokeColor="#6BA54B"
+        app:strokeWidth="2dp" />
+
+    <Button
+        android:id="@+id/findRecipes"
+        android:layout_width="230dp"
+        android:layout_height="81dp"
+        android:layout_marginBottom="302dp"
+        android:backgroundTint="#81B266"
+        android:fontFamily="@font/inter_medium"
+        android:text="@string/button.find_recipes"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/reportsButton2" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addReaction"
+        app:strokeColor="#6BA54B"
+        app:strokeWidth="2dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

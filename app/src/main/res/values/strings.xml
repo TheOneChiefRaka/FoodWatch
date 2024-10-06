@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Food Watch</string>
+    <string name="app.title">Food Watch</string>
+    <string name="app.subtitle">Allergy Awareness</string>
+    <string name="button.add_meal">Add Meal</string>
+    <string name="button.add_reaction">Add Reaction</string>
+    <string name="button.find_recipes">Find Recipes</string>
 </resources>
