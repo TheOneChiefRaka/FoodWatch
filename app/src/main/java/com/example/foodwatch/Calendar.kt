@@ -16,18 +16,19 @@ class Calendar : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_calendar)
 
-        val returnButton = findViewById<Button>(R.id.returnHomeButton)
-
-        returnButton.setOnClickListener{
-            val screen = Intent(this,MainActivity::class.java)
-            startActivity(screen)
-        }
-
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        // Get value of button so it may be referenced in listener
+        val returnButton = findViewById<Button>(R.id.returnHomeButton)
+
+        // Listen for button press
+        returnButton.setOnClickListener{
+            val screen = Intent(this,MainActivity::class.java)
+            startActivity(screen) // Activate activity
         }
     }
 }
