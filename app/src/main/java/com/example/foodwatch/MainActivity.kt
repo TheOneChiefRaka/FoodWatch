@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.widget.Button;
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,10 +28,12 @@ class MainActivity : AppCompatActivity() {
         */
 
         // Assign calendarButton value to be listened for
-        val calButton = findViewById<Button>(R.id.calendarButton)
+        val navBar = findViewById<BottomNavigationView>(R.id.navBar)
+
+
 
         // Listen for button to be clicked
-        calButton.setOnClickListener{
+        navBar.setOnClickListener{
             val screen = Intent(this,Calendar::class.java) // Get activity to go to
             startActivity(screen) // Activate activity
         }
