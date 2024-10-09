@@ -19,15 +19,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_bar" />
 
-    <TextView
-        android:id="@+id/foodWatch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
-        android:text="Food Watch"
-        android:textSize="34sp"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/navFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@+id/navBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/main_nav_graph" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
