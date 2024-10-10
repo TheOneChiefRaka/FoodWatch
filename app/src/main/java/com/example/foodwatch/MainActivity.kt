@@ -7,6 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.widget.Button;
+import androidx.fragment.app.FragmentContainerView
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,17 +26,25 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        /*
-        Example of how to create a button and have it change activities(pages)
-        */
+        //find navController, used to navigate to different fragments
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navFragment) as NavHostFragment
+        val navController = navHostFragment.navController
 
-        // Assign calendarButton value to be listened for
-        val calButton = findViewById<Button>(R.id.calendarButton)
+        //find bottom navigation bar
+        val navBar = findViewById<BottomNavigationView>(R.id.navBar) as BottomNavigationView
+        navBar.selectedItemId = R.id.homeButton
 
-        // Listen for button to be clicked
-        calButton.setOnClickListener{
-            val screen = Intent(this,Calendar::class.java) // Get activity to go to
-            startActivity(screen) // Activate activity
+        //set listener for when a button is selected
+        navBar.setOnItemSelectedListener {
+            when(it.itemId) {
+                R.id.accountButton -> navController.navigate(R.id.to_account)
+                R.id.calendarButton -> navController.navigate(R.id.to_calendar)
+                R.id.homeButton -> navController.navigate(R.id.to_home)
+                R.id.reportsButton -> navController.navigate(R.id.to_reports)
+                R.id.optionsButton -> navController.navigate(R.id.to_options)
+            }
+            true
         }
+
     }
 }
