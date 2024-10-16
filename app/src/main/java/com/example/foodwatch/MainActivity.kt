@@ -10,7 +10,9 @@ import android.widget.Button;
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.room.Room
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.foodwatch.MealsDatabase
 
 
 class MainActivity : AppCompatActivity() {
