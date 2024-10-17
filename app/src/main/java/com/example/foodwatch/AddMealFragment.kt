@@ -9,11 +9,13 @@ import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.example.foodwatch.MealsDatabase
 import java.time.LocalDate
 
 class AddMealFragment : Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -21,6 +23,8 @@ class AddMealFragment : Fragment() {
     ): View {
         //inflate view
         val view: View = inflater.inflate(R.layout.fragment_addmeal, container, false)
+
+        val mealViewModel: MealViewModel by viewModels()
 
         //get navFragment
         val navFragment = activity?.supportFragmentManager?.findFragmentById(R.id.navFragment) as NavHostFragment
@@ -31,7 +35,8 @@ class AddMealFragment : Fragment() {
         val addMealButton = view.findViewById<Button>(R.id.addMealButton)
 
         addMealButton.setOnClickListener {
-            val newMeal = Meal(calendarField.date, mealNameField.text.toString())
+            val newMeal = Meal("10/16/2024", mealNameField.text.toString())
+            mealViewModel.insert(newMeal)
 
             navFragment.navController.navigate(R.id.to_home)
         }
