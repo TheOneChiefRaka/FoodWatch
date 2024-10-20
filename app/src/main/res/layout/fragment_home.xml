@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:fontFamily="@font/inter_bold"
-        android:text="@string/app_title"
+        android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/darkGreen"
         android:textSize="38sp"
