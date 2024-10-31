@@ -8,8 +8,12 @@ import android.widget.CalendarView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class CalendarFragment : Fragment() {
 
@@ -31,13 +35,18 @@ class CalendarFragment : Fragment() {
         val navFragment = activity?.supportFragmentManager?.findFragmentById(R.id.navFragment) as NavHostFragment
         val mealText = view.findViewById<TextView>(R.id.dayMealText)
         val calendar = view.findViewById<CalendarView>(R.id.calendar)
-        //var meal = mealViewModel.findByDate("10/16/2024")
 
+        suspend fun updateMeal(date: String) {
+            mealText.text = mealViewModel.findNameByDate(date).await()
+        }
 
-        //mealText.setText(meal.toString())
+        val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+        var date: String = LocalDateTime.now().format(formatter)
+        lifecycleScope.launch { updateMeal(date) }
 
         calendar.setOnDateChangeListener { calendar, year, month, day ->
-
+            date = "${month + 1}/$day/$year"
+            lifecycleScope.launch { updateMeal(date) }
         }
 
         return view

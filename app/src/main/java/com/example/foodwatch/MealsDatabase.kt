@@ -18,6 +18,7 @@ import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
@@ -61,8 +62,8 @@ interface MealDao {
     @Query("SELECT * FROM meal")
     fun getAll(): Flow<List<Meal>>
 
-    @Query("SELECT * FROM meal WHERE date LIKE :date")
-    fun findByDate(date: String): Meal
+    @Query("SELECT name FROM meal WHERE date LIKE :date")
+    suspend fun findNameByDate(date: String): String
 
     @Insert
     suspend fun insert(meal: Meal)
@@ -75,10 +76,11 @@ class MealsRepository(private val mealDao: MealDao) {
     //
     val allMeals: Flow<List<Meal>> = mealDao.getAll()
 
-    fun findByDate(date: String): Meal {
-        return mealDao.findByDate(date)
+    @WorkerThread
+    suspend fun findByDate(date: String): String {
+        return mealDao.findNameByDate(date)
     }
-    @Suppress("RedundantSuspendModifier")
+
     @WorkerThread
     suspend fun insert(meal: Meal) {
         mealDao.insert(meal)
@@ -99,7 +101,7 @@ class MealViewModel(private val repository: MealsRepository) : ViewModel() {
     fun insert(meal: Meal) = viewModelScope.launch {
         repository.insert(meal)
     }
-    fun findByDate(date: String) {
+    fun findNameByDate(date: String) = viewModelScope.async {
         repository.findByDate(date)
     }
 }
