@@ -1,5 +1,6 @@
 package com.example.foodwatch
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,8 @@ import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class AddMealFragment : Fragment() {
 
@@ -35,8 +38,15 @@ class AddMealFragment : Fragment() {
         val mealNameField = view.findViewById<EditText>(R.id.mealNameField)
         val addMealButton = view.findViewById<Button>(R.id.addMealButton)
 
+        val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+        var date: String = LocalDateTime.now().format(formatter)
+
+        calendarField.setOnDateChangeListener { calendar, year, month, day ->
+            date = "${month + 1}/$day/$year"
+        }
+
         addMealButton.setOnClickListener {
-            val newMeal = Meal(0, "10/16/2024", mealNameField.text.toString())
+            val newMeal = Meal(0, date, mealNameField.text.toString())
             mealViewModel.insert(newMeal)
 
             navFragment.navController.navigate(R.id.to_home)
