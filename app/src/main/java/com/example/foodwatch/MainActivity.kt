@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import android.widget.Button;
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentContainerView
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -18,6 +19,11 @@ import com.example.foodwatch.MealsDatabase
 
 
 class MainActivity : AppCompatActivity() {
+
+    val mealViewModel: MealViewModel by viewModels {
+        MealViewModelFactory((application as MealsApplication).repository)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

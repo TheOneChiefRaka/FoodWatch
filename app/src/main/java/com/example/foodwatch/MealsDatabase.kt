@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 
 @Entity
 data class Meal(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo val date: String,
     @ColumnInfo val name: String,
 )
@@ -65,10 +65,10 @@ interface MealDao {
     fun findByDate(date: String): Meal
 
     @Insert
-    fun insert(meal: Meal)
+    suspend fun insert(meal: Meal)
 
     @Delete
-    fun delete(meal: Meal)
+    suspend fun delete(meal: Meal)
 }
 
 class MealsRepository(private val mealDao: MealDao) {
@@ -78,7 +78,7 @@ class MealsRepository(private val mealDao: MealDao) {
     fun findByDate(date: String): Meal {
         return mealDao.findByDate(date)
     }
-
+    @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insert(meal: Meal) {
         mealDao.insert(meal)

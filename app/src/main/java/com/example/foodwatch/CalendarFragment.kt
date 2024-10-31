@@ -12,6 +12,11 @@ import androidx.navigation.fragment.NavHostFragment
 import kotlinx.coroutines.runBlocking
 
 class CalendarFragment : Fragment() {
+
+    val mealViewModel: MealViewModel by viewModels {
+        MealViewModelFactory((activity?.application as MealsApplication).repository)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -20,16 +25,16 @@ class CalendarFragment : Fragment() {
         //inflate view
         val view: View = inflater.inflate(R.layout.fragment_calendar, container, false)
 
-        val mealViewModel: MealViewModel by viewModels()
+
 
         //get navFragment
         val navFragment = activity?.supportFragmentManager?.findFragmentById(R.id.navFragment) as NavHostFragment
         val mealText = view.findViewById<TextView>(R.id.dayMealText)
         val calendar = view.findViewById<CalendarView>(R.id.calendar)
-        var meal = mealViewModel.findByDate("10/16/2024")
+        //var meal = mealViewModel.findByDate("10/16/2024")
 
 
-        mealText.setText(meal.toString())
+        //mealText.setText(meal.toString())
 
         calendar.setOnDateChangeListener { calendar, year, month, day ->
 
