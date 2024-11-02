@@ -32,7 +32,7 @@
         app:navGraph="@navigation/main_nav_graph" />
 
     <Button
-        android:id="@+id/addMeal"
+        android:id="@+id/addMealButton"
         android:layout_width="165dp"
         android:layout_height="88dp"
         android:text="@string/add_meal"
