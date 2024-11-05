@@ -7,11 +7,11 @@
     android:background="@color/background">
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/recipes"
         android:layout_width="190dp"
         android:layout_height="77dp"
         android:backgroundTint="@color/lightGreen"
-        android:text="@string/find_recipes_btn"
+        android:text="@string/recipes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
@@ -22,11 +22,11 @@
         app:strokeWidth="3dp" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/addReaction"
         android:layout_width="190dp"
         android:layout_height="77dp"
         android:backgroundTint="@color/lightGreen"
-        android:text="@string/add_reaction_btn"
+        android:text="@string/add_reaction"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
@@ -37,11 +37,11 @@
         app:strokeWidth="3dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/addMealButton"
         android:layout_width="190dp"
         android:layout_height="77dp"
         android:backgroundTint="@color/lightGreen"
-        android:text="@string/add_meal_btn"
+        android:text="@string/add_meal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"

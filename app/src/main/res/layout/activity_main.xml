@@ -31,6 +31,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/main_nav_graph" />
 
+    <!--
     <Button
         android:id="@+id/addMealButton"
         android:layout_width="165dp"
@@ -41,5 +42,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/navFragment"
         app:layout_constraintVertical_bias="0.497" />
+        -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

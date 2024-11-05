@@ -46,11 +46,5 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
-        val button = findViewById<Button>(R.id.addMealButton)
-
-        button?.setOnClickListener{
-            Toast.makeText(this@MainActivity, R.string.pass_test, Toast.LENGTH_LONG).show()
-        }
     }
 }

@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Food Watch</string>
     <string name="add_meal">Add Meal</string>
+    <string name="recipes">Recipes</string>
+    <string name="add_reaction">Add Reaction</string>
+    <string name="app_subtitle">Allergy Awareness</string>
     <string name="pass_test">Test passed!</string>
 </resources>
