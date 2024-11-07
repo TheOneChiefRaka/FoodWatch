@@ -24,7 +24,7 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
         pieChartC = view.findViewById(R.id.pieChartC)
         pieChartD = view.findViewById(R.id.pieChartD)
 
-        setPieChartData(pieChartA, listOf(PieEntry(62f, "Category A"), PieEntry(5f, "Other")))
+        setPieChartData(pieChartA, listOf(PieEntry(57f, "Category A"), PieEntry(5f, "Other")))
         setPieChartData(pieChartB, listOf(PieEntry(47f, "Category B"), PieEntry(15f, "Other")))
         setPieChartData(pieChartC, listOf(PieEntry(31f, "Category A"), PieEntry(27f, "Other")))
         setPieChartData(pieChartD, listOf(PieEntry(480f, "Category B"), PieEntry(52f, "Other")))

@@ -25,7 +25,7 @@
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@id/report_title"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="80dp" />
 
     <TextView
         android:id="@+id/allergen_a_number_text"
@@ -42,7 +42,7 @@
         android:layout_width="0dp"
         android:layout_height="150dp"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@id/allergen_a_number_text"
+        app:layout_constraintTop_toTopOf="@id/allergen_a_text"
         app:layout_constraintStart_toEndOf="@id/allergen_a_number_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/allergen_a_number_text"
@@ -58,7 +58,7 @@
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@id/allergen_a_number_text"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="128dp" />
 
     <TextView
         android:id="@+id/allergen_b_number_text"
@@ -75,7 +75,7 @@
         android:layout_width="0dp"
         android:layout_height="150dp"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@id/allergen_b_number_text"
+        app:layout_constraintTop_toTopOf="@id/allergen_b_text"
         app:layout_constraintStart_toEndOf="@id/allergen_b_number_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/allergen_b_number_text"
@@ -91,7 +91,7 @@
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@id/allergen_b_number_text"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="128dp" />
 
     <TextView
         android:id="@+id/allergen_c_number_text"
@@ -108,7 +108,7 @@
         android:layout_width="0dp"
         android:layout_height="150dp"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@id/allergen_c_number_text"
+        app:layout_constraintTop_toTopOf="@id/allergen_c_text"
         app:layout_constraintStart_toEndOf="@id/allergen_c_number_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/allergen_c_number_text"
@@ -124,7 +124,7 @@
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@id/allergen_c_number_text"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="128dp" />
 
     <TextView
         android:id="@+id/allergen_d_number_text"
@@ -141,7 +141,7 @@
         android:layout_width="0dp"
         android:layout_height="150dp"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@id/allergen_d_number_text"
+        app:layout_constraintTop_toTopOf="@id/allergen_d_text"
         app:layout_constraintStart_toEndOf="@id/allergen_d_number_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/allergen_d_number_text"
@@ -157,6 +157,6 @@
         app:layout_constraintTop_toBottomOf="@id/allergen_d_number_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="80dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
