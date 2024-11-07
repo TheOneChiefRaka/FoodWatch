@@ -40,6 +40,7 @@ class AddMealFragment : Fragment() {
         val addMealButton = view.findViewById<Button>(R.id.toAddReactionButton)
         val timeEatenField = view.findViewById<EditText>(R.id.reactionTime)
 
+        calendarField.maxDate = System.currentTimeMillis()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         var date: String = LocalDateTime.now().format(formatter)
         var time: String = LocalTime.now().toString().take(5)

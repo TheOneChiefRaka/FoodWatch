@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
+import java.time.Clock
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -41,26 +42,27 @@ class AddReactionFragment : Fragment() {
         val reactionTimeField = view.findViewById<EditText>(R.id.reactionTime)
         val reactionSeverityField = view.findViewById<Spinner>(R.id.reactionSeverity)
 
+        calendarField.maxDate = System.currentTimeMillis()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         var date: String = LocalDateTime.now().format(formatter)
         var time: String = LocalTime.now().toString().take(5)
         reactionTimeField.setText(time, TextView.BufferType.EDITABLE)
 
         calendarField.setOnDateChangeListener { calendar, year, month, day ->
-            date = "$year"
+            var newDate = "$year"
             if(month < 10) {
-                date += "-0${month+1}"
+                newDate += "-0${month+1}"
             }
             else {
-                date += "-${month+1}"
+                newDate += "-${month+1}"
             }
             if(day < 10) {
-                date += "-0${day}"
+                newDate += "-0${day}"
             }
             else {
-                date += "-${day}"
+                newDate += "-${day}"
             }
-            Log.d("DATE", date)
+            date = newDate
         }
 
         addReactionButton.setOnClickListener {
