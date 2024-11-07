@@ -62,8 +62,8 @@ interface MealDao {
     @Query("SELECT * FROM meal")
     fun getAll(): Flow<List<Meal>>
 
-    @Query("SELECT name FROM meal WHERE date LIKE :date")
-    suspend fun findNameByDate(date: String): String
+    @Query("SELECT * FROM meal WHERE date LIKE :date")
+    suspend fun findMealsByDate(date: String): List<Meal>
 
     @Insert
     suspend fun insert(meal: Meal)
@@ -77,8 +77,8 @@ class MealsRepository(private val mealDao: MealDao) {
     val allMeals: Flow<List<Meal>> = mealDao.getAll()
 
     @WorkerThread
-    suspend fun findByDate(date: String): String {
-        return mealDao.findNameByDate(date)
+    suspend fun findMealsByDate(date: String): List<Meal> {
+        return mealDao.findMealsByDate(date)
     }
 
     @WorkerThread
@@ -101,8 +101,8 @@ class MealViewModel(private val repository: MealsRepository) : ViewModel() {
     fun insert(meal: Meal) = viewModelScope.launch {
         repository.insert(meal)
     }
-    fun findNameByDate(date: String) = viewModelScope.async {
-        repository.findByDate(date)
+    fun findMealsByDate(date: String) = viewModelScope.async {
+        repository.findMealsByDate(date)
     }
 }
 

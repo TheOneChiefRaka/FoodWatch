@@ -1,6 +1,7 @@
 package com.example.foodwatch
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
@@ -29,6 +32,12 @@ class CalendarFragment : Fragment() {
         //inflate view
         val view: View = inflater.inflate(R.layout.fragment_calendar, container, false)
 
+        val recyclerView = view.findViewById<RecyclerView>(R.id.dailyListRecycler)
+        val adapter = CalendarListAdapter()
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
+
+
 
 
         //get navFragment
@@ -37,15 +46,30 @@ class CalendarFragment : Fragment() {
         val calendar = view.findViewById<CalendarView>(R.id.calendar)
 
         suspend fun updateMeal(date: String) {
-            mealText.text = mealViewModel.findNameByDate(date).await()
+            Log.d("DATE TEST", date)
+            val meals = mealViewModel.findMealsByDate(date).await()
+            adapter.submitList(meals)
         }
 
-        val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         var date: String = LocalDateTime.now().format(formatter)
         lifecycleScope.launch { updateMeal(date) }
 
         calendar.setOnDateChangeListener { calendar, year, month, day ->
-            date = "${month + 1}/$day/$year"
+            date = "$year"
+            if(month < 10) {
+                date += "-0${month+1}"
+            }
+            else {
+                date += "-${month+1}"
+            }
+            if(day < 10) {
+                date += "-0${day}"
+            }
+            else {
+                date += "-${day}"
+            }
+            Log.d("DATE", date)
             lifecycleScope.launch { updateMeal(date) }
         }
 

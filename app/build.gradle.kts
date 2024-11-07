@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.recyclerview)
     implementation(libs.kotlinx.coroutines)
     ksp(libs.androidx.room.compiler)
     testImplementation(libs.junit)

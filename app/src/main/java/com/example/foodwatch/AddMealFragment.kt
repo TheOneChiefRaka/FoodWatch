@@ -2,6 +2,7 @@ package com.example.foodwatch
 
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,11 +39,24 @@ class AddMealFragment : Fragment() {
         val mealNameField = view.findViewById<EditText>(R.id.mealNameField)
         val addMealButton = view.findViewById<Button>(R.id.addMealButton)
 
-        val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         var date: String = LocalDateTime.now().format(formatter)
 
         calendarField.setOnDateChangeListener { calendar, year, month, day ->
-            date = "${month + 1}/$day/$year"
+            date = "$year"
+            if(month < 10) {
+                date += "-0${month+1}"
+            }
+            else {
+                date += "-${month+1}"
+            }
+            if(day < 10) {
+                date += "-0${day}"
+            }
+            else {
+                date += "-${day}"
+            }
+            Log.d("DATE", date)
         }
 
         addMealButton.setOnClickListener {
