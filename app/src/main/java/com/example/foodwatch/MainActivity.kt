@@ -21,7 +21,11 @@ import com.example.foodwatch.MealsDatabase
 class MainActivity : AppCompatActivity() {
 
     val mealViewModel: MealViewModel by viewModels {
-        MealViewModelFactory((application as MealsApplication).repository)
+        MealViewModelFactory((application as MealsApplication).meals_repository)
+    }
+
+    val reactionViewModel: ReactionViewModel by viewModels {
+        ReactionViewModelFactory((application as MealsApplication).reactions_repository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

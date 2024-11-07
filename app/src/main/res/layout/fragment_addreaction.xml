@@ -5,24 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/mealNameField"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:hint="Meal Name"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/toAddReactionButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/toAddReactionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Add Meal"
+        android:text="Add Reaction"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -34,7 +22,7 @@
         android:layout_marginBottom="32dp"
         android:scaleX="3"
         android:scaleY="3"
-        android:text="Add Meal"
+        android:text="Add Reaction"
         app:layout_constraintBottom_toTopOf="@+id/calendarField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -52,12 +40,24 @@
         android:id="@+id/reactionTime"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="28dp"
         android:ems="10"
-        android:hint="Time Eaten"
+        android:hint="Reaction Time"
         android:inputType="time"
-        app:layout_constraintBottom_toTopOf="@+id/mealNameField"
+        app:layout_constraintBottom_toTopOf="@+id/reactionSeverity"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/reactionSeverity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:entries="@array/reaction_severity_array"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/toAddReactionButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

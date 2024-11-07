@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,10 +17,10 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-class AddMealFragment : Fragment() {
+class AddReactionFragment : Fragment() {
 
-    val mealViewModel: MealViewModel by viewModels {
-        MealViewModelFactory((activity?.application as MealsApplication).meals_repository)
+    val reactionViewModel: ReactionViewModel by viewModels {
+        ReactionViewModelFactory((activity?.application as MealsApplication).reactions_repository)
     }
 
     override fun onCreateView(
@@ -28,7 +29,7 @@ class AddMealFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         //inflate view
-        val view: View = inflater.inflate(R.layout.fragment_addmeal, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_addreaction, container, false)
 
 
         //get navFragment
@@ -36,14 +37,14 @@ class AddMealFragment : Fragment() {
 
         //get form fields
         val calendarField = view.findViewById<CalendarView>(R.id.calendarField)
-        val mealNameField = view.findViewById<EditText>(R.id.mealNameField)
-        val addMealButton = view.findViewById<Button>(R.id.toAddReactionButton)
-        val timeEatenField = view.findViewById<EditText>(R.id.reactionTime)
+        val addReactionButton = view.findViewById<Button>(R.id.toAddReactionButton)
+        val reactionTimeField = view.findViewById<EditText>(R.id.reactionTime)
+        val reactionSeverityField = view.findViewById<Spinner>(R.id.reactionSeverity)
 
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         var date: String = LocalDateTime.now().format(formatter)
         var time: String = LocalTime.now().toString().take(5)
-        timeEatenField.setText(time, TextView.BufferType.EDITABLE)
+        reactionTimeField.setText(time, TextView.BufferType.EDITABLE)
 
         calendarField.setOnDateChangeListener { calendar, year, month, day ->
             date = "$year"
@@ -62,11 +63,11 @@ class AddMealFragment : Fragment() {
             Log.d("DATE", date)
         }
 
-        addMealButton.setOnClickListener {
-            if(mealNameField.text.toString() != "" || timeEatenField.text.toString() != "") {
-                val newMeal =
-                    Meal(0, date, mealNameField.text.toString(), timeEatenField.text.toString())
-                mealViewModel.insert(newMeal)
+        addReactionButton.setOnClickListener {
+            if(reactionSeverityField.selectedItem.toString() != "" || reactionTimeField.text.toString() != "") {
+                val newReaction =
+                    Reaction(0, date, reactionTimeField.text.toString(), reactionSeverityField.selectedItem.toString())
+                reactionViewModel.insert(newReaction)
 
                 navFragment.navController.navigate(R.id.to_home)
             }

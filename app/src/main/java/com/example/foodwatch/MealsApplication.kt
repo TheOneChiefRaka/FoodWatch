@@ -11,5 +11,6 @@ class MealsApplication : Application() {
     // Using by lazy so the database and the repository are only created when they're needed
     // rather than when the application starts
     val database by lazy { MealsDatabase.getDatabase(this, applicationScope) }
-    val repository by lazy { MealsRepository(database.mealDao()) }
+    val meals_repository by lazy { MealsRepository(database.mealDao()) }
+    val reactions_repository by lazy { ReactionsRepository(database.reactionDao())}
 }

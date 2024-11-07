@@ -1,0 +1,47 @@
+package com.example.foodwatch
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import android.view.View
+
+class CalendarListAdapter : ListAdapter<calendarListObject, CalendarListAdapter.MealViewHolder>(calendarListObjectsComparator()) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder {
+        return MealViewHolder.create(parent)
+    }
+
+    override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
+        val current = getItem(position)
+        holder.bind(current.text, current.time)
+    }
+
+    class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val wordItemView: TextView = itemView.findViewById(R.id.textView)
+
+        fun bind(text: String?, time: String?) {
+            wordItemView.text = "$time: $text"
+        }
+
+        companion object {
+            fun create(parent: ViewGroup): MealViewHolder {
+                val view: View = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.calendarlist_item, parent, false)
+                return MealViewHolder(view)
+            }
+        }
+    }
+
+    class calendarListObjectsComparator : DiffUtil.ItemCallback<calendarListObject>() {
+        override fun areItemsTheSame(oldItem: calendarListObject, newItem: calendarListObject): Boolean {
+            return oldItem === newItem
+        }
+
+        override fun areContentsTheSame(oldItem: calendarListObject, newItem: calendarListObject): Boolean {
+            return oldItem.text == newItem.text
+        }
+    }
+}

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/home_to_addmeal"
             app:destination="@id/addMealFragment" />
+        <action
+            android:id="@+id/home_to_addreaction"
+            app:destination="@id/addReactionFragment" />
     </fragment>
     <fragment
         android:id="@+id/calendarFragment"
@@ -44,4 +47,9 @@
         android:name="com.example.foodwatch.AddMealFragment"
         android:label="AddMealFragment"
         tools:layout="@layout/fragment_addmeal"/>
+    <fragment
+        android:id="@+id/addReactionFragment"
+        android:name="com.example.foodwatch.AddReactionFragment"
+        android:label="AddReactionFragment"
+        tools:layout="@layout/fragment_addreaction"/>
 </navigation>
