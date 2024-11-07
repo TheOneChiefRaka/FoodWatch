@@ -43,8 +43,21 @@
         android:id="@+id/calendarField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/mealNameField"
+        app:layout_constraintBottom_toTopOf="@+id/timeEaten"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/timeEaten"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:hint="Time Eaten"
+        android:inputType="time"
+        app:layout_constraintBottom_toTopOf="@+id/mealNameField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

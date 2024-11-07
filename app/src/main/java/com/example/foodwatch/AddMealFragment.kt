@@ -9,11 +9,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
+import java.sql.Time
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 class AddMealFragment : Fragment() {
@@ -38,9 +41,12 @@ class AddMealFragment : Fragment() {
         val calendarField = view.findViewById<CalendarView>(R.id.calendarField)
         val mealNameField = view.findViewById<EditText>(R.id.mealNameField)
         val addMealButton = view.findViewById<Button>(R.id.addMealButton)
+        val timeEatenField = view.findViewById<EditText>(R.id.timeEaten)
 
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         var date: String = LocalDateTime.now().format(formatter)
+        var time: String = LocalTime.now().toString().take(5)
+        timeEatenField.setText(time, TextView.BufferType.EDITABLE)
 
         calendarField.setOnDateChangeListener { calendar, year, month, day ->
             date = "$year"
@@ -60,10 +66,16 @@ class AddMealFragment : Fragment() {
         }
 
         addMealButton.setOnClickListener {
-            val newMeal = Meal(0, date, mealNameField.text.toString())
-            mealViewModel.insert(newMeal)
+            if(mealNameField.text.toString() != "" || timeEatenField.text.toString() != "") {
+                val newMeal =
+                    Meal(0, date, mealNameField.text.toString(), timeEatenField.text.toString())
+                mealViewModel.insert(newMeal)
 
-            navFragment.navController.navigate(R.id.to_home)
+                navFragment.navController.navigate(R.id.to_home)
+            }
+            else {
+                //insert some error displaying code here
+            }
         }
         return view
     }

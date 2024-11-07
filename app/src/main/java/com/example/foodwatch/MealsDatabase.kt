@@ -21,12 +21,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import java.time.LocalTime
 
 @Entity
 data class Meal(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo val date: String,
     @ColumnInfo val name: String,
+    @ColumnInfo val time: String,
 )
 
 @Database(entities = [Meal::class], version = 1)

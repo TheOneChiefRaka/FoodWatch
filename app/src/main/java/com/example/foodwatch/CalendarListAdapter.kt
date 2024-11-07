@@ -16,14 +16,14 @@ class CalendarListAdapter : ListAdapter<Meal, CalendarListAdapter.MealViewHolder
 
     override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.name)
+        holder.bind(current.name, current.time)
     }
 
     class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val wordItemView: TextView = itemView.findViewById(R.id.textView)
 
-        fun bind(text: String?) {
-            wordItemView.text = text
+        fun bind(text: String?, time: String?) {
+            wordItemView.text = "$time: $text"
         }
 
         companion object {

@@ -48,7 +48,8 @@ class CalendarFragment : Fragment() {
         suspend fun updateMeal(date: String) {
             Log.d("DATE TEST", date)
             val meals = mealViewModel.findMealsByDate(date).await()
-            adapter.submitList(meals)
+            val sortedMeals = meals.sortedBy { it.time }
+            adapter.submitList(sortedMeals)
         }
 
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
