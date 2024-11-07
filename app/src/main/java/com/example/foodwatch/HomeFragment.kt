@@ -23,10 +23,14 @@ class HomeFragment : Fragment() {
         //get navFragment
         val navFragment = activity?.supportFragmentManager?.findFragmentById(R.id.navFragment) as NavHostFragment
         val addMealButton = view.findViewById<Button>(R.id.toAddMealButton)
+        val addReactionButton = view.findViewById<Button>(R.id.toAddReactionButton)
 
         //add button to navigate from home to add meal page
         addMealButton.setOnClickListener {
             navFragment.navController.navigate(R.id.home_to_addmeal)
+        }
+        addReactionButton.setOnClickListener {
+            navFragment.navController.navigate(R.id.home_to_addreaction)
         }
         return view
     }

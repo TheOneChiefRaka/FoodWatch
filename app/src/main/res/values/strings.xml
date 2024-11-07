@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Food Watch</string>
+    <string-array name="reaction_severity_array">
+        <item>Mild</item>
+        <item>Medium</item>
+        <item>Severe</item>
+    </string-array>
 </resources>

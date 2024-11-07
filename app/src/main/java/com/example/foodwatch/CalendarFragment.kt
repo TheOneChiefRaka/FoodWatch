@@ -18,10 +18,15 @@ import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+
 class CalendarFragment : Fragment() {
 
     val mealViewModel: MealViewModel by viewModels {
-        MealViewModelFactory((activity?.application as MealsApplication).repository)
+        MealViewModelFactory((activity?.application as MealsApplication).meals_repository)
+    }
+
+    val reactionViewModel: ReactionViewModel by viewModels {
+        ReactionViewModelFactory((activity?.application as MealsApplication).reactions_repository)
     }
 
     override fun onCreateView(
@@ -47,9 +52,15 @@ class CalendarFragment : Fragment() {
 
         suspend fun updateMeal(date: String) {
             Log.d("DATE TEST", date)
-            val meals = mealViewModel.findMealsByDate(date).await()
-            val sortedMeals = meals.sortedBy { it.time }
-            adapter.submitList(sortedMeals)
+            val meals = mealViewModel.findMealsByDate(date).await().sortedBy { it.time }
+            val reactions = reactionViewModel.findReactionsByDate(date).await().sortedBy { it.time }
+            var sorted: List<calendarListObject> = emptyList()
+            for(meal in meals) {
+                sorted += calendarListObject(meal.name, meal.time)
+            }
+            for(reaction in reactions)
+                sorted += calendarListObject(reaction.severity + " reaction", reaction.time)
+            adapter.submitList(sorted.sortedBy { it.time })
         }
 
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")

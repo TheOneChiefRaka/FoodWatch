@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 
-class CalendarListAdapter : ListAdapter<Meal, CalendarListAdapter.MealViewHolder>(MealsComparator()) {
+class CalendarListAdapter : ListAdapter<calendarListObject, CalendarListAdapter.MealViewHolder>(calendarListObjectsComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder {
         return MealViewHolder.create(parent)
@@ -16,7 +16,7 @@ class CalendarListAdapter : ListAdapter<Meal, CalendarListAdapter.MealViewHolder
 
     override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.name, current.time)
+        holder.bind(current.text, current.time)
     }
 
     class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -35,13 +35,13 @@ class CalendarListAdapter : ListAdapter<Meal, CalendarListAdapter.MealViewHolder
         }
     }
 
-    class MealsComparator : DiffUtil.ItemCallback<Meal>() {
-        override fun areItemsTheSame(oldItem: Meal, newItem: Meal): Boolean {
+    class calendarListObjectsComparator : DiffUtil.ItemCallback<calendarListObject>() {
+        override fun areItemsTheSame(oldItem: calendarListObject, newItem: calendarListObject): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: Meal, newItem: Meal): Boolean {
-            return oldItem.name == newItem.name
+        override fun areContentsTheSame(oldItem: calendarListObject, newItem: calendarListObject): Boolean {
+            return oldItem.text == newItem.text
         }
     }
 }

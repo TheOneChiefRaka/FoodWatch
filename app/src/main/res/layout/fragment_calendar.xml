@@ -38,8 +38,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dailyListRecycler"
-        android:layout_width="179dp"
-        android:layout_height="191dp"
+        android:layout_width="171dp"
+        android:layout_height="151dp"
         app:layout_constraintBottom_toTopOf="@+id/returnHomeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
