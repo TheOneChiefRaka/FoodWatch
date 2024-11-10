@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 
-class CalendarListAdapter : ListAdapter<calendarListObject, CalendarListAdapter.MealViewHolder>(calendarListObjectsComparator()) {
+class CalendarListAdapter : ListAdapter<CalendarListObject, CalendarListAdapter.MealViewHolder>(calendarListObjectsComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder {
         return MealViewHolder.create(parent)
@@ -35,12 +35,12 @@ class CalendarListAdapter : ListAdapter<calendarListObject, CalendarListAdapter.
         }
     }
 
-    class calendarListObjectsComparator : DiffUtil.ItemCallback<calendarListObject>() {
-        override fun areItemsTheSame(oldItem: calendarListObject, newItem: calendarListObject): Boolean {
+    class calendarListObjectsComparator : DiffUtil.ItemCallback<CalendarListObject>() {
+        override fun areItemsTheSame(oldItem: CalendarListObject, newItem: CalendarListObject): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: calendarListObject, newItem: calendarListObject): Boolean {
+        override fun areContentsTheSame(oldItem: CalendarListObject, newItem: CalendarListObject): Boolean {
             return oldItem.text == newItem.text
         }
     }

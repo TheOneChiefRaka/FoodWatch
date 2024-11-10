@@ -1,12 +1,13 @@
 package com.example.foodwatch
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-// This defines the meal table columns
 @Entity
-data class Meal(
+data class Reaction(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo val date: String,
-    @ColumnInfo val name: String,
     @ColumnInfo val time: String,
+    @ColumnInfo val severity: String,
 )

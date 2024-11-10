@@ -14,10 +14,10 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+data class CalendarListObject(val text: String, val time: String)
 
 class CalendarFragment : Fragment() {
 
@@ -54,12 +54,12 @@ class CalendarFragment : Fragment() {
             Log.d("DATE TEST", date)
             val meals = mealViewModel.findMealsByDate(date).await().sortedBy { it.time }
             val reactions = reactionViewModel.findReactionsByDate(date).await().sortedBy { it.time }
-            var sorted: List<calendarListObject> = emptyList()
+            var sorted: List<CalendarListObject> = emptyList()
             for(meal in meals) {
-                sorted += calendarListObject(meal.name, meal.time)
+                sorted += CalendarListObject(meal.name, meal.time)
             }
             for(reaction in reactions)
-                sorted += calendarListObject(reaction.severity + " reaction", reaction.time)
+                sorted += CalendarListObject(reaction.severity + " reaction", reaction.time)
             adapter.submitList(sorted.sortedBy { it.time })
         }
 
