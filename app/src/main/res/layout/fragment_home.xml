@@ -83,4 +83,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.078" />
 
+    <Button
+        android:id="@+id/toAddMealButton"
+        android:layout_width="138dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="200dp"
+        android:text="Add Meal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/toAddReactionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Reaction"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toAddMealButton"
+        app:layout_constraintVertical_bias="0.15" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -36,7 +36,6 @@ android {
 }
 
 dependencies {
-    val roomVersion = "2.6.1"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -47,11 +46,15 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.lifecycle)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.kotlinx.coroutines)
+    implementation(libs.material)
+    ksp(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    // Import room library
-    implementation("androidx.room:room-runtime:$roomVersion")
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    implementation(libs.mpandroidchart)
 }

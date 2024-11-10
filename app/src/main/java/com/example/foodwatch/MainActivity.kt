@@ -1,14 +1,32 @@
 package com.example.foodwatch
+
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import android.widget.Button;
+import androidx.activity.viewModels
+import androidx.fragment.app.FragmentContainerView
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.room.Room
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.foodwatch.MealsDatabase
 
 
 class MainActivity : AppCompatActivity() {
+
+    val mealViewModel: MealViewModel by viewModels {
+        MealViewModelFactory((application as MealsApplication).meals_repository)
+    }
+
+    val reactionViewModel: ReactionViewModel by viewModels {
+        ReactionViewModelFactory((application as MealsApplication).reactions_repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,5 +58,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
     }
 }
