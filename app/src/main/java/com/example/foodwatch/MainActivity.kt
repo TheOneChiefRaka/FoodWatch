@@ -1,16 +1,10 @@
 package com.example.foodwatch
-
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import android.widget.Button
-import android.widget.Toast
-import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -37,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         //set listener for when a button is selected
         navBar.setOnItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.accountButton -> navController.navigate(R.id.to_account)
                 R.id.calendarButton -> navController.navigate(R.id.to_calendar)
                 R.id.homeButton -> navController.navigate(R.id.to_home)

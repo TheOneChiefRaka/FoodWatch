@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav_bar" />
+        app:menu="@menu/bottom_nav_bar"/>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/navFragment"
@@ -30,18 +30,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/main_nav_graph" />
-
-    <!--
-    <Button
-        android:id="@+id/addMealButton"
-        android:layout_width="165dp"
-        android:layout_height="88dp"
-        android:text="@string/add_meal"
-        app:layout_constraintBottom_toTopOf="@+id/navBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/navFragment"
-        app:layout_constraintVertical_bias="0.497" />
-        -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
