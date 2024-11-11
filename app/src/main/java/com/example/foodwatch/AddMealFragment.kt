@@ -7,43 +7,44 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 
-class AddMealFragment : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?){
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.addmeal)
+class AddMealFragment : Fragment(R.layout.fragment_addmeal) {
 
-        val listView = findViewById<ListView>(R.id.main_listview)
+    override fun onViewCreated(view: View, savedInstanceState:Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        listView.adapter = MyCustomAdapter(this) // this needs to be my custom adapter telling my list what to render
+        val listView = view.findViewById<ListView>(R.id.ingredient_listview)
+
+        listView.adapter = CustomAdapter(this)
+
     }
 
-    private class MyCustomAdapter(context: Context): BaseAdapter(){
+    private class CustomAdapter(context: Context): BaseAdapter(){
 
         private val mContext: Context
 
         init{
-            this.mContext = context
+            mContext = context
         }
-        // Responsible for how many rows in my list
+
         override fun getCount(): Int {
-            return 5
+            TODO("Not yet implemented")
         }
 
         override fun getItemId(p0: Int): Long {
-            TODO("Not yet implemented")
+            return p0.toLong()
         }
 
         override fun getItem(p0: Int): Any {
-            TODO("Not yet implemented")
+            return "TEST STRING"
         }
 
-        // Renders each row
         override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
             val textView = TextView(mContext)
-            textView.text = "Here is my Row for my ListView"
+            textView.text = "HERE is my ROW for my LISTVIEW"
             return textView
         }
     }
+
 }
