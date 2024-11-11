@@ -44,9 +44,9 @@
     <action android:id="@+id/to_options" app:destination="@id/optionsFragment" />
     <fragment
         android:id="@+id/addMealFragment"
-        android:name="com.example.foodwatch.AddMealFragment"
+        android:name="com.example.foodwatch.AddMealFragment_Old"
         android:label="AddMealFragment"
-        tools:layout="@layout/fragment_addmeal"/>
+        tools:layout="@layout/fragment_addmealold"/>
     <fragment
         android:id="@+id/addReactionFragment"
         android:name="com.example.foodwatch.AddReactionFragment"
