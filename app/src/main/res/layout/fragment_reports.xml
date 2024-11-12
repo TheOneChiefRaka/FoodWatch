@@ -1,162 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/report_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="152dp"
-        android:text="Report"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/allergen_a_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Allergen A:"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/report_title"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="80dp" />
+        <TextView
+            android:id="@+id/report_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="152dp"
+            android:text="Report"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/allergen_a_number_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="62 meals eaten"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/allergen_a_text"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="0dp" />
+        <TextView
+            android:id="@+id/allergen_a_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Allergen A:"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/report_title"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="80dp" />
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChartA"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:visibility="visible"
-        app:layout_constraintTop_toTopOf="@id/allergen_a_text"
-        app:layout_constraintStart_toEndOf="@id/allergen_a_number_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/allergen_a_number_text"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp" />
+        <TextView
+            android:id="@+id/allergen_a_number_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="62 meals eaten"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/allergen_a_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="0dp" />
 
-    <TextView
-        android:id="@+id/allergen_b_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Allergen B:"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/allergen_a_number_text"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="128dp" />
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChartA"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="@id/allergen_a_text"
+            app:layout_constraintStart_toEndOf="@id/allergen_a_number_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/allergen_a_number_text"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp" />
 
-    <TextView
-        android:id="@+id/allergen_b_number_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="47 meals eaten"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/allergen_b_text"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="0dp" />
+        <TextView
+            android:id="@+id/allergen_b_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Allergen B:"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/allergen_a_number_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="128dp" />
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChartB"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:visibility="visible"
-        app:layout_constraintTop_toTopOf="@id/allergen_b_text"
-        app:layout_constraintStart_toEndOf="@id/allergen_b_number_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/allergen_b_number_text"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp" />
+        <TextView
+            android:id="@+id/allergen_b_number_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="47 meals eaten"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/allergen_b_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="0dp" />
 
-    <TextView
-        android:id="@+id/allergen_c_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Allergen C:"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/allergen_b_number_text"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="128dp" />
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChartB"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="@id/allergen_b_text"
+            app:layout_constraintStart_toEndOf="@id/allergen_b_number_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/allergen_b_number_text"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp" />
 
-    <TextView
-        android:id="@+id/allergen_c_number_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="31 meals eaten"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/allergen_c_text"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="0dp" />
+        <TextView
+            android:id="@+id/allergen_c_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Allergen C:"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/allergen_b_number_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="128dp" />
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChartC"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:visibility="visible"
-        app:layout_constraintTop_toTopOf="@id/allergen_c_text"
-        app:layout_constraintStart_toEndOf="@id/allergen_c_number_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/allergen_c_number_text"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp" />
+        <TextView
+            android:id="@+id/allergen_c_number_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="31 meals eaten"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/allergen_c_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="0dp" />
 
-    <TextView
-        android:id="@+id/allergen_d_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Allergen D:"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/allergen_c_number_text"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="128dp" />
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChartC"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="@id/allergen_c_text"
+            app:layout_constraintStart_toEndOf="@id/allergen_c_number_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/allergen_c_number_text"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp" />
 
-    <TextView
-        android:id="@+id/allergen_d_number_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="80 meals eaten"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/allergen_d_text"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="0dp" />
+        <TextView
+            android:id="@+id/allergen_d_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Allergen D:"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/allergen_c_number_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="128dp" />
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChartD"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:visibility="visible"
-        app:layout_constraintTop_toTopOf="@id/allergen_d_text"
-        app:layout_constraintStart_toEndOf="@id/allergen_d_number_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/allergen_d_number_text"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp" />
+        <TextView
+            android:id="@+id/allergen_d_number_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="80 meals eaten"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/allergen_d_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="0dp" />
 
-    <Button
-        android:id="@+id/export_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Export"
-        app:layout_constraintTop_toBottomOf="@id/allergen_d_number_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="80dp" />
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChartD"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="@id/allergen_d_text"
+            app:layout_constraintStart_toEndOf="@id/allergen_d_number_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/allergen_d_number_text"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/export_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Export"
+            app:layout_constraintTop_toBottomOf="@id/allergen_d_number_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="80dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
