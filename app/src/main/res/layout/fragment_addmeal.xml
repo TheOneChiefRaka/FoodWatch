@@ -43,14 +43,13 @@
     <ListView
         android:id="@+id/ingredient_listview"
         android:layout_width="411dp"
-        android:layout_height="438dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/toAddReactionButton"
+        android:layout_height="441dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reactionTime"
-        app:layout_constraintVertical_bias="0.55">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.668">
 
     </ListView>
 
@@ -72,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select Ingredients"
-        app:layout_constraintBottom_toTopOf="@+id/main_listview"
+        app:layout_constraintBottom_toTopOf="@+id/ingredient_listview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
