@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Add these new color resources -->
+    <color name="your_light_background_color">#FFFFFF</color> <!-- Light background color (white) -->
+    <color name="your_dark_background_color">#121212</color> <!-- Dark background color (dark gray/near black) -->
 </resources>
