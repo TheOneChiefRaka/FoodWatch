@@ -7,15 +7,16 @@
 
     <EditText
         android:id="@+id/mealNameField"
-        android:layout_width="wrap_content"
+        android:layout_width="156dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="Meal Name"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/toAddReactionButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/reactionTime"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addReactionHeader" />
 
     <Button
         android:id="@+id/toAddReactionButton"
@@ -31,32 +32,46 @@
         android:id="@+id/addReactionHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="40dp"
         android:scaleX="3"
         android:scaleY="3"
         android:text="Add Meal"
-        app:layout_constraintBottom_toTopOf="@+id/calendarField"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <CalendarView
-        android:id="@+id/calendarField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/reactionTime"
+    <ListView
+        android:id="@+id/ingredient_listview"
+        android:layout_width="411dp"
+        android:layout_height="441dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.668">
+
+    </ListView>
 
     <EditText
         android:id="@+id/reactionTime"
-        android:layout_width="wrap_content"
+        android:layout_width="156dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="Time Eaten"
         android:inputType="time"
-        app:layout_constraintBottom_toTopOf="@+id/mealNameField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/mealNameField"
+        app:layout_constraintTop_toBottomOf="@+id/addReactionHeader" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Ingredients"
+        app:layout_constraintBottom_toTopOf="@+id/ingredient_listview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

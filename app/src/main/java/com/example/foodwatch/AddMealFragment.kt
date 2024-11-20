@@ -1,84 +1,61 @@
 package com.example.foodwatch
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CalendarView
-import android.widget.EditText
+import android.widget.BaseAdapter
+import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
-class AddMealFragment : Fragment() {
+class AddMealFragment : Fragment(R.layout.fragment_addmeal) {
 
-    val mealViewModel: MealViewModel by viewModels {
-        MealViewModelFactory((activity?.application as MealsApplication).meals_repository)
+    override fun onViewCreated(view: View, savedInstanceState:Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val listView = view.findViewById<ListView>(R.id.ingredient_listview) // Display the ingredient_listview xml
+
+        listView.adapter = CustomAdapter(this.requireContext())
+
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        //inflate view
-        val view: View = inflater.inflate(R.layout.fragment_addmeal, container, false)
+    private class CustomAdapter(context: Context): BaseAdapter(){
 
+        private val mContext: Context
 
-        //get navFragment
-        val navFragment = activity?.supportFragmentManager?.findFragmentById(R.id.navFragment) as NavHostFragment
+        // This is the array of ingredient names. Needs to be an array of names pulled from a database
+        private val names = arrayListOf<String>(
+            "Banana", "Beef", "Bread", "Chicken", "Dairy", "Fish", "Olive Oil", "Shellfish", "Yogurt"
+        )
 
-        //get form fields
-        val calendarField = view.findViewById<CalendarView>(R.id.calendarField)
-        val mealNameField = view.findViewById<EditText>(R.id.mealNameField)
-        val addMealButton = view.findViewById<Button>(R.id.toAddReactionButton)
-        val timeEatenField = view.findViewById<EditText>(R.id.reactionTime)
-
-        calendarField.maxDate = System.currentTimeMillis()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        var date: String = LocalDateTime.now().format(formatter)
-        var time: String = LocalTime.now().toString().take(5)
-        timeEatenField.setText(time, TextView.BufferType.EDITABLE)
-
-        calendarField.setOnDateChangeListener { calendar, year, month, day ->
-            date = "$year"
-            if(month < 10) {
-                date += "-0${month+1}"
-            }
-            else {
-                date += "-${month+1}"
-            }
-            if(day < 10) {
-                date += "-0${day}"
-            }
-            else {
-                date += "-${day}"
-            }
-            Log.d("DATE", date)
+        init{
+            mContext = context
         }
 
-        addMealButton.setOnClickListener {
-            if(mealNameField.text.toString() != "" || timeEatenField.text.toString() != "") {
-                val newMeal =
-                    Meal(0, date, mealNameField.text.toString(), timeEatenField.text.toString())
-                mealViewModel.insert(newMeal)
-
-                navFragment.navController.navigate(R.id.to_home)
-            }
-            else {
-                //insert some error displaying code here
-            }
+        override fun getCount(): Int {
+            return names.size
         }
-        return view
+
+        override fun getItemId(p0: Int): Long {
+            return p0.toLong()
+        }
+
+        override fun getItem(p0: Int): Any {
+            return "TEST STRING"
+        }
+
+        // This creates the view that goes into each listView position
+        override fun getView(position: Int, p1: View?, viewGroup: ViewGroup?): View {
+            val layoutInflater = LayoutInflater.from(mContext)
+            val rowMain = layoutInflater.inflate(R.layout.row_ingredient, viewGroup, false) // Inflate the row_ingredient xml file onto screen
+
+            val ingredientTextView = rowMain.findViewById<TextView>(R.id.ingredient_textView)
+            ingredientTextView.text = names.get(position) // Get the name of the ingredient at the corresponding position count
+
+            return rowMain
+        }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 }

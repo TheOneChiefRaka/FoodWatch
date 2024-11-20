@@ -11,4 +11,14 @@
         <item>Medium</item>
         <item>Severe</item>
     </string-array>
+
+    <string-array name="ingredient_array">
+        <item>Banana</item>
+        <item>Bread</item>
+        <item>Dairy</item>
+        <item>Olive Oil</item>
+        <item>Peanut Butter</item>
+        <item>Tree Nuts</item>
+        <item>Yogurt</item>
+    </string-array>
 </resources>
