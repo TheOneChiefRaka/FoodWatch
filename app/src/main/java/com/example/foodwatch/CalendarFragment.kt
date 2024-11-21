@@ -56,14 +56,14 @@ class CalendarFragment : Fragment() {
 
         suspend fun updateMeal(date: String) {
             Log.d("DATE TEST", date)
-            val meals = mealViewModel.findMealsByDate(date).await().sortedBy { it.time }
-            val reactions = reactionViewModel.findReactionsByDate(date).await().sortedBy { it.time }
+            val meals = mealViewModel.findMealsByDate(date).await().sortedBy { it.timeEaten }
+            val reactions = reactionViewModel.findReactionsByDate(date).await().sortedBy { it.reactionTime }
             var sorted: List<CalendarListObject> = emptyList()
             for(meal in meals) {
-                sorted += CalendarListObject(meal.name, meal.time)
+                sorted += CalendarListObject(meal.name, meal.timeEaten)
             }
             for(reaction in reactions)
-                sorted += CalendarListObject(reaction.severity + " reaction", reaction.time)
+                sorted += CalendarListObject(reaction.severity + " reaction", reaction.reactionTime)
             adapter.submitList(sorted.sortedBy { it.time })
         }
 

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Reaction(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    @ColumnInfo val date: String,
-    @ColumnInfo val time: String,
+    @ColumnInfo val symptoms: String,
+    @ColumnInfo val reactionTime: String,
     @ColumnInfo val severity: String,
 )

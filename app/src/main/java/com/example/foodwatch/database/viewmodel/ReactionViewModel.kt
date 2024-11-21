@@ -25,7 +25,7 @@ class ReactionViewModel(private val repository: ReactionsRepository) : ViewModel
         repository.insert(reaction)
     }
     fun findReactionsByDate(date: String) = viewModelScope.async {
-        repository.findReactionsByDate(date)
+        repository.findReactionsByTime(date)
     }
 }
 

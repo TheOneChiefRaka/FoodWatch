@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.TypeConverters
 import com.example.foodwatch.database.entities.Meal
 import kotlinx.coroutines.flow.Flow
 
@@ -14,8 +15,8 @@ interface MealDao {
     @Query("SELECT * FROM meal")
     fun getAll(): Flow<List<Meal>>
 
-    @Query("SELECT * FROM meal WHERE date LIKE :date")
-    suspend fun findMealsByDate(date: String): List<Meal>
+    @Query("SELECT * FROM meal WHERE timeEaten LIKE :timeEaten")
+    suspend fun findMealsByTime(timeEaten: String): List<Meal>
 
     @Insert
     suspend fun insert(meal: Meal)

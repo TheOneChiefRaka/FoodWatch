@@ -25,7 +25,7 @@ class MealViewModel(private val repository: MealsRepository) : ViewModel() {
         repository.insert(meal)
     }
     fun findMealsByDate(date: String) = viewModelScope.async {
-        repository.findMealsByDate(date)
+        repository.findMealsByTime(date)
     }
 }
 
