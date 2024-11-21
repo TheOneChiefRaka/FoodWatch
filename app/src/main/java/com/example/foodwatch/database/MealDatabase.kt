@@ -1,15 +1,22 @@
-package com.example.foodwatch
+package com.example.foodwatch.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.foodwatch.database.dao.IngredientDao
+import com.example.foodwatch.database.entities.Meal
+import com.example.foodwatch.database.dao.MealDao
+import com.example.foodwatch.database.entities.Reaction
+import com.example.foodwatch.database.dao.ReactionDao
+import com.example.foodwatch.database.entities.Ingredient
 import kotlinx.coroutines.CoroutineScope
 
-@Database(entities = [Meal::class, Reaction::class], version = 1)
+@Database(entities = [Meal::class, Reaction::class, Ingredient::class], version = 2)
 abstract class MealsDatabase : RoomDatabase() {
     abstract fun mealDao(): MealDao
     abstract fun reactionDao(): ReactionDao
+    abstract fun ingredientDao(): IngredientDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the

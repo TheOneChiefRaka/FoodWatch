@@ -1,4 +1,4 @@
-package com.example.foodwatch
+package com.example.foodwatch.database.entities
 
 import androidx.room.*
 

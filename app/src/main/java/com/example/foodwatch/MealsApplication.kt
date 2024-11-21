@@ -1,6 +1,10 @@
 package com.example.foodwatch
 
 import android.app.Application
+import com.example.foodwatch.database.MealsDatabase
+import com.example.foodwatch.database.repository.IngredientsRepository
+import com.example.foodwatch.database.repository.MealsRepository
+import com.example.foodwatch.database.repository.ReactionsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
@@ -12,5 +16,6 @@ class MealsApplication : Application() {
     // rather than when the application starts
     val database by lazy { MealsDatabase.getDatabase(this, applicationScope) }
     val meals_repository by lazy { MealsRepository(database.mealDao()) }
-    val reactions_repository by lazy { ReactionsRepository(database.reactionDao())}
+    val reactions_repository by lazy { ReactionsRepository(database.reactionDao()) }
+    val ingredients_repository by lazy { IngredientsRepository(database.ingredientDao()) }
 }

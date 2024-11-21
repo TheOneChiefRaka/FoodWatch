@@ -1,6 +1,8 @@
-package com.example.foodwatch
+package com.example.foodwatch.database.repository
 
 import androidx.annotation.WorkerThread
+import com.example.foodwatch.database.dao.MealDao
+import com.example.foodwatch.database.entities.Meal
 import kotlinx.coroutines.flow.Flow
 
 class MealsRepository(private val mealDao: MealDao) {

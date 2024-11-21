@@ -1,10 +1,12 @@
-package com.example.foodwatch
+package com.example.foodwatch.database.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.foodwatch.database.repository.MealsRepository
+import com.example.foodwatch.database.entities.Meal
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 

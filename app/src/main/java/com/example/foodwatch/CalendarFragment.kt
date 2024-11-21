@@ -13,6 +13,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.foodwatch.database.viewmodel.MealViewModel
+import com.example.foodwatch.database.viewmodel.MealViewModelFactory
+import com.example.foodwatch.database.viewmodel.ReactionViewModel
+import com.example.foodwatch.database.viewmodel.ReactionViewModelFactory
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

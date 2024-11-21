@@ -1,21 +1,17 @@
 package com.example.foodwatch
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import android.widget.Button;
 import androidx.activity.viewModels
-import androidx.fragment.app.FragmentContainerView
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import androidx.room.Room
+import com.example.foodwatch.database.viewmodel.MealViewModel
+import com.example.foodwatch.database.viewmodel.MealViewModelFactory
+import com.example.foodwatch.database.viewmodel.ReactionViewModel
+import com.example.foodwatch.database.viewmodel.ReactionViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.example.foodwatch.MealsDatabase
 
 
 class MainActivity : AppCompatActivity() {
