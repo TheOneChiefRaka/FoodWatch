@@ -7,6 +7,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
+import com.example.foodwatch.database.viewmodel.IngredientViewModel
+import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
 import com.example.foodwatch.database.viewmodel.MealViewModel
 import com.example.foodwatch.database.viewmodel.MealViewModelFactory
 import com.example.foodwatch.database.viewmodel.ReactionViewModel
@@ -24,10 +26,24 @@ class MainActivity : AppCompatActivity() {
         ReactionViewModelFactory((application as MealsApplication).reactions_repository)
     }
 
+    val ingredientViewModel: IngredientViewModel by viewModels {
+        IngredientViewModelFactory((application as MealsApplication).ingredients_repository)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+        //populate ingredients database
+        val names = arrayListOf<String>(
+            "Banana", "Beef", "Bread", "Chicken", "Dairy", "Fish", "Olive Oil", "Shellfish", "Yogurt"
+        )
+
+        //if()
+        for (ingredient in names) {
+
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

@@ -18,4 +18,5 @@ class MealsApplication : Application() {
     val meals_repository by lazy { MealsRepository(database.mealDao()) }
     val reactions_repository by lazy { ReactionsRepository(database.reactionDao()) }
     val ingredients_repository by lazy { IngredientsRepository(database.ingredientDao()) }
+
 }
