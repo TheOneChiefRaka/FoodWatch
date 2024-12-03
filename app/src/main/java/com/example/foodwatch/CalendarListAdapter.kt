@@ -23,7 +23,8 @@ class CalendarListAdapter : ListAdapter<CalendarListObject, CalendarListAdapter.
         private val wordItemView: TextView = itemView.findViewById(R.id.textView)
 
         fun bind(text: String?, time: String?) {
-            wordItemView.text = "$time: $text"
+            val newTime = time?.takeLast(5)
+            wordItemView.text = "$newTime: $text"
         }
 
         companion object {

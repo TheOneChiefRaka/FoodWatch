@@ -12,6 +12,18 @@ interface IngredientDao {
     @Query("SELECT * FROM ingredient")
     fun getAll(): Flow<List<Ingredient>>
 
+    @Query("SELECT * FROM ingredient WHERE name IN (:ingredientNames)")
+    suspend fun findIngredientsByName(ingredientNames: List<String>): List<Ingredient>
+
+    @Query("UPDATE ingredient SET mildReactions = mildReactions + 1, timesEaten = timesEaten + 1 WHERE id IN (:ingredientIds)" )
+    suspend fun addIngredientsReactionMild(ingredientIds: List<Int>)
+
+    @Query("UPDATE ingredient SET mediumReactions = mediumReactions + 1, timesEaten = timesEaten + 1 WHERE id IN (:ingredientIds)" )
+    suspend fun addIngredientsReactionMedium(ingredientIds: List<Int>)
+
+    @Query("UPDATE ingredient SET severeReactions = severeReactions + 1, timesEaten = timesEaten + 1 WHERE id IN (:ingredientIds)" )
+    suspend fun addIngredientsReactionSevere(ingredientIds: List<Int>)
+
     @Insert
     suspend fun insert(ingredient: Ingredient)
 

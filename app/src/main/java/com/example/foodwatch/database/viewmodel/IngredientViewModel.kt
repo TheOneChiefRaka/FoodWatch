@@ -13,9 +13,24 @@ import kotlinx.coroutines.launch
 class IngredientViewModel(private val repository: IngredientsRepository) : ViewModel() {
     val allIngredients: LiveData<List<Ingredient>> = repository.allIngredients.asLiveData()
 
-    /**
-     * Launching a new coroutine to insert the data in a non-blocking way
-     */
+    //running the function asynchronously so we can get a result from it
+    fun findIngredientsByName(ingredientNames: List<String>) = viewModelScope.async {
+        repository.findIngredientsByName(ingredientNames)
+    }
+
+    //launching the function because we don't care about its result
+    fun addIngredientsReactionMild(ingredientIds: List<Int>) = viewModelScope.launch {
+        repository.addIngredientsReactionMild(ingredientIds)
+    }
+
+    fun addIngredientsReactionMedium(ingredientIds: List<Int>) = viewModelScope.launch {
+        repository.addIngredientsReactionMedium(ingredientIds)
+    }
+
+    fun addIngredientsReactionSevere(ingredientIds: List<Int>) = viewModelScope.launch {
+        repository.addIngredientsReactionSevere(ingredientIds)
+    }
+
     fun insert(ingredient: Ingredient) = viewModelScope.launch {
         repository.insert(ingredient)
     }

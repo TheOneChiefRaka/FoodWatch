@@ -10,8 +10,13 @@ class MealsRepository(private val mealDao: MealDao) {
     val allMeals: Flow<List<Meal>> = mealDao.getAll()
 
     @WorkerThread
-    suspend fun findMealsByTime(timeEaten: String): List<Meal> {
-        return mealDao.findMealsByTime(timeEaten)
+    suspend fun findMealsByDate(dateEaten: String): List<Meal> {
+        return mealDao.findMealsByDate(dateEaten)
+    }
+
+    @WorkerThread
+    suspend fun findMealsByTimeRange(min: String, max: String): List<Meal> {
+        return mealDao.findMealsByTimeRange(min, max)
     }
 
     @WorkerThread

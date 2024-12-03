@@ -15,8 +15,11 @@ interface MealDao {
     @Query("SELECT * FROM meal")
     fun getAll(): Flow<List<Meal>>
 
-    @Query("SELECT * FROM meal WHERE timeEaten LIKE :timeEaten")
-    suspend fun findMealsByTime(timeEaten: String): List<Meal>
+    @Query("SELECT * FROM meal WHERE timeEaten >= :dateEaten || \" 00:00\" AND timeEaten <= :dateEaten || \" 23:59\" ORDER BY timeEaten")
+    suspend fun findMealsByDate(dateEaten: String): List<Meal>
+
+    @Query("SELECT * FROM meal WHERE timeEaten >= :min AND timeEaten <= :max")
+    suspend fun findMealsByTimeRange(min: String, max: String): List<Meal>
 
     @Insert
     suspend fun insert(meal: Meal)

@@ -55,10 +55,9 @@ class CalendarFragment : Fragment() {
         val calendar = view.findViewById<CalendarView>(R.id.calendar)
 
         suspend fun updateMeal(date: String) {
-            Log.d("DATE TEST", date)
             val meals = mealViewModel.findMealsByDate(date).await().sortedBy { it.timeEaten }
             val reactions = reactionViewModel.findReactionsByDate(date).await().sortedBy { it.reactionTime }
-            var sorted: List<CalendarListObject> = emptyList()
+            var sorted = mutableListOf<CalendarListObject>()
             for(meal in meals) {
                 sorted += CalendarListObject(meal.name, meal.timeEaten)
             }

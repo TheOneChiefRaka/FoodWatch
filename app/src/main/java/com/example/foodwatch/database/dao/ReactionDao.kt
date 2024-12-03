@@ -12,8 +12,8 @@ interface ReactionDao {
     @Query("SELECT * FROM reaction")
     fun getAll(): Flow<List<Reaction>>
 
-    @Query("SELECT * FROM reaction WHERE reactionTime LIKE :reactionTime")
-    suspend fun findReactionsByTime(reactionTime: String): List<Reaction>
+    @Query("SELECT * FROM reaction WHERE reactionTime >= :reactionDate || \" 00:00\" AND reactionTime <= :reactionDate || \" 23:59\" ORDER BY reactionTime")
+    suspend fun findReactionsByDate(reactionDate: String): List<Reaction>
 
     @Insert
     suspend fun insert(reaction: Reaction)

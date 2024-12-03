@@ -9,8 +9,8 @@ class ReactionsRepository(private val reactionDao: ReactionDao) {
     val allReactions: Flow<List<Reaction>> = reactionDao.getAll()
 
     @WorkerThread
-    suspend fun findReactionsByTime(time: String): List<Reaction> {
-        return reactionDao.findReactionsByTime(time)
+    suspend fun findReactionsByDate(date: String): List<Reaction> {
+        return reactionDao.findReactionsByDate(date)
     }
 
     @WorkerThread
