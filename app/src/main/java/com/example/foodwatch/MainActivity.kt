@@ -1,20 +1,36 @@
 package com.example.foodwatch
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import android.widget.Button
-import android.widget.Toast
-import androidx.fragment.app.FragmentContainerView
+import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
+import com.example.foodwatch.database.viewmodel.IngredientViewModel
+import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
+import com.example.foodwatch.database.viewmodel.MealViewModel
+import com.example.foodwatch.database.viewmodel.MealViewModelFactory
+import com.example.foodwatch.database.viewmodel.ReactionViewModel
+import com.example.foodwatch.database.viewmodel.ReactionViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.Gson
 
 
 class MainActivity : AppCompatActivity() {
+
+    val mealViewModel: MealViewModel by viewModels {
+        MealViewModelFactory((application as MealsApplication).meals_repository)
+    }
+
+    val reactionViewModel: ReactionViewModel by viewModels {
+        ReactionViewModelFactory((application as MealsApplication).reactions_repository)
+    }
+
+    val ingredientViewModel: IngredientViewModel by viewModels {
+        IngredientViewModelFactory((application as MealsApplication).ingredients_repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         //set listener for when a button is selected
         navBar.setOnItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.accountButton -> navController.navigate(R.id.to_account)
                 R.id.calendarButton -> navController.navigate(R.id.to_calendar)
                 R.id.homeButton -> navController.navigate(R.id.to_home)
@@ -46,5 +62,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
     }
 }
