@@ -3,6 +3,7 @@ package com.example.foodwatch.database.entities
 import androidx.room.*
 import com.google.gson.Gson
 
+//converters to convert an array of integers to a json array; used to store ingredients lists into the table (hopefully)
 class Converters {
     @TypeConverter
     fun listToJson(value: List<Int>?) = Gson().toJson(value)
@@ -17,7 +18,7 @@ class Converters {
 data class Meal(
 
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    @ColumnInfo val timeEaten: String,
-    @ColumnInfo val name: String,
-    @ColumnInfo val ingredients: List<Int>,
+    @ColumnInfo val timeEaten: String,                  //format of yyyy-MM-dd HH:mm so that it can be sorted into chronological order
+    @ColumnInfo val name: String,                       //name of the meal
+    @ColumnInfo val ingredients: List<Int>,             //list of ingredient IDs that the meal contains
 )
