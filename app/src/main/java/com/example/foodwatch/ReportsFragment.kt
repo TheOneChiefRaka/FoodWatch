@@ -3,42 +3,40 @@ package com.example.foodwatch
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.foodwatch.database.entities.Ingredient
+import com.example.foodwatch.database.viewmodel.IngredientViewModel
+import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
+import kotlinx.coroutines.launch
 
 class ReportsFragment : Fragment(R.layout.fragment_reports) {
 
-    private lateinit var pieChartA: PieChart
-    private lateinit var pieChartB: PieChart
-    private lateinit var pieChartC: PieChart
-    private lateinit var pieChartD: PieChart
+    val ingredientViewModel: IngredientViewModel by viewModels {
+        IngredientViewModelFactory((activity?.application as MealsApplication).ingredients_repository)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pieChartA = view.findViewById( R.id.pieChartA)
-        pieChartB = view.findViewById(R.id.pieChartB)
-        pieChartC = view.findViewById(R.id.pieChartC)
-        pieChartD = view.findViewById(R.id.pieChartD)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.reportsRecyclerList)
+        val adapter = ReportListAdapter()
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
 
-        setPieChartData(pieChartA, listOf(PieEntry(57f, "Category A"), PieEntry(5f, "Other")))
-        setPieChartData(pieChartB, listOf(PieEntry(47f, "Category B"), PieEntry(15f, "Other")))
-        setPieChartData(pieChartC, listOf(PieEntry(31f, "Category A"), PieEntry(27f, "Other")))
-        setPieChartData(pieChartD, listOf(PieEntry(480f, "Category B"), PieEntry(52f, "Other")))
-    }
+        suspend fun populateList() {
+            val ingredients = ingredientViewModel.findAllPossibleAllergens().await()
+            adapter.submitList(ingredients)
+        }
 
-    private fun setPieChartData(pieChart: PieChart, entries: List<PieEntry>) {
-        val dataSet = PieDataSet(entries, "Categories")
-        dataSet.colors = ColorTemplate.MATERIAL_COLORS.toList() // Use Material colors
-        val pieData = PieData(dataSet)
+        lifecycleScope.launch { populateList() }
 
-        pieChart.data = pieData
-        pieChart.invalidate() // Refresh the chart
-        pieChart.description.isEnabled = false // Disable description
-        pieChart.legend.isEnabled = false // Enable legend
-        pieChart.animateY(1400) // Animate the chart
     }
 }

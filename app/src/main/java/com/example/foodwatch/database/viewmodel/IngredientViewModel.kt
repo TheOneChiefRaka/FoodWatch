@@ -31,6 +31,10 @@ class IngredientViewModel(private val repository: IngredientsRepository) : ViewM
         repository.addIngredientsReactionSevere(ingredientIds)
     }
 
+    fun findAllPossibleAllergens() = viewModelScope.async {
+        repository.findAllPossibleAllergens()
+    }
+
     fun insert(ingredient: Ingredient) = viewModelScope.launch {
         repository.insert(ingredient)
     }

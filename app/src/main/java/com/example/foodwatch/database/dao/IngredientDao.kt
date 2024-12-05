@@ -24,6 +24,9 @@ interface IngredientDao {
     @Query("UPDATE ingredient SET severeReactions = severeReactions + 1 WHERE id IN (:ingredientIds)" )
     suspend fun addIngredientsReactionSevere(ingredientIds: List<Int>)
 
+    @Query("SELECT * FROM Ingredient WHERE (mildReactions + mediumReactions + severeReactions) > 0")
+    suspend fun findAllPossibleAllergens(): List<Ingredient>
+
     @Insert
     suspend fun insert(ingredient: Ingredient)
 
