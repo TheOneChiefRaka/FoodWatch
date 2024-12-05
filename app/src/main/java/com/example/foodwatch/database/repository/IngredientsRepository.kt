@@ -38,4 +38,25 @@ class IngredientsRepository(private val ingredientDao: IngredientDao) {
     suspend fun insert(ingredient: Ingredient) {
         ingredientDao.insert(ingredient)
     }
+
+    // First check if ingredient is already in table
+    @WorkerThread
+    suspend fun addOrUpdateIngredient(name: String): Int? {
+        var ingredientId = ingredientDao.getIngredientIdByName(name)
+        if (ingredientId != null){ // ingredient exists
+            ingredientDao.incrementTimesEaten(name)
+            return ingredientId
+        }
+        else { //Otherwise ingredient was not found and needs to be added to table
+            ingredientDao.insertIngredientToTable(Ingredient(name = name, timesEaten = 1))
+            ingredientId = getIngredientIdByName(name)
+            return ingredientId
+        }
+    }
+
+    // Gets ingredient ID
+    @WorkerThread
+    suspend fun getIngredientIdByName(name: String): Int? {
+        return ingredientDao.getIngredientIdByName(name)
+    }
 }

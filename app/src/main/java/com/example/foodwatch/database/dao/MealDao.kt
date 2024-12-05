@@ -21,8 +21,11 @@ interface MealDao {
     @Query("SELECT * FROM meal WHERE timeEaten >= :min AND timeEaten <= :max")
     suspend fun findMealsByTimeRange(min: String, max: String): List<Meal>
 
+    @Query("SELECT * FROM meal WHERE id = :mealId")
+    suspend fun getMealById(mealId: Int): Meal
+
     @Insert
-    suspend fun insert(meal: Meal)
+    suspend fun addMeal(meal: Meal): Long
 
     @Delete
     suspend fun delete(meal: Meal)

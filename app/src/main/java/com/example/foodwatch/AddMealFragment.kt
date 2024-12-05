@@ -9,9 +9,13 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.foodwatch.database.entities.Meal
 import com.example.foodwatch.database.repository.IngredientsRepository
+import com.example.foodwatch.database.repository.MealsRepository
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
 import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
+import com.example.foodwatch.database.viewmodel.MealViewModel
+import com.example.foodwatch.database.viewmodel.MealViewModelFactory
 
 class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
@@ -22,18 +26,21 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_typemeals, container, false)
 
-        val dao = (requireActivity().application as MealsApplication).database.ingredientDao()
-        val repository = IngredientsRepository(dao)
-        var viewModel = ViewModelProvider(
-            this,
-            IngredientViewModelFactory(repository)
-        ).get(IngredientViewModel::class.java)
+        val ingredientDao = (requireActivity().application as MealsApplication).database.ingredientDao()
+        val ingredientRepository = IngredientsRepository(ingredientDao)
+        var ingredientViewModel = IngredientViewModel(ingredientRepository)
+
+        val mealDao = (requireActivity().application as MealsApplication).database.mealDao()
+        val mealRepository = MealsRepository(mealDao)
+        var mealViewModel = MealViewModel(mealRepository)
 
         var mealNameInput = view.findViewById<EditText>(R.id.mealName) // Meal name
+        var timeInput = view.findViewById<EditText>(R.id.mealTime) // Time of meal eaten
         val ingredientInput = view.findViewById<EditText>(R.id.mealIngredientInput) // Ingredient name
         val enterMealButton = view.findViewById<Button>(R.id.addMealToTableButton) // Add meal button
         val enterIngredientButton = view.findViewById<Button>(R.id.addIngredientButton) // Add ingredient button
         val ingredients = mutableListOf<String>() // List of ingredients
+        val ingredientIds = mutableListOf<Int>() // List of ingredient IDs
 
         enterIngredientButton.setOnClickListener() {
             val ingredientText = ingredientInput.text.toString().trim()
@@ -51,14 +58,53 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
                 Toast.makeText(requireContext(), "Please enter ingredients before submitting!", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
+            else if (timeInput.text.isEmpty()){
+                Toast.makeText(requireContext(), "Please enter a time before submitting!", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            else if (mealNameInput.text.isEmpty()){
+                Toast.makeText(requireContext(), "Please enter the meal name before submitting!", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             else {
                 val mealName = mealNameInput.text.toString().trim()
-                println("Adding $mealName to meal table. List of ingredients: ${ingredients.joinToString(", ")}")
+                val mealTime = timeInput.text.toString().trim()
+                var ingredientName = ""
 
-                viewModel.addIngredientsToTable(ingredients.toString())
+                var position = 0 // Counter for inserting ingredients into table
+                for (ingredient in ingredients){
+                    ingredientViewModel.addOrUpdateIngredients(ingredients[position])
+                    position++
+                }
+                position = 0
 
-                Toast.makeText(requireContext(), "Ingredients saved to table!", Toast.LENGTH_SHORT).show()
+
+                for (ingredient in ingredients) {
+                    ingredientName = ingredients[position]
+                    ingredientViewModel.getIngredientIdByName(ingredientName) { ingredientId ->
+                        if (ingredientId != null) {
+                            ingredientIds.add(ingredientId)
+                        } else {
+                            Toast.makeText(requireContext(), "Error finding ingredient ID!", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    position++
+                }
+                position = 0
+
+                val meal = Meal(
+                    name = mealName,
+                    timeEaten = mealTime,
+                    ingredients = ingredientIds
+                )
+
+                mealViewModel.addMeal(meal) { mealId ->
+                    Toast.makeText(requireContext(), "Meal added!", Toast.LENGTH_SHORT).show()
+                }
+
                 ingredients.clear()
+                timeInput.text.clear()
+                mealNameInput.text.clear()
             }
 
         }

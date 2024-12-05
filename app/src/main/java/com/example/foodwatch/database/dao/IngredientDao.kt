@@ -3,6 +3,7 @@ package com.example.foodwatch.database.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.foodwatch.database.entities.Ingredient
 import kotlinx.coroutines.flow.Flow
@@ -26,6 +27,18 @@ interface IngredientDao {
 
     @Query("SELECT * FROM Ingredient WHERE (mildReactions + mediumReactions + severeReactions) > 0")
     suspend fun findAllPossibleAllergens(): List<Ingredient>
+
+    @Query("SELECT * FROM Ingredient WHERE name = :name LIMIT 1")
+    suspend fun checkForIngredient(name: String): Ingredient?
+
+    @Query("UPDATE ingredient SET timesEaten = timesEaten + 1 WHERE name = :name")
+    suspend fun incrementTimesEaten(name: String)
+
+    @Query("SELECT id FROM Ingredient WHERE name = :name LIMIT 1")
+    suspend fun getIngredientIdByName(name: String): Int?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertIngredientToTable(ingredient: Ingredient)
 
     @Insert
     suspend fun insert(ingredient: Ingredient)

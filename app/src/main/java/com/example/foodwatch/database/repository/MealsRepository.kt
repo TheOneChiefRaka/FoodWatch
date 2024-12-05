@@ -20,7 +20,12 @@ class MealsRepository(private val mealDao: MealDao) {
     }
 
     @WorkerThread
-    suspend fun insert(meal: Meal) {
-        mealDao.insert(meal)
+    suspend fun addMeal(meal: Meal): Long{
+        return mealDao.addMeal(meal)
+    }
+
+    @WorkerThread
+    suspend fun getMealById(mealId: Int): Meal{
+        return mealDao.getMealById(mealId)
     }
 }

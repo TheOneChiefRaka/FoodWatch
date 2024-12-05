@@ -21,8 +21,14 @@ class MealViewModel(private val repository: MealsRepository) : ViewModel() {
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-    fun insert(meal: Meal) = viewModelScope.launch {
-        repository.insert(meal)
+    fun addMeal(meal: Meal, onSuccess: (Long) -> Unit) = viewModelScope.launch {
+        val mealId = repository.addMeal(meal)
+        onSuccess(mealId)
+    }
+
+    fun getMealById(mealId: Int, onResult: (Meal) -> Unit) = viewModelScope.launch {
+        val meal = repository.getMealById(mealId)
+        onResult(meal)
     }
 
     fun findMealsByTimeRange(min: String, max: String) = viewModelScope.async {
