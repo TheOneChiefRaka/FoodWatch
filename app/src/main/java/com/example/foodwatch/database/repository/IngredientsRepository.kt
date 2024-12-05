@@ -1,5 +1,6 @@
 package com.example.foodwatch.database.repository
 
+import android.util.Log
 import androidx.annotation.WorkerThread
 import com.example.foodwatch.database.dao.IngredientDao
 import com.example.foodwatch.database.entities.Ingredient
@@ -43,6 +44,7 @@ class IngredientsRepository(private val ingredientDao: IngredientDao) {
     @WorkerThread
     suspend fun addOrUpdateIngredient(name: String): Int? {
         var ingredientId = ingredientDao.getIngredientIdByName(name)
+        Log.i("TEST", "$ingredientId")
         if (ingredientId != null){ // ingredient exists
             ingredientDao.incrementTimesEaten(name)
             return ingredientId

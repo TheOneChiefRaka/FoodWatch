@@ -44,9 +44,8 @@ class IngredientViewModel(private val repository: IngredientsRepository) : ViewM
         repository.addOrUpdateIngredient(name)
     }
 
-    fun getIngredientIdByName(name: String, onResult: (Int?) -> Unit) = viewModelScope.launch{
-        val id = repository.getIngredientIdByName(name)
-        onResult(id)
+    fun getIngredientIdByName(name: String) = viewModelScope.async{
+        repository.getIngredientIdByName(name)
     }
 }
 
