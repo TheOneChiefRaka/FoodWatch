@@ -5,21 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/mealNameField"
-        android:layout_width="156dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="28dp"
-        android:ems="10"
-        android:hint="Meal Name"
-        android:inputType="text"
-        app:layout_constraintEnd_toStartOf="@+id/reactionTime"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addReactionHeader" />
-
     <Button
-        android:id="@+id/toAddReactionButton"
+        android:id="@+id/toAddMealButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
@@ -29,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/addReactionHeader"
+        android:id="@+id/addMealHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -58,13 +45,12 @@
         android:layout_width="156dp"
         android:layout_height="48dp"
         android:layout_marginTop="28dp"
+        android:layout_marginEnd="20dp"
         android:ems="10"
         android:hint="Time Eaten"
         android:inputType="time"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/mealNameField"
-        app:layout_constraintTop_toBottomOf="@+id/addReactionHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/addMealHeader" />
 
     <TextView
         android:id="@+id/textView3"
@@ -74,5 +60,19 @@
         app:layout_constraintBottom_toTopOf="@+id/ingredient_listview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/mealNameOld"
+        android:layout_width="156dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Meal Name"
+        app:layout_constraintEnd_toStartOf="@+id/reactionTime"
+        app:layout_constraintHorizontal_bias="0.354"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addMealHeader" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

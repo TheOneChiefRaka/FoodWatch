@@ -43,13 +43,13 @@
     <action android:id="@+id/to_reports" app:destination="@id/reportsFragment" />
     <action android:id="@+id/to_options" app:destination="@id/optionsFragment" />
     <fragment
-        android:id="@+id/addMealFragment"
-        android:name="com.example.foodwatch.AddMealFragment"
-        android:label="AddMealFragment"
-        tools:layout="@layout/fragment_addmeal"/>
-    <fragment
         android:id="@+id/addReactionFragment"
         android:name="com.example.foodwatch.AddReactionFragment"
         android:label="AddReactionFragment"
         tools:layout="@layout/fragment_addreaction"/>
+    <fragment
+        android:id="@+id/addMealFragment"
+        android:name="com.example.foodwatch.AddMealFragment"
+        android:label="AddMealFragment"
+        tools:layout="@layout/fragment_typemeals"/>
 </navigation>

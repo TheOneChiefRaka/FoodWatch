@@ -1,6 +1,7 @@
 package com.example.foodwatch
 
 import android.app.Application
+import androidx.room.Room
 import com.example.foodwatch.database.MealsDatabase
 import com.example.foodwatch.database.repository.IngredientsRepository
 import com.example.foodwatch.database.repository.MealsRepository
@@ -18,5 +19,15 @@ class MealsApplication : Application() {
     val meals_repository by lazy { MealsRepository(database.mealDao()) }
     val reactions_repository by lazy { ReactionsRepository(database.reactionDao()) }
     val ingredients_repository by lazy { IngredientsRepository(database.ingredientDao()) }
+
+    val ingredientDatabase: MealsDatabase by lazy {
+        Room.databaseBuilder(
+            this,
+            MealsDatabase::class.java,
+            "Ingredients Database"
+        )
+            .allowMainThreadQueries()
+            .build()
+    }
 
 }

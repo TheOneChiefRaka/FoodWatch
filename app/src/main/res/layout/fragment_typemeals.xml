@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/addMealToTableButton"
+        android:layout_width="166dp"
+        android:layout_height="73dp"
+        android:layout_marginBottom="140dp"
+        android:text="Add Meal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/mealIngredientInput"
+        android:layout_width="156dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="Ingredient"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mealTime" />
+
+    <EditText
+        android:id="@+id/mealName"
+        android:layout_width="156dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="76dp"
+        android:ems="10"
+        android:hint="Meal Name"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addMealHeader2" />
+
+    <EditText
+        android:id="@+id/mealTime"
+        android:layout_width="156dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="Time Eaten"
+        android:inputType="time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mealName" />
+
+    <TextView
+        android:id="@+id/addMealHeader2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:scaleX="3"
+        android:scaleY="3"
+        android:text="Add Meal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/addIngredientButton"
+        android:layout_width="166dp"
+        android:layout_height="73dp"
+        android:text="Add Ingredient"
+        app:layout_constraintBottom_toTopOf="@+id/addMealToTableButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mealIngredientInput"
+        app:layout_constraintVertical_bias="0.449" />
+</androidx.constraintlayout.widget.ConstraintLayout>

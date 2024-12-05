@@ -1,61 +1,71 @@
 package com.example.foodwatch
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.foodwatch.database.repository.IngredientsRepository
+import com.example.foodwatch.database.viewmodel.IngredientViewModel
+import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
 
-class AddMealFragment : Fragment(R.layout.fragment_addmeal) {
+class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
-    override fun onViewCreated(view: View, savedInstanceState:Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view: View = inflater.inflate(R.layout.fragment_typemeals, container, false)
 
-        val listView = view.findViewById<ListView>(R.id.ingredient_listview) // Display the ingredient_listview xml
+        val dao = (requireActivity().application as MealsApplication).database.ingredientDao()
+        val repository = IngredientsRepository(dao)
+        var viewModel = ViewModelProvider(
+            this,
+            IngredientViewModelFactory(repository)
+        ).get(IngredientViewModel::class.java)
 
-        listView.adapter = CustomAdapter(this.requireContext())
+        var mealNameInput = view.findViewById<EditText>(R.id.mealName) // Meal name
+        val ingredientInput = view.findViewById<EditText>(R.id.mealIngredientInput) // Ingredient name
+        val enterMealButton = view.findViewById<Button>(R.id.addMealToTableButton) // Add meal button
+        val enterIngredientButton = view.findViewById<Button>(R.id.addIngredientButton) // Add ingredient button
+        val ingredients = mutableListOf<String>() // List of ingredients
 
+        enterIngredientButton.setOnClickListener() {
+            val ingredientText = ingredientInput.text.toString().trim()
+            if (ingredientText.isNotEmpty()) {
+                ingredients.add(ingredientText)
+                ingredientInput.text.clear()
+                Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Please enter an ingredient", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        enterMealButton.setOnClickListener() {
+            if (ingredients.isEmpty()){
+                Toast.makeText(requireContext(), "Please enter ingredients before submitting!", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            else {
+                val mealName = mealNameInput.text.toString().trim()
+                println("Adding $mealName to meal table. List of ingredients: ${ingredients.joinToString(", ")}")
+
+                viewModel.addIngredientsToTable(ingredients.toString())
+
+                Toast.makeText(requireContext(), "Ingredients saved to table!", Toast.LENGTH_SHORT).show()
+                ingredients.clear()
+            }
+
+        }
+        return view
     }
 
-    private class CustomAdapter(context: Context): BaseAdapter(){
-
-        private val mContext: Context
-
-        // This is the array of ingredient names. Needs to be an array of names pulled from a database
-        private val names = arrayListOf<String>(
-            "Banana", "Beef", "Bread", "Chicken", "Dairy", "Fish", "Olive Oil", "Shellfish", "Yogurt"
-        )
-
-        init{
-            mContext = context
-        }
-
-        override fun getCount(): Int {
-            return names.size
-        }
-
-        override fun getItemId(p0: Int): Long {
-            return p0.toLong()
-        }
-
-        override fun getItem(p0: Int): Any {
-            return "TEST STRING"
-        }
-
-        // This creates the view that goes into each listView position
-        override fun getView(position: Int, p1: View?, viewGroup: ViewGroup?): View {
-            val layoutInflater = LayoutInflater.from(mContext)
-            val rowMain = layoutInflater.inflate(R.layout.row_ingredient, viewGroup, false) // Inflate the row_ingredient xml file onto screen
-
-            val ingredientTextView = rowMain.findViewById<TextView>(R.id.ingredient_textView)
-            ingredientTextView.text = names.get(position) // Get the name of the ingredient at the corresponding position count
-
-            return rowMain
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
-
 }

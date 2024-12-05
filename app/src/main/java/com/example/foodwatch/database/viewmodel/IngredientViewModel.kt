@@ -31,6 +31,10 @@ class IngredientViewModel(private val repository: IngredientsRepository) : ViewM
         repository.addIngredientsReactionSevere(ingredientIds)
     }
 
+    fun addIngredientsToTable(name: String){
+        val ingredient = Ingredient(name = name)
+    }
+
     fun insert(ingredient: Ingredient) = viewModelScope.launch {
         repository.insert(ingredient)
     }
