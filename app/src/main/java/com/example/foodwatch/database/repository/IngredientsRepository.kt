@@ -30,6 +30,11 @@ class IngredientsRepository(private val ingredientDao: IngredientDao) {
     }
 
     @WorkerThread
+    suspend fun findAllPossibleAllergens(): List<Ingredient> {
+        return ingredientDao.findAllPossibleAllergens()
+    }
+
+    @WorkerThread
     suspend fun insert(ingredient: Ingredient) {
         ingredientDao.insert(ingredient)
     }

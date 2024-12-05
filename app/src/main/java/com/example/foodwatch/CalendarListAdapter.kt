@@ -20,11 +20,11 @@ class CalendarListAdapter : ListAdapter<CalendarListObject, CalendarListAdapter.
     }
 
     class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val wordItemView: TextView = itemView.findViewById(R.id.textView)
+        private val listItemView: TextView = itemView.findViewById(R.id.textView)
 
         fun bind(text: String?, time: String?) {
             val newTime = time?.takeLast(5)
-            wordItemView.text = "$newTime: $text"
+            listItemView.text = "$newTime: $text"
         }
 
         companion object {
