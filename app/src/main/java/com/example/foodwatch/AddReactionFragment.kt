@@ -1,5 +1,6 @@
 package com.example.foodwatch
 
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,6 +31,9 @@ import java.time.format.DateTimeFormatter
 
 class AddReactionFragment : Fragment() {
 
+    private lateinit var calendarField: CalendarView
+    private lateinit var reactionTimeField: EditText
+
     val reactionViewModel: ReactionViewModel by viewModels {
         ReactionViewModelFactory((activity?.application as MealsApplication).reactions_repository)
     }
@@ -50,7 +54,6 @@ class AddReactionFragment : Fragment() {
         //inflate view
         val view: View = inflater.inflate(R.layout.fragment_addreaction, container, false)
 
-
         //get navFragment
         val navFragment = activity?.supportFragmentManager?.findFragmentById(R.id.navFragment) as NavHostFragment
 
@@ -68,6 +71,17 @@ class AddReactionFragment : Fragment() {
         reactionTimeField.setText(time, TextView.BufferType.EDITABLE)
 
         //Log.i("TEST", LocalDateTime.parse("2024-12-02 15:00", formatter).toEpochSecond(ZoneOffset.UTC).toString())
+
+        // TimePicker
+        val timePickerDialog = TimePickerDialog(requireContext(), { _, selectedHour, selectedMinute ->
+            // Update time with user selected time
+            reactionTimeField.setText(String.format("%02d:%02d", selectedHour, selectedMinute))
+        }, LocalTime.now().hour, LocalTime.now().minute, true)
+
+        // Show TimePicker
+        reactionTimeField.setOnClickListener {
+            timePickerDialog.show()
+        }
 
 
         calendarField.setOnDateChangeListener { calendar, year, month, day ->
