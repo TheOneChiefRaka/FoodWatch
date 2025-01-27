@@ -7,4 +7,8 @@
     <color name="strokeGreen">#6BA54B</color>
     <color name="background">#EEF5EB</color>
     <color name="navButtonColor">#606060</color>
+    <color name="noReaction">#48D479</color>
+    <color name="mildReaction">#FFE733</color>
+    <color name="mediumReaction">#FF8C01</color>
+    <color name="severeReaction">#ED2938</color>
 </resources>
