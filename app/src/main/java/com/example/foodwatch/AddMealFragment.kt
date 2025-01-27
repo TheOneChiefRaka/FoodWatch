@@ -11,7 +11,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import android.widget.BaseAdapter
-import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
