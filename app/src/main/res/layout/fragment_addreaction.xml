@@ -43,7 +43,9 @@
         android:layout_marginBottom="28dp"
         android:ems="10"
         android:hint="Reaction Time"
-        android:inputType="time"
+        android:inputType="none"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         app:layout_constraintBottom_toTopOf="@+id/reactionSeverity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

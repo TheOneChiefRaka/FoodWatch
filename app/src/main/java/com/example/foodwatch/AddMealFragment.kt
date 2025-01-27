@@ -1,5 +1,8 @@
 package com.example.foodwatch
 
+import android.app.TimePickerDialog
+import android.content.Context
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +10,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import android.widget.BaseAdapter
+import android.widget.EditText
+import android.widget.ListView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -45,6 +52,20 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
         val enterIngredientButton = view.findViewById<Button>(R.id.addIngredientButton) // Add ingredient button
         val ingredients = mutableListOf<String>() // List of ingredients
         val ingredientIds = mutableListOf<Int>() // List of ingredient IDs
+
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+        timeInput.setText(String.format("%02d:%02d", hour, minute))
+
+        val timePickerDialog = TimePickerDialog(requireContext(), { _, selectedHour, selectedMinute ->
+            // Update time with user selected time
+            timeInput.setText(String.format("%02d:%02d", selectedHour, selectedMinute))
+        }, hour, minute, true)
+
+        timeInput.setOnClickListener {
+            timePickerDialog.show()
+        }
 
         enterIngredientButton.setOnClickListener() {
             val ingredientText = ingredientInput.text.toString().trim()
