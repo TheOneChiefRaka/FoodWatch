@@ -1,7 +1,7 @@
 package com.example.foodwatch
 
+import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Context
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,19 +10,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import android.widget.BaseAdapter
-import android.widget.ListView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.foodwatch.database.entities.Meal
 import com.example.foodwatch.database.repository.IngredientsRepository
 import com.example.foodwatch.database.repository.MealsRepository
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
-import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
 import com.example.foodwatch.database.viewmodel.MealViewModel
-import com.example.foodwatch.database.viewmodel.MealViewModelFactory
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -34,6 +28,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view: View = inflater.inflate(R.layout.fragment_typemeals, container, false)
 
         val ingredientDao = (requireActivity().application as MealsApplication).database.ingredientDao()
@@ -51,6 +46,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
         val enterIngredientButton = view.findViewById<Button>(R.id.addIngredientButton) // Add ingredient button
         val ingredients = mutableListOf<String>() // List of ingredients
         val ingredientIds = mutableListOf<Int>() // List of ingredient IDs
+        val mealDate = view.findViewById<EditText>(R.id.mealDate) // Date of meal eaten
 
         val calendar = Calendar.getInstance()
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
