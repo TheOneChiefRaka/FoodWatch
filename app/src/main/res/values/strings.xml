@@ -1,7 +1,24 @@
 <resources>
-    <string name="app.title">Food Watch</string>
-    <string name="app.subtitle">Allergy Awareness</string>
-    <string name="button.add_meal">Add Meal</string>
-    <string name="button.add_reaction">Add Reaction</string>
-    <string name="button.find_recipes">Find Recipes</string>
+    <string name="app_name">Food Watch</string>
+    <string name="add_meal">Add Meal</string>
+    <string name="recipes">Recipes</string>
+    <string name="add_reaction">Add Reaction</string>
+    <string name="app_subtitle">Allergy Awareness</string>
+    <string name="pass_test">Test passed!</string>
+    <string name="return_home">Return Home</string>
+    <string-array name="reaction_severity_array">
+        <item>Mild</item>
+        <item>Medium</item>
+        <item>Severe</item>
+    </string-array>
+
+    <string-array name="ingredient_array">
+        <item>Banana</item>
+        <item>Bread</item>
+        <item>Dairy</item>
+        <item>Olive Oil</item>
+        <item>Peanut Butter</item>
+        <item>Tree Nuts</item>
+        <item>Yogurt</item>
+    </string-array>
 </resources>

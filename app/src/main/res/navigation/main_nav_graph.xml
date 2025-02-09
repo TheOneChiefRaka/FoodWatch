@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.foodwatch.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/home_to_addmeal"
+            app:destination="@id/addMealFragment" />
+        <action
+            android:id="@+id/home_to_addreaction"
+            app:destination="@id/addReactionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.example.foodwatch.CalendarFragment"
+        android:label="CalendarFragment"
+        tools:layout="@layout/fragment_calendar"/>
+    <action android:id="@+id/to_home" app:destination="@id/homeFragment" />
+    <action android:id="@+id/to_calendar" app:destination="@id/calendarFragment" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.example.foodwatch.AccountFragment"
+        android:label="AccountFragment"
+        tools:layout="@layout/fragment_account"/>
+    <fragment
+        android:id="@+id/reportsFragment"
+        android:name="com.example.foodwatch.ReportsFragment"
+        android:label="ReportsFragment"
+        tools:layout="@layout/fragment_reports"/>
+    <fragment
+        android:id="@+id/optionsFragment"
+        android:name="com.example.foodwatch.OptionsFragment"
+        android:label="OptionsFragment"
+        tools:layout="@layout/fragment_options"/>
+    <action android:id="@+id/to_account" app:destination="@id/accountFragment" />
+    <action android:id="@+id/to_reports" app:destination="@id/reportsFragment" />
+    <action android:id="@+id/to_options" app:destination="@id/optionsFragment" />
+    <fragment
+        android:id="@+id/addReactionFragment"
+        android:name="com.example.foodwatch.AddReactionFragment"
+        android:label="AddReactionFragment"
+        tools:layout="@layout/fragment_addreaction"/>
+    <fragment
+        android:id="@+id/addMealFragment"
+        android:name="com.example.foodwatch.AddMealFragment"
+        android:label="AddMealFragment"
+        tools:layout="@layout/fragment_typemeals"/>
+</navigation>

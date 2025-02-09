@@ -8,82 +8,27 @@
     android:background="#EEF5EB"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/foodWatchTitle"
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navBar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="5dp"
-        android:fontFamily="@font/inter_medium"
-        android:text="@string/app.title"
-        android:textAlignment="center"
-        android:textColor="#569831"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/foodWatchSubtitle"
-        app:layout_constraintEnd_toEndOf="@+id/addMeal"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/foodWatchSubtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="27dp"
-        android:layout_marginBottom="63dp"
-        android:fontFamily="@font/inter_medium"
-        android:text="@string/app.subtitle"
-        android:textColor="#569831"
-        app:layout_constraintBottom_toTopOf="@+id/addMeal"
-        app:layout_constraintEnd_toEndOf="@+id/foodWatchTitle"
-        app:layout_constraintTop_toBottomOf="@+id/foodWatchTitle" />
-
-    <Button
-        android:id="@+id/addMeal"
-        android:layout_width="230dp"
-        android:layout_height="81dp"
-        android:layout_marginBottom="26dp"
-        android:backgroundTint="#81B266"
-        android:fontFamily="@font/inter_medium"
-        android:text="@string/button.add_meal"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/addReaction"
-        app:layout_constraintEnd_toEndOf="@+id/addReaction"
-        app:layout_constraintStart_toStartOf="@+id/addReaction"
-        app:layout_constraintTop_toBottomOf="@+id/foodWatchSubtitle"
-        app:strokeColor="#6BA54B"
-        app:strokeWidth="2dp" />
-
-    <Button
-        android:id="@+id/addReaction"
-        android:layout_width="230dp"
-        android:layout_height="81dp"
-        android:layout_marginBottom="26dp"
-        android:backgroundTint="#81B266"
-        android:fontFamily="@font/inter_medium"
-        android:text="@string/button.add_reaction"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/findRecipes"
-        app:layout_constraintEnd_toEndOf="@+id/findRecipes"
-        app:layout_constraintStart_toStartOf="@+id/findRecipes"
-        app:layout_constraintTop_toBottomOf="@+id/addMeal"
-        app:strokeColor="#6BA54B"
-        app:strokeWidth="2dp" />
-
-    <Button
-        android:id="@+id/findRecipes"
-        android:layout_width="230dp"
-        android:layout_height="81dp"
-        android:layout_marginBottom="302dp"
-        android:backgroundTint="#81B266"
-        android:fontFamily="@font/inter_medium"
-        android:text="@string/button.find_recipes"
-        android:textSize="18sp"
+        android:background="#FFFFFF"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addReaction"
-        app:strokeColor="#6BA54B"
-        app:strokeWidth="2dp" />
+        app:menu="@menu/bottom_nav_bar"/>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/navFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@+id/navBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/main_nav_graph" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
