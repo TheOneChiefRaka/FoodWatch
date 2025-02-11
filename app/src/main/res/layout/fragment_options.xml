@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#191A19"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -12,6 +13,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
             android:text="Settings"
             android:paddingTop="20dp"
             android:layout_centerInParent="true"
@@ -36,23 +38,133 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#FFFF"
                 android:text="Person's Name"
                 android:layout_gravity="center"
                 android:textSize="24sp">
             </TextView>
+
             <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:paddingStart="30dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/options_edit_profile_round_background"
+                android:paddingStart="40dp"
                 android:paddingEnd="30dp"
-                android:background="@drawable/rounded_square"
                 android:text="Edit Profile"
-                >
+                android:textColor="#FFFFFF">
 
             </androidx.appcompat.widget.AppCompatButton>
+            <LinearLayout
+                android:background="@drawable/options_round_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="40dp"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <!-- Dark Mode -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:id="@+id/darkModeIcon"
+                        android:layout_height="40dp"
+                        android:src="@drawable/darkmode_icon"
+                        android:background="@drawable/dark_mode_round_background"
+                        android:padding="12dp">
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:text="Dark Mode"
+                        android:textStyle="bold"
+                        android:textSize="15dp"
+                        android:layout_toEndOf="@+id/darkModeIcon"
+                        android:textColor="#FFFFFF">
+                    </TextView>
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:switchMinWidth="50dp"
+                        android:theme="@style/darkModeSwitch">
+                    </androidx.appcompat.widget.SwitchCompat>
+                </RelativeLayout>
+                <!-- Notifications -->
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:id="@+id/notificationIcon"
+                        android:layout_height="40dp"
+                        android:src="@drawable/notifications"
+                        android:background="@drawable/notifications_round_background"
+                        android:padding="12dp">
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:text="Notifications"
+                        android:textStyle="bold"
+                        android:textSize="15dp"
+                        android:layout_toEndOf="@+id/notificationIcon"
+                        android:textColor="#FFFFFF">
+                    </TextView>
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:switchMinWidth="50dp"
+                        android:theme="@style/notificationsSwitch">
+                    </androidx.appcompat.widget.SwitchCompat>
+                </RelativeLayout>
+                <!-- Sounds -->
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:id="@+id/soundIcon"
+                        android:layout_height="40dp"
+                        android:src="@drawable/sounds"
+                        android:background="@drawable/sounds_round_background"
+                        android:padding="12dp">
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:text="Sounds"
+                        android:textStyle="bold"
+                        android:textSize="15dp"
+                        android:layout_toEndOf="@+id/soundIcon"
+                        android:textColor="#FFFFFF">
+                    </TextView>
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:switchMinWidth="50dp"
+                        android:theme="@style/soundsSwitch">
+                    </androidx.appcompat.widget.SwitchCompat>
+                </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

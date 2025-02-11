@@ -11,4 +11,9 @@
     <color name="mildReaction">#FFE733</color>
     <color name="mediumReaction">#FF8C01</color>
     <color name="severeReaction">#ED2938</color>
+
+    <!-- Options Display Colors -->
+    <color name="dark_mode">#6124B1</color>
+    <color name="notifications">#13B2C3</color>
+    <color name="sounds">#8BF67D</color>
 </resources>
