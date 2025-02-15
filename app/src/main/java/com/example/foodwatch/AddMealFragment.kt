@@ -2,11 +2,13 @@ package com.example.foodwatch
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -24,6 +26,8 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
+
+    private var selectedDate: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,10 +55,23 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
         val mealDate = view.findViewById<EditText>(R.id.mealDate) // Date of meal eaten
 
         val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
         timeInput.setText(String.format("%02d:%02d", hour, minute))
 
+        // Date picker
+        val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+            mealDate.setText("$selectedYear-${selectedMonth + 1}-$selectedDay")
+        }, year, month, day)
+
+        mealDate.setOnClickListener {
+            datePickerDialog.show()
+        }
+
+        // Time picker
         val timePickerDialog = TimePickerDialog(requireContext(), { _, selectedHour, selectedMinute ->
             // Update time with user selected time
             timeInput.setText(String.format("%02d:%02d", selectedHour, selectedMinute))

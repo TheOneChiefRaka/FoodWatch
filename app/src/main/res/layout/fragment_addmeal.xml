@@ -41,11 +41,12 @@
     </ListView>
 
     <EditText
-        android:id="@+id/reactionTime"
+        android:id="@+id/mealTime"
         android:layout_width="156dp"
         android:layout_height="48dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="20dp"
+        android:clickable="true"
         android:ems="10"
         android:hint="Time Eaten"
         android:inputType="none"
