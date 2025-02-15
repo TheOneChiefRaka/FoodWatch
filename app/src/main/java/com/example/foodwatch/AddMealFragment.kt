@@ -12,6 +12,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.foodwatch.database.entities.Meal
 import com.example.foodwatch.database.repository.IngredientsRepository
 import com.example.foodwatch.database.repository.MealsRepository
@@ -62,9 +64,21 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             timePickerDialog.show()
         }
 
+        // Add ingredient
+        val ingredientMutableList = mutableListOf<Ingredient>()
+
+        val adapter = IngredientListAdapter(ingredientMutableList)
+        //ingredientList.adapter = adapter
+        view.findViewById<RecyclerView>(R.id.ingredientList).adapter = adapter
+        view.findViewById<RecyclerView>(R.id.ingredientList).layoutManager = LinearLayoutManager(this.context)
+
         enterIngredientButton.setOnClickListener() {
+            val title = ingredientInput.text.toString().trim()
+            val ingredientToAdd = Ingredient(title)
             val ingredientText = ingredientInput.text.toString().trim()
             if (ingredientText.isNotEmpty()) {
+                ingredientMutableList.add(ingredientToAdd)
+                adapter.notifyItemInserted(ingredientMutableList.size)
                 ingredients.add(ingredientText)
                 ingredientInput.text.clear()
                 Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
