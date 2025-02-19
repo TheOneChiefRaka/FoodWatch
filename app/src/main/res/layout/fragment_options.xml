@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FFFF"
-                android:text="Person's Name"
+                android:text="Zach Cooksey"
                 android:layout_gravity="center"
                 android:textSize="24sp">
             </TextView>
@@ -164,6 +164,47 @@
                         android:theme="@style/soundsSwitch">
                     </androidx.appcompat.widget.SwitchCompat>
                 </RelativeLayout>
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:id="@+id/soundIcon"
+                        android:layout_height="40dp"
+                        android:src="@drawable/sounds"
+                        android:background="@drawable/sounds_round_background"
+                        android:padding="12dp">
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:text="Testing"
+                        android:textStyle="bold"
+                        android:textSize="15dp"
+                        android:layout_toEndOf="@+id/soundIcon"
+                        android:textColor="#FFFFFF">
+                    </TextView>
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:switchMinWidth="50dp"
+                        android:theme="@style/soundsSwitch">
+                    </androidx.appcompat.widget.SwitchCompat>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/options_edit_profile_round_background"
+                        ></androidx.appcompat.widget.AppCompatButton>
+
+                </RelativeLayout>
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
