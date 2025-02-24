@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Light Version -->
+    <color name="light_background">#EEF5EB</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="darkGreen">#569831</color>
     <color name="lightGreen">#81B266</color>
     <color name="strokeGreen">#6BA54B</color>
-    <color name="background">#EEF5EB</color>
     <color name="navButtonColor">#606060</color>
     <color name="noReaction">#48D479</color>
     <color name="mildReaction">#FFE733</color>
     <color name="mediumReaction">#FF8C01</color>
     <color name="severeReaction">#ED2938</color>
+
+    <!-- Dark Version -->
+    <color name="dark_background">#191A19</color>
 
     <!-- Options Display Colors -->
     <color name="dark_mode">#6124B1</color>

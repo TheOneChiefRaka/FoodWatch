@@ -4,6 +4,9 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
+    <style name="background" parent="Theme.AppCompat.DayNight">
+        <item name="android:background">@color/dark_background</item>
+    </style>
 
     <style name="Theme.FoodWatch" parent="Base.Theme.FoodWatch" />
 </resources>
