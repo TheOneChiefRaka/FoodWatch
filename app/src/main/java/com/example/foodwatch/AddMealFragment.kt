@@ -50,7 +50,11 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
         val ingredientInput = view.findViewById<EditText>(R.id.mealIngredientInput) // Ingredient name
         val enterMealButton = view.findViewById<Button>(R.id.addMealToTableButton) // Add meal button
         val enterIngredientButton = view.findViewById<Button>(R.id.addIngredientButton) // Add ingredient button
+
+
         val ingredients = mutableListOf<String>() // List of ingredients
+
+
         val ingredientIds = mutableListOf<Int>() // List of ingredient IDs
         val mealDate = view.findViewById<EditText>(R.id.mealDate) // Date of meal eaten
 
@@ -109,28 +113,28 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             val mealTime = timeInput.text.toString().trim()
             val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
             var date: String = LocalDateTime.now().format(dateFormat)
-            var ingredientName = ""
 
-            var position = 0 // Counter for inserting ingredients into table
-            for (ingredient in ingredients){
-                ingredientViewModel.addOrUpdateIngredients(ingredients[position]).join()
-                position++
+            val updatedIngredients = adapter.getIngredients()
+
+            if (updatedIngredients.isEmpty()){
+                Toast.makeText(requireContext(), "No ingredients to save!", Toast.LENGTH_SHORT).show()
+                return
             }
-            position = 0
 
+            val ingredientIds = mutableListOf<Int>()
 
-            for (ingredient in ingredients) {
-                ingredientName = ingredients[position]
-                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredientName).await()
-                if (ingredientId != null) {
+            for (ingredient in updatedIngredients){
+                ingredientViewModel.addOrUpdateIngredients(ingredient.title).join()
+                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient.title).await()
+                if(ingredientId != null){
                     ingredientIds.add(ingredientId)
-                } else {
-                    Toast.makeText(requireContext(), "Error finding ingredient ID!", Toast.LENGTH_LONG).show()
                 }
-
-                position++
+                else{
+                    Toast.makeText(requireContext(), "Error finding ingredientID!", Toast.LENGTH_LONG).show()
+                }
             }
-            position = 0
+
+
 
             val meal = Meal(
                 name = mealName,
@@ -142,7 +146,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
                 Toast.makeText(requireContext(), "Meal added!", Toast.LENGTH_SHORT).show()
             }
 
-            ingredients.clear()
+            adapter.updateIngredients(emptyList())
             timeInput.text.clear()
             mealNameInput.text.clear()
         }
