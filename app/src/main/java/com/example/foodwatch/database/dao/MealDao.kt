@@ -1,5 +1,6 @@
 package com.example.foodwatch.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -23,6 +24,9 @@ interface MealDao {
 
     @Query("SELECT * FROM meal WHERE id = :mealId")
     suspend fun getMealById(mealId: Int): Meal
+
+    @Query("DELETE FROM meal WHERE id = :mealId")
+    suspend fun deleteMealById(mealId: Int)
 
     @Insert
     suspend fun addMeal(meal: Meal): Long
