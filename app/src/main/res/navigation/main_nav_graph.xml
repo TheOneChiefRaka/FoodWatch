@@ -17,8 +17,8 @@
             android:id="@+id/home_to_addreaction"
             app:destination="@id/addReactionFragment" />
         <action
-            android:id="@+id/home_to_test"
-            app:destination="@id/testFragment" />
+            android:id="@+id/home_to_edit"
+            app:destination="@id/editMealFragment" />
     </fragment>
     <fragment
         android:id="@+id/calendarFragment"
@@ -56,12 +56,12 @@
         android:label="AddMealFragment"
         tools:layout="@layout/fragment_typemeals"/>
     <fragment
-        android:id="@+id/testFragment"
-        android:name="com.example.foodwatch.TestFragment"
-        android:label="TestFragment"
-        tools:layout="@layout/fragment_test">
+        android:id="@+id/editMealFragment"
+        android:name="com.example.foodwatch.EditMealFragment"
+        android:label="EditMealFragment"
+        tools:layout="@layout/fragment_editmeal">
         <argument
-            android:name="mealID"
+            android:name="mealId"
             app:argType="integer" />
     </fragment>
 </navigation>

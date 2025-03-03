@@ -30,7 +30,7 @@ class HomeFragment : Fragment() {
 
         testButton.setOnClickListener {
             val mealId = 1
-            val action = HomeFragmentDirections.homeToTest(mealId)
+            val action = HomeFragmentDirections.homeToEdit(mealId)
             navFragment.navController.navigate(action)
         }
 
