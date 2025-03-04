@@ -51,8 +51,8 @@ class CalendarFragment : Fragment() {
         //set up recycler view for reactions
         val reactionRecyclerView = view.findViewById<RecyclerView>(R.id.reactionListRecycler)
         val reactionAdapter = ReactionListAdapter()
-        mealRecyclerView.adapter = mealAdapter
-        mealRecyclerView.layoutManager = LinearLayoutManager(this.context)
+        reactionRecyclerView.adapter = reactionAdapter
+        reactionRecyclerView.layoutManager = LinearLayoutManager(this.context)
 
         //get navFragment
         val navFragment = activity?.supportFragmentManager?.findFragmentById(R.id.navFragment) as NavHostFragment
@@ -65,6 +65,7 @@ class CalendarFragment : Fragment() {
             val meals = mealViewModel.findMealsByDate(date).await().sortedBy { it.timeEaten }
             val reactions = reactionViewModel.findReactionsByDate(date).await().sortedBy { it.reactionTime }
             mealAdapter.submitList(meals)
+            reactionAdapter.submitList(reactions)
         }
 
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")

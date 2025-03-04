@@ -16,7 +16,6 @@
         <activity
             android:windowSoftInputMode="adjustPan"
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustNothing"
             android:exported="true">
 
             <intent-filter>
