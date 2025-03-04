@@ -10,6 +10,7 @@ import com.example.foodwatch.database.entities.Ingredient
 import com.example.foodwatch.database.repository.IngredientsRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class IngredientViewModel(private val repository: IngredientsRepository) : ViewModel() {
     val allIngredients: LiveData<List<Ingredient>> = repository.allIngredients.asLiveData()
@@ -50,6 +51,10 @@ class IngredientViewModel(private val repository: IngredientsRepository) : ViewM
 
     fun getIngredientIdByName(name: String) = viewModelScope.async{
         repository.getIngredientIdByName(name)
+    }
+
+    fun getAllIngredientNames() = viewModelScope.async {
+        repository.getAllIngredientNames()
     }
 }
 

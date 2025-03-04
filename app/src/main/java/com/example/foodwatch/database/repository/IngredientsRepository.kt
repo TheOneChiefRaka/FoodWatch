@@ -66,4 +66,8 @@ class IngredientsRepository(private val ingredientDao: IngredientDao) {
     suspend fun getIngredientIdByName(name: String): Int? {
         return ingredientDao.getIngredientIdByName(name)
     }
+
+    suspend fun getAllIngredientNames(): List<String>{
+        return ingredientDao.getAllIngredientNames()
+    }
 }

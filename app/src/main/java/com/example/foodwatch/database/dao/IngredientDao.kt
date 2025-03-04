@@ -37,6 +37,9 @@ interface IngredientDao {
     @Query("SELECT id FROM Ingredient WHERE name = :name LIMIT 1")
     suspend fun getIngredientIdByName(name: String): Int?
 
+    @Query("SELECT name FROM Ingredient")
+    suspend fun getAllIngredientNames(): List<String>
+
     @Query("SELECT * FROM Ingredient WHERE id = :id")
     suspend fun findIngredientById(id: Int): Ingredient
 
