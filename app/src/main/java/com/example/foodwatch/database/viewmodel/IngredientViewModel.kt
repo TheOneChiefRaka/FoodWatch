@@ -19,6 +19,10 @@ class IngredientViewModel(private val repository: IngredientsRepository) : ViewM
         repository.findIngredientsByName(ingredientNames)
     }
 
+    fun findIngredientById(ingredientId: Int) = viewModelScope.async {
+        repository.findIngredientById(ingredientId)
+    }
+
     //launching the function because we don't care about its result
     fun addIngredientsReactionMild(ingredientIds: List<Int>) = viewModelScope.launch {
         repository.addIngredientsReactionMild(ingredientIds)

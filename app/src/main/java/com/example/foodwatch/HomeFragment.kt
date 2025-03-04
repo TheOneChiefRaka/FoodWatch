@@ -26,13 +26,6 @@ class HomeFragment : Fragment() {
         val addMealButton = view.findViewById<Button>(R.id.addMealButton)
         val addReactionButton = view.findViewById<Button>(R.id.addReaction)
         val recipesButton = view.findViewById<Button>(R.id.recipes)
-        val testButton = view.findViewById<Button>(R.id.button)
-
-        testButton.setOnClickListener {
-            val mealId = 1
-            val action = HomeFragmentDirections.homeToEdit(mealId)
-            navFragment.navController.navigate(action)
-        }
 
         //add button to navigate from home to add meal page
         addMealButton.setOnClickListener {

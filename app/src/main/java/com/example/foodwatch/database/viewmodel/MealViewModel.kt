@@ -34,6 +34,11 @@ class MealViewModel(private val repository: MealsRepository) : ViewModel() {
         repository.getMealById(mealId)
     }
 
+    fun updateMealById(meal: Meal, onSuccess: () -> Unit) = viewModelScope.launch {
+        repository.updateMealById(meal)
+        onSuccess()
+    }
+
     fun findMealsByTimeRange(min: String, max: String) = viewModelScope.async {
         repository.findMealsByTimeRange(min, max)
     }
