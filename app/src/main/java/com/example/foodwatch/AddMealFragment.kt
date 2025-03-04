@@ -1,5 +1,6 @@
 package com.example.foodwatch
 
+import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.icu.util.Calendar
@@ -7,33 +8,33 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import android.widget.BaseAdapter
-import android.widget.ListView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.foodwatch.database.entities.Meal
 import com.example.foodwatch.database.repository.IngredientsRepository
 import com.example.foodwatch.database.repository.MealsRepository
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
-import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
 import com.example.foodwatch.database.viewmodel.MealViewModel
-import com.example.foodwatch.database.viewmodel.MealViewModelFactory
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
+    private var selectedDate: String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view: View = inflater.inflate(R.layout.fragment_typemeals, container, false)
 
         val ingredientDao = (requireActivity().application as MealsApplication).database.ingredientDao()
@@ -49,14 +50,32 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
         val ingredientInput = view.findViewById<EditText>(R.id.mealIngredientInput) // Ingredient name
         val enterMealButton = view.findViewById<Button>(R.id.addMealToTableButton) // Add meal button
         val enterIngredientButton = view.findViewById<Button>(R.id.addIngredientButton) // Add ingredient button
+
+
         val ingredients = mutableListOf<String>() // List of ingredients
+
+
         val ingredientIds = mutableListOf<Int>() // List of ingredient IDs
+        val mealDate = view.findViewById<EditText>(R.id.mealDate) // Date of meal eaten
 
         val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
         timeInput.setText(String.format("%02d:%02d", hour, minute))
 
+        // Date picker
+        val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+            mealDate.setText("$selectedYear-${selectedMonth + 1}-$selectedDay")
+        }, year, month, day)
+
+        mealDate.setOnClickListener {
+            datePickerDialog.show()
+        }
+
+        // Time picker
         val timePickerDialog = TimePickerDialog(requireContext(), { _, selectedHour, selectedMinute ->
             // Update time with user selected time
             timeInput.setText(String.format("%02d:%02d", selectedHour, selectedMinute))
@@ -66,9 +85,21 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             timePickerDialog.show()
         }
 
+        // Add ingredient
+        val ingredientMutableList = mutableListOf<Ingredient>()
+
+        val adapter = IngredientListAdapter(ingredientMutableList)
+        //ingredientList.adapter = adapter
+        view.findViewById<RecyclerView>(R.id.ingredientList).adapter = adapter
+        view.findViewById<RecyclerView>(R.id.ingredientList).layoutManager = LinearLayoutManager(this.context)
+
         enterIngredientButton.setOnClickListener() {
+            val title = ingredientInput.text.toString().trim()
+            val ingredientToAdd = Ingredient(title)
             val ingredientText = ingredientInput.text.toString().trim()
             if (ingredientText.isNotEmpty()) {
+                ingredientMutableList.add(ingredientToAdd)
+                adapter.notifyItemInserted(ingredientMutableList.size)
                 ingredients.add(ingredientText)
                 ingredientInput.text.clear()
                 Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
@@ -82,28 +113,28 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             val mealTime = timeInput.text.toString().trim()
             val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
             var date: String = LocalDateTime.now().format(dateFormat)
-            var ingredientName = ""
 
-            var position = 0 // Counter for inserting ingredients into table
-            for (ingredient in ingredients){
-                ingredientViewModel.addOrUpdateIngredients(ingredients[position]).join()
-                position++
+            val updatedIngredients = adapter.getIngredients()
+
+            if (updatedIngredients.isEmpty()){
+                Toast.makeText(requireContext(), "No ingredients to save!", Toast.LENGTH_SHORT).show()
+                return
             }
-            position = 0
 
+            val ingredientIds = mutableListOf<Int>()
 
-            for (ingredient in ingredients) {
-                ingredientName = ingredients[position]
-                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredientName).await()
-                if (ingredientId != null) {
+            for (ingredient in updatedIngredients){
+                ingredientViewModel.addOrUpdateIngredients(ingredient.title).join()
+                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient.title).await()
+                if(ingredientId != null){
                     ingredientIds.add(ingredientId)
-                } else {
-                    Toast.makeText(requireContext(), "Error finding ingredient ID!", Toast.LENGTH_LONG).show()
                 }
-
-                position++
+                else{
+                    Toast.makeText(requireContext(), "Error finding ingredientID!", Toast.LENGTH_LONG).show()
+                }
             }
-            position = 0
+
+
 
             val meal = Meal(
                 name = mealName,
@@ -115,7 +146,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
                 Toast.makeText(requireContext(), "Meal added!", Toast.LENGTH_SHORT).show()
             }
 
-            ingredients.clear()
+            adapter.updateIngredients(emptyList())
             timeInput.text.clear()
             mealNameInput.text.clear()
         }
