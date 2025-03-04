@@ -8,6 +8,12 @@
     <style name="background" parent="Theme.AppCompat.Light">
         <item name="android:background">@color/light_background</item>
     </style>
+    <style name="buttonTextColor" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/light_button_text_color</item>
+    </style>
+    <style name="backgroundTextColor" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/light_background_text_color</item>
+    </style>
 
     <style name="Theme.FoodWatch" parent="Base.Theme.FoodWatch" />
     <style name="darkModeSwitch" parent="Theme.AppCompat.Light">

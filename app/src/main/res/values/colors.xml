@@ -2,6 +2,9 @@
 <resources>
     <!-- Light Version -->
     <color name="light_background">#EEF5EB</color>
+    <color name="light_button_text_color">#FFFFFF</color>
+    <color name="light_background_text_color">#000000</color>
+
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -16,8 +19,11 @@
 
     <!-- Dark Version -->
     <color name="dark_background">#191A19</color>
+    <color name="dark_button_text_color">#FFFFFF</color>
+    <color name="dark_background_text_color">#FFFFFF</color>
 
     <!-- Options Display Colors -->
+    <!-- This is universal, so no style should be applied unless otherwise -->
     <color name="dark_mode">#6124B1</color>
     <color name="notifications">#13B2C3</color>
     <color name="sounds">#8BF67D</color>

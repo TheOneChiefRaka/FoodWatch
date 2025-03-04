@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
+            style="@style/backgroundTextColor"
             android:text="Settings"
             android:paddingTop="20dp"
             android:layout_centerInParent="true"
@@ -38,7 +38,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#FFFF"
+                style="@style/backgroundTextColor"
                 android:text="Zach Cooksey"
                 android:layout_gravity="center"
                 android:textSize="24sp">
@@ -84,6 +84,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
                         android:text="Dark Mode"
+                        style="@style/buttonTextColor"
                         android:textStyle="bold"
                         android:textSize="15dp"
                         android:layout_toEndOf="@+id/darkModeIcon"
@@ -118,6 +119,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
                         android:text="Notifications"
+                        style="@style/buttonTextColor"
                         android:textStyle="bold"
                         android:textSize="15dp"
                         android:layout_toEndOf="@+id/notificationIcon"
@@ -152,6 +154,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
                         android:text="Sounds"
+                        style="@style/buttonTextColor"
                         android:textStyle="bold"
                         android:textSize="15dp"
                         android:layout_toEndOf="@+id/soundIcon"
