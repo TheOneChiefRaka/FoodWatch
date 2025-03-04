@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -47,7 +49,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
         var mealNameInput = view.findViewById<EditText>(R.id.mealName) // Meal name
         var timeInput = view.findViewById<EditText>(R.id.mealTime) // Time of meal eaten
-        val ingredientInput = view.findViewById<EditText>(R.id.mealIngredientInput) // Ingredient name
+        val ingredientInput = view.findViewById<AutoCompleteTextView>(R.id.mealIngredientInput) // Ingredient name
         val enterMealButton = view.findViewById<Button>(R.id.addMealToTableButton) // Add meal button
         val enterIngredientButton = view.findViewById<Button>(R.id.addIngredientButton) // Add ingredient button
 
@@ -93,11 +95,18 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
         view.findViewById<RecyclerView>(R.id.ingredientList).adapter = adapter
         view.findViewById<RecyclerView>(R.id.ingredientList).layoutManager = LinearLayoutManager(this.context)
 
+        lifecycleScope.launch {
+            val ingredientNames: List<String> = ingredientViewModel.getAllIngredientNames().await()
+            setupAutoComplete(ingredientInput, ingredientNames)
+        }
+
+
         enterIngredientButton.setOnClickListener() {
             val title = ingredientInput.text.toString().trim()
             val ingredientToAdd = Ingredient(title)
             val ingredientText = ingredientInput.text.toString().trim()
             if (ingredientText.isNotEmpty()) {
+                val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
                 ingredientMutableList.add(ingredientToAdd)
                 adapter.notifyItemInserted(ingredientMutableList.size)
                 ingredients.add(ingredientText)
@@ -170,6 +179,11 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
         }
         return view
+    }
+
+    private fun setupAutoComplete(ingredientInput: AutoCompleteTextView, ingredientNames: List<String>) {
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, ingredientNames)
+        ingredientInput.setAdapter(adapter)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

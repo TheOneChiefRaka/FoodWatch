@@ -57,7 +57,7 @@
         app:layout_constraintVertical_bias="1.0"
         tools:text="Time" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/mealIngredientInput"
         android:layout_width="148dp"
         android:layout_height="56dp"
@@ -71,6 +71,7 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
+        android:completionThreshold="1"
         app:layout_constraintBottom_toTopOf="@+id/addMealToTableButton"
         app:layout_constraintEnd_toStartOf="@+id/addIngredientButton"
         app:layout_constraintHorizontal_bias="0.594"
