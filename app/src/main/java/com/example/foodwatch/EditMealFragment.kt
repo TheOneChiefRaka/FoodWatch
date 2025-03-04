@@ -1,5 +1,8 @@
 package com.example.foodwatch
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -73,6 +76,38 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
         ingredientsList.adapter = adapter
         ingredientsList.layoutManager = LinearLayoutManager(this.context)
 
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+            var viewDay = selectedDay.toString()
+            var viewMonth = (selectedMonth+1).toString()
+            if(selectedDay < 10) {
+                viewDay = "0$viewDay"
+            }
+            if(selectedMonth < 9) {
+                viewMonth = "0$viewMonth"
+            }
+            mealDateView.setText("$selectedYear-${viewMonth}-$viewDay")
+        }, year, month, day)
+
+        mealDateView.setOnClickListener {
+            datePickerDialog.show()
+        }
+
+        val timePickerDialog = TimePickerDialog(requireContext(), { _, selectedHour, selectedMinute ->
+            // Update time with user selected time
+            mealTimeView.setText(String.format("%02d:%02d", selectedHour, selectedMinute))
+        }, hour, minute, true)
+
+        mealTimeView.setOnClickListener {
+            timePickerDialog.show()
+        }
+
         //launch asynchronous database query
         lifecycleScope.launch {
             val meal = mealViewModel.getMealById(mealId).await()
@@ -85,7 +120,6 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
                 adapter.notifyItemInserted(ingredientMutableList.size)
                 ingredients.add(ingredient.name)
             }
-            Log.i("TEST", ingredientMutableList.toString())
         }
 
         enterIngredientButton.setOnClickListener {
@@ -107,7 +141,7 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             val mealName = mealNameView.text.toString().trim()
             val mealTime = mealTimeView.text.toString().trim()
             val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val date: String = LocalDateTime.now().format(dateFormat)
+            val date: String = mealDateView.text.toString()
 
             val updatedIngredients = adapter.getIngredients()
 
