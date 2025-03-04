@@ -66,11 +66,11 @@
         app:layout_constraintStart_toEndOf="@+id/mealDate"
         tools:text="Time" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/mealIngredientInput"
         android:layout_width="148dp"
         android:layout_height="56dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/roundstyle"
         android:backgroundTint="#2A2C2A"
         android:ems="10"
@@ -79,9 +79,10 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
+        android:completionThreshold="1"
         app:layout_constraintBottom_toTopOf="@+id/ingredientList"
         app:layout_constraintEnd_toStartOf="@+id/addIngredientButton"
-        app:layout_constraintHorizontal_bias="0.243"
+        app:layout_constraintHorizontal_bias="0.594"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="Ingredient" />
 

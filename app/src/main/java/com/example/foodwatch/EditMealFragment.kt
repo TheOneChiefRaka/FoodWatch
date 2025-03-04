@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -65,7 +67,7 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
         val mealDateView = view.findViewById<EditText>(R.id.mealDate)
         val ingredientsList = view.findViewById<RecyclerView>(R.id.ingredientList)
         val enterIngredientButton = view.findViewById<Button>(R.id.addIngredientButton)
-        val ingredientInput = view.findViewById<EditText>(R.id.mealIngredientInput)
+        val ingredientInput = view.findViewById<AutoCompleteTextView>(R.id.mealIngredientInput)
         val saveButton = view.findViewById<Button>(R.id.saveEditsButton)
         val deleteButton = view.findViewById<Button>(R.id.deleteButton)
 
@@ -120,6 +122,11 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
                 adapter.notifyItemInserted(ingredientMutableList.size)
                 ingredients.add(ingredient.name)
             }
+        }
+
+        lifecycleScope.launch {
+            val ingredientNames: List<String> = ingredientViewModel.getAllIngredientNames().await()
+            setupAutoComplete(ingredientInput, ingredientNames)
         }
 
         enterIngredientButton.setOnClickListener {
@@ -198,5 +205,10 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             mealViewModel.deleteMealById(mealId)
             findNavController().navigateUp()
         }
+    }
+
+    private fun setupAutoComplete(ingredientInput: AutoCompleteTextView, ingredientNames: List<String>) {
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, ingredientNames)
+        ingredientInput.setAdapter(adapter)
     }
 }
