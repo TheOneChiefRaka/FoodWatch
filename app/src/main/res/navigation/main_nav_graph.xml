@@ -24,7 +24,11 @@
         android:id="@+id/calendarFragment"
         android:name="com.example.foodwatch.CalendarFragment"
         android:label="CalendarFragment"
-        tools:layout="@layout/fragment_calendar"/>
+        tools:layout="@layout/fragment_calendar">
+        <action
+            android:id="@+id/calendar_to_edit_meal"
+            app:destination="@id/editMealFragment" />
+    </fragment>
     <action android:id="@+id/to_home" app:destination="@id/homeFragment" />
     <action android:id="@+id/to_calendar" app:destination="@id/calendarFragment" />
     <fragment
