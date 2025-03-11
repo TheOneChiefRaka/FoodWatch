@@ -202,6 +202,7 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             //insert or delete ingredients
             mealIngredientViewModel.deleteIngredientsByMealId(mealId).join()
             mealIngredientViewModel.insertIngredientsList(newIngredientList).join()
+            findNavController().navigateUp()
         }
 
         saveButton.setOnClickListener {
@@ -225,6 +226,7 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
 
         deleteButton.setOnClickListener {
             mealViewModel.deleteMealById(mealId)
+            mealIngredientViewModel.deleteIngredientsByMealId(mealId)
             findNavController().navigateUp()
         }
     }

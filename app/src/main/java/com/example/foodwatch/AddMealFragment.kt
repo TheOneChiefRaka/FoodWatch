@@ -16,6 +16,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodwatch.database.dao.MealIngredientCrossRefDao
@@ -178,6 +179,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             adapter.updateIngredients(emptyList())
             timeInput.text.clear()
             mealNameInput.text.clear()
+            findNavController().navigateUp()
         }
 
         enterMealButton.setOnClickListener() {
