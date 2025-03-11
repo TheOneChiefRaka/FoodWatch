@@ -16,8 +16,8 @@ data class MealIngredientCrossRef (
 data class MealWithIngredients(
     @Embedded val meal: Meal,
     @Relation(
-        parentColumn = "meal_id",
-        entityColumn = "ingredient_id",
+        parentColumn = "mealId",
+        entityColumn = "ingredientId",
         associateBy = Junction(MealIngredientCrossRef::class)
     )
     val ingredients: List<Ingredient>
@@ -26,8 +26,8 @@ data class MealWithIngredients(
 data class IngredientWithMeal(
     @Embedded val ingredient: Ingredient,
     @Relation(
-        parentColumn = "ingredient_id",
-        entityColumn = "meal_id",
+        parentColumn = "ingredientId",
+        entityColumn = "mealId",
         associateBy = Junction(MealIngredientCrossRef::class)
     )
     val meals: List<Meal>
