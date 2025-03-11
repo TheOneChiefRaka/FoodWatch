@@ -22,13 +22,13 @@ interface MealDao {
     @Query("SELECT * FROM meal WHERE timeEaten >= :min AND timeEaten <= :max")
     suspend fun findMealsByTimeRange(min: String, max: String): List<Meal>
 
-    @Query("SELECT * FROM meal WHERE id = :mealId")
+    @Query("SELECT * FROM meal WHERE meal_id = :mealId")
     suspend fun getMealById(mealId: Int): Meal
 
-    @Query("UPDATE meal SET timeEaten = :timeEaten, name = :name, ingredients = :ingredients WHERE id = :id")
-    suspend fun updateMealById(timeEaten: String, name: String, ingredients: String, id: Int)
+    @Query("UPDATE meal SET timeEaten = :timeEaten, name = :name WHERE meal_id = :id")
+    suspend fun updateMealById(timeEaten: String, name: String, id: Int)
 
-    @Query("DELETE FROM meal WHERE id = :mealId")
+    @Query("DELETE FROM meal WHERE meal_id = :mealId")
     suspend fun deleteMealById(mealId: Int)
 
     @Insert
