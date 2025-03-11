@@ -23,6 +23,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodwatch.database.entities.Meal
+import com.example.foodwatch.database.entities.relations.MealIngredientCrossRef
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
 import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
 import com.example.foodwatch.database.viewmodel.MealViewModel
@@ -116,7 +117,8 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             mealNameView.setText(meal.name)
             mealTimeView.setText(meal.timeEaten.takeLast(5))
             mealDateView.setText(meal.timeEaten.take(10))
-            for(ingredientId in meal.ingredients) {
+            //query crossref for ingredients
+            for(ingredientId in ) {
                 val ingredient = ingredientViewModel.findIngredientById(ingredientId).await()
                 ingredientMutableList.add(Ingredient(ingredient.name))
                 adapter.notifyItemInserted(ingredientMutableList.size)
@@ -171,15 +173,24 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             }
 
             val meal = Meal(
-                id = mealId,
+                meal_id = mealId,
                 name = mealName,
-                timeEaten = "$date $mealTime",
-                ingredients = ingredientIds
+                timeEaten = "$date $mealTime"
             )
 
             mealViewModel.updateMealById(meal) {
                 Toast.makeText(requireContext(), "Meal edited!", Toast.LENGTH_SHORT).show()
             }
+
+            //populate list of ingredients in the meal
+            val newIngredientList = mutableListOf<MealIngredientCrossRef>()
+
+            for(ingredientId in ingredientIds) {
+                newIngredientList.add(MealIngredientCrossRef(mealId, ingredientId))
+            }
+
+            //insert or delete ingredients
+
         }
 
         saveButton.setOnClickListener {

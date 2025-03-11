@@ -21,7 +21,7 @@ class MealViewModel(private val repository: MealsRepository) : ViewModel() {
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-    fun addMeal(meal: Meal, onSuccess: (Long) -> Unit) = viewModelScope.launch {
+    fun addMeal(meal: Meal, onSuccess: (Long) -> Unit) = viewModelScope.async {
         val mealId = repository.addMeal(meal)
         onSuccess(mealId)
     }

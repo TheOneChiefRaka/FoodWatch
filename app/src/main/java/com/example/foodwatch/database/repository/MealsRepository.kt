@@ -21,7 +21,7 @@ class MealsRepository(private val mealDao: MealDao) {
     }
 
     @WorkerThread
-    suspend fun addMeal(meal: Meal): Long{
+    suspend fun addMeal(meal: Meal): Long {
         return mealDao.addMeal(meal)
     }
 
@@ -32,9 +32,7 @@ class MealsRepository(private val mealDao: MealDao) {
 
     @WorkerThread
     suspend fun updateMealById(meal: Meal) {
-        val ingredientList = meal.ingredients.toString()
-        val ingredients = ingredientList.filterNot { it.isWhitespace() }
-        return mealDao.updateMealById(meal.timeEaten, meal.name, ingredients, meal.id)
+        return mealDao.updateMealById(meal.timeEaten, meal.name, meal.meal_id)
     }
 
     @WorkerThread

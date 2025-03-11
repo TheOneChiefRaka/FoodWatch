@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodwatch.database.entities.Meal
+import com.example.foodwatch.database.entities.relations.MealIngredientCrossRef
 import com.example.foodwatch.database.repository.IngredientsRepository
 import com.example.foodwatch.database.repository.MealsRepository
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
@@ -147,13 +148,24 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
             val meal = Meal(
                 name = mealName,
-                timeEaten = "$date $mealTime",
-                ingredients = ingredientIds
+                timeEaten = "$date $mealTime"
             )
+
+            var newMealId = 0
 
             mealViewModel.addMeal(meal) { mealId ->
                 Toast.makeText(requireContext(), "Meal added!", Toast.LENGTH_SHORT).show()
+                newMealId = mealId.toInt()
+            }.await()
+
+
+            val mealIngredientList = mutableListOf<MealIngredientCrossRef>()
+
+            for(ingredient in ingredientIds) {
+                var newIngredient = MealIngredientCrossRef(newMealId, ingredient)
+                mealIngredientList.add(newIngredient)
             }
+            //insert list of references
 
             adapter.updateIngredients(emptyList())
             timeInput.text.clear()

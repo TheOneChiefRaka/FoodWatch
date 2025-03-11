@@ -13,6 +13,10 @@ interface MealIngredientCrossRefDao {
     fun getMealWithIngredients(): List<MealWithIngredients>
 
     @Transaction
+    @Query("SELECT * FROM Meal WHERE meal_id = :mealid")
+    fun getMealWithIngredientsById(mealId: Int): MealWithIngredients
+
+    @Transaction
     @Query("SELECT * FROM Ingredient")
     fun getIngredientWithMeals(): List<IngredientWithMeal>
 }
