@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import com.example.foodwatch.database.entities.Meal
 import com.example.foodwatch.database.entities.Reaction
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
 import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
@@ -99,39 +100,33 @@ class AddReactionFragment : Fragment() {
             }
             date = newDate
         }
-        /*
-        suspend fun updateIngredients() {
+
+        suspend fun updateMeals() {
             val newReaction =
-                Reaction(0, "", "$date ${reactionTimeField.text}", reactionSeverityField.selectedItem.toString())
-            reactionViewModel.insert(newReaction)
+                Reaction(0, "$date ${reactionTimeField.text}", reactionSeverityField.selectedItem.toString())
+            val newReactionId = reactionViewModel.insert(newReaction).await()
 
             val reactionTime = LocalDateTime.parse("$date ${reactionTimeField.text}", dateTimeFormat).toEpochSecond(ZoneOffset.UTC)
             val minimumTimestamp = reactionTime - 3600 * 3 //3 hours before reaction
             val minTime = LocalDateTime.ofEpochSecond(minimumTimestamp, 0, ZoneOffset.UTC)
             val recentMeals = mealViewModel.findMealsByTimeRange(minTime.format(dateTimeFormat), "$date ${reactionTimeField.text}").await()
+            val updatedRecentMeals = mutableListOf<Meal>()
 
-            val recentIngredients = mutableSetOf<Int>()
+            //add reaction id to all meals within the last 3 hours
             for(meal in recentMeals) {
-                recentIngredients.addAll(meal.ingredients)
-            }
-            Log.i("TEST", recentIngredients.toString())
-            when(reactionSeverityField.selectedItem.toString()) {
-                "Mild" -> ingredientViewModel.addIngredientsReactionMild(recentIngredients.toList())
-                "Medium" -> ingredientViewModel.addIngredientsReactionMedium(recentIngredients.toList())
-                "Severe" -> ingredientViewModel.addIngredientsReactionSevere(recentIngredients.toList())
-                else -> Log.e("FOODWATCH_ERR", "Received unexpected severity ${reactionSeverityField.selectedItem}")
+                mealViewModel.updateMealById(Meal(meal.mealId, newReactionId.toInt(), meal.timeEaten, meal.name), {})
             }
         }
 
         addReactionButton.setOnClickListener {
             if(reactionSeverityField.selectedItem.toString() != "" || reactionTimeField.text.toString() != "") {
-                lifecycleScope.launch { updateIngredients() }
+                lifecycleScope.launch { updateMeals() }
                 navFragment.navController.navigate(R.id.to_home)
             }
             else {
                 //insert some error displaying code here
             }
-        }*/
+        }
         return view
     }
 

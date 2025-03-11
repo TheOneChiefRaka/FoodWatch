@@ -14,7 +14,7 @@ class ReactionsRepository(private val reactionDao: ReactionDao) {
     }
 
     @WorkerThread
-    suspend fun insert(reaction: Reaction) {
-        reactionDao.insert(reaction)
+    suspend fun insert(reaction: Reaction): Long {
+        return reactionDao.insert(reaction)
     }
 }

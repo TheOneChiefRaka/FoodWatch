@@ -21,7 +21,7 @@ class ReactionViewModel(private val repository: ReactionsRepository) : ViewModel
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-    fun insert(reaction: Reaction) = viewModelScope.launch {
+    fun insert(reaction: Reaction) = viewModelScope.async {
         repository.insert(reaction)
     }
     fun findReactionsByDate(date: String) = viewModelScope.async {

@@ -16,7 +16,7 @@ interface ReactionDao {
     suspend fun findReactionsByDate(reactionDate: String): List<Reaction>
 
     @Insert
-    suspend fun insert(reaction: Reaction)
+    suspend fun insert(reaction: Reaction): Long
 
     @Delete
     suspend fun delete(reaction: Reaction)
