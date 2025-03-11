@@ -118,11 +118,14 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
         }
 
         //launch asynchronous database query
+        var mealReactionId: Int? = null
+
         lifecycleScope.launch {
             val meal = mealViewModel.getMealById(mealId).await()
             mealNameView.setText(meal.name)
             mealTimeView.setText(meal.timeEaten.takeLast(5))
             mealDateView.setText(meal.timeEaten.take(10))
+            mealReactionId = meal.reactionId
             //query crossref for ingredients
             val oldIngredientsList = mealIngredientViewModel.getMealWithIngredientsById(mealId).await().ingredients
             for(ingredientItem in oldIngredientsList) {
@@ -183,7 +186,7 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
                 mealId = mealId,
                 name = mealName,
                 timeEaten = "$date $mealTime",
-                reactionId = null
+                reactionId = mealReactionId
             )
 
             mealViewModel.updateMealById(meal) {
@@ -196,9 +199,9 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             for(ingredientId in ingredientIds) {
                 newIngredientList.add(MealIngredientCrossRef(mealId, ingredientId))
             }
-
             //insert or delete ingredients
-
+            mealIngredientViewModel.deleteIngredientsByMealId(mealId).join()
+            mealIngredientViewModel.insertIngredientsList(newIngredientList).join()
         }
 
         saveButton.setOnClickListener {

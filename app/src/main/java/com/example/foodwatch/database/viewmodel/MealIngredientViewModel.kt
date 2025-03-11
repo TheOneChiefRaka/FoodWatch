@@ -26,11 +26,14 @@ class MealIngredientViewModel(private val repository: MealIngredientRepository) 
         repository.insertIngredientsList(ingredients)
     }
 
+    fun deleteIngredientsByMealId(mealId: Int) = viewModelScope.launch {
+        repository.deleteIngredientsByMealId(mealId)
+    }
 }
 
 class MealIngredientViewModelFactory(private val repository: MealIngredientRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ReactionViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(MealIngredientViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return MealIngredientViewModel(repository) as T
         }

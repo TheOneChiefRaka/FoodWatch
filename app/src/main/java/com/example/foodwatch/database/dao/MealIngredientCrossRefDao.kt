@@ -19,6 +19,10 @@ interface MealIngredientCrossRefDao {
     suspend fun getMealWithIngredientsById(mealId: Int): MealWithIngredients
 
     @Transaction
+    @Query("DELETE FROM MealIngredientCrossRef WHERE mealId = :mealId")
+    suspend fun deleteIngredientsByMealId(mealId: Int)
+
+    @Transaction
     @Insert
     suspend fun insertIngredients(ingredients: List<MealIngredientCrossRef>)
 

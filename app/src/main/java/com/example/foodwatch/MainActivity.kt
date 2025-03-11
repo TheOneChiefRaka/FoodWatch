@@ -10,6 +10,8 @@ import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
 import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
+import com.example.foodwatch.database.viewmodel.MealIngredientViewModel
+import com.example.foodwatch.database.viewmodel.MealIngredientViewModelFactory
 import com.example.foodwatch.database.viewmodel.MealViewModel
 import com.example.foodwatch.database.viewmodel.MealViewModelFactory
 import com.example.foodwatch.database.viewmodel.ReactionViewModel
@@ -30,6 +32,10 @@ class MainActivity : AppCompatActivity() {
 
     val ingredientViewModel: IngredientViewModel by viewModels {
         IngredientViewModelFactory((application as MealsApplication).ingredients_repository)
+    }
+
+    val mealIngredientViewModel: MealIngredientViewModel by viewModels {
+        MealIngredientViewModelFactory((application as MealsApplication).mealingredient_repository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
