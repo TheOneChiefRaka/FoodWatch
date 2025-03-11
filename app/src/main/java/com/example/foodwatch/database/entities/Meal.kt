@@ -17,7 +17,7 @@ class Converters {
 @TypeConverters(Converters::class)
 data class Meal(
 
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val meal_id: Int = 0,
     @ColumnInfo val timeEaten: String,                  //format of yyyy-MM-dd HH:mm so that it can be sorted into chronological order
     @ColumnInfo val name: String,                       //name of the meal
     @ColumnInfo val ingredients: List<Int>,             //list of ingredient IDs that the meal contains
