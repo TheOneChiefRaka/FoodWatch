@@ -1,22 +1,28 @@
 package com.example.foodwatch.database.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import com.example.foodwatch.database.entities.relations.IngredientWithMeal
+import com.example.foodwatch.database.entities.relations.MealIngredientCrossRef
 import com.example.foodwatch.database.entities.relations.MealWithIngredients
 
 @Dao
 interface MealIngredientCrossRefDao {
     @Transaction
     @Query("SELECT * FROM Meal")
-    fun getMealWithIngredients(): List<MealWithIngredients>
+    suspend fun getMealWithIngredients(): List<MealWithIngredients>
 
     @Transaction
-    @Query("SELECT * FROM Meal WHERE meal_id = :mealid")
-    fun getMealWithIngredientsById(mealId: Int): MealWithIngredients
+    @Query("SELECT * FROM Meal WHERE mealId = :mealId")
+    suspend fun getMealWithIngredientsById(mealId: Int): MealWithIngredients
+
+    @Transaction
+    @Insert
+    suspend fun insertIngredients(ingredients: List<MealIngredientCrossRef>)
 
     @Transaction
     @Query("SELECT * FROM Ingredient")
-    fun getIngredientWithMeals(): List<IngredientWithMeal>
+    suspend fun getIngredientWithMeals(): List<IngredientWithMeal>
 }

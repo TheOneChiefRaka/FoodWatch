@@ -26,7 +26,7 @@ class ReportListAdapter : ListAdapter<Ingredient, ReportListAdapter.IngredientVi
 
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.name, current.timesEaten, current.mildReactions, current.mediumReactions, current.severeReactions)
+        //holder.bind(current.name, current.timesEaten, current.mildReactions, current.mediumReactions, current.severeReactions)
     }
 
     class IngredientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -92,12 +92,8 @@ class ReportListAdapter : ListAdapter<Ingredient, ReportListAdapter.IngredientVi
         }
 
         override fun areContentsTheSame(oldItem: Ingredient, newItem: Ingredient): Boolean {
-            return     oldItem.id == newItem.id
+            return     oldItem.ingredientId == newItem.ingredientId
                     && oldItem.name == newItem.name
-                    && oldItem.timesEaten == newItem.timesEaten
-                    && oldItem.mildReactions == newItem.mildReactions
-                    && oldItem.mediumReactions == newItem.mediumReactions
-                    && oldItem.severeReactions == newItem.severeReactions
         }
     }
 }

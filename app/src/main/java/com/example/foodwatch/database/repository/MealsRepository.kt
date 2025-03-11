@@ -32,7 +32,7 @@ class MealsRepository(private val mealDao: MealDao) {
 
     @WorkerThread
     suspend fun updateMealById(meal: Meal) {
-        return mealDao.updateMealById(meal.timeEaten, meal.name, meal.meal_id)
+        return mealDao.updateMealById(meal.timeEaten, meal.name, meal.mealId)
     }
 
     @WorkerThread

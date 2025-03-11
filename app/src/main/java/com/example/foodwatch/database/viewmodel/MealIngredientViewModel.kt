@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.foodwatch.database.entities.Ingredient
 import com.example.foodwatch.database.repository.ReactionsRepository
 import com.example.foodwatch.database.entities.Reaction
+import com.example.foodwatch.database.entities.relations.MealIngredientCrossRef
 import com.example.foodwatch.database.repository.MealIngredientRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -18,6 +20,10 @@ class MealIngredientViewModel(private val repository: MealIngredientRepository) 
      */
     fun getMealWithIngredientsById(mealId: Int) = viewModelScope.async {
         repository.getMealWithIngredientsById(mealId)
+    }
+
+    fun insertIngredientsList(ingredients: List<MealIngredientCrossRef>) = viewModelScope.launch {
+        repository.insertIngredientsList(ingredients)
     }
 
 }

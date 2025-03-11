@@ -99,7 +99,7 @@ class AddReactionFragment : Fragment() {
             }
             date = newDate
         }
-
+        /*
         suspend fun updateIngredients() {
             val newReaction =
                 Reaction(0, "", "$date ${reactionTimeField.text}", reactionSeverityField.selectedItem.toString())
@@ -131,7 +131,7 @@ class AddReactionFragment : Fragment() {
             else {
                 //insert some error displaying code here
             }
-        }
+        }*/
         return view
     }
 

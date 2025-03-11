@@ -27,8 +27,8 @@ interface MealDao {
     @Query("SELECT * FROM meal WHERE mealId = :mealId")
     suspend fun getMealById(mealId: Int): Meal
 
-    @Query("UPDATE meal SET timeEaten = :timeEaten, name = :name, ingredients = :ingredients WHERE mealId = :id")
-    suspend fun updateMealById(timeEaten: String, name: String, ingredients: String, id: Int)
+    @Query("UPDATE meal SET timeEaten = :timeEaten, name = :name WHERE mealId = :id")
+    suspend fun updateMealById(timeEaten: String, name: String, id: Int)
 
     @Query("DELETE FROM meal WHERE mealId = :mealId")
     suspend fun deleteMealById(mealId: Int)
@@ -39,7 +39,9 @@ interface MealDao {
     @Delete
     suspend fun delete(meal: Meal)
 
+    /*
     @Transaction
     @Query("SELECT * FROM Meal")
     fun getReactionsWithMeals(): List<ReactionWithMeal>
+    */
 }

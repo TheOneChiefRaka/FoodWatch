@@ -19,10 +19,9 @@ class Converters {
 data class Meal(
 
     @PrimaryKey(autoGenerate = true) val mealId: Int = 0,
-    @ColumnInfo val reactionId: Int,
+    @ColumnInfo val reactionId: Int?,
     @ColumnInfo val timeEaten: String,                  //format of yyyy-MM-dd HH:mm so that it can be sorted into chronological order
     @ColumnInfo val name: String,                       //name of the meal
-    @ColumnInfo val ingredients: List<Int>,             //list of ingredient IDs that the meal contains
 )
 
 data class ReactionWithMeal (

@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.example.foodwatch.database.MealsDatabase
 import com.example.foodwatch.database.repository.IngredientsRepository
+import com.example.foodwatch.database.repository.MealIngredientRepository
 import com.example.foodwatch.database.repository.MealsRepository
 import com.example.foodwatch.database.repository.ReactionsRepository
 import kotlinx.coroutines.CoroutineScope
@@ -19,6 +20,7 @@ class MealsApplication : Application() {
     val meals_repository by lazy { MealsRepository(database.mealDao()) }
     val reactions_repository by lazy { ReactionsRepository(database.reactionDao()) }
     val ingredients_repository by lazy { IngredientsRepository(database.ingredientDao()) }
+    val mealingredient_repository by lazy { MealIngredientRepository(database.mealIngredientDao()) }
 
     val ingredientDatabase: MealsDatabase by lazy {
         Room.databaseBuilder(

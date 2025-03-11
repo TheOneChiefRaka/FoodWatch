@@ -18,11 +18,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.foodwatch.database.dao.MealIngredientCrossRefDao
 import com.example.foodwatch.database.entities.Meal
 import com.example.foodwatch.database.entities.relations.MealIngredientCrossRef
 import com.example.foodwatch.database.repository.IngredientsRepository
+import com.example.foodwatch.database.repository.MealIngredientRepository
 import com.example.foodwatch.database.repository.MealsRepository
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
+import com.example.foodwatch.database.viewmodel.MealIngredientViewModel
 import com.example.foodwatch.database.viewmodel.MealViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -47,6 +50,9 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
         val mealDao = (requireActivity().application as MealsApplication).database.mealDao()
         val mealRepository = MealsRepository(mealDao)
         var mealViewModel = MealViewModel(mealRepository)
+        val mealIngredientCrossRefDao = (requireActivity().application as MealsApplication).database.mealIngredientDao()
+        val mealIngredientRepository = MealIngredientRepository(mealIngredientCrossRefDao)
+        val mealIngredientViewModel = MealIngredientViewModel(mealIngredientRepository)
 
         var mealNameInput = view.findViewById<EditText>(R.id.mealName) // Meal name
         var timeInput = view.findViewById<EditText>(R.id.mealTime) // Time of meal eaten
@@ -148,7 +154,8 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
             val meal = Meal(
                 name = mealName,
-                timeEaten = "$date $mealTime"
+                timeEaten = "$date $mealTime",
+                reactionId = null
             )
 
             var newMealId = 0
@@ -166,6 +173,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
                 mealIngredientList.add(newIngredient)
             }
             //insert list of references
+            mealIngredientViewModel.insertIngredientsList(mealIngredientList)
 
             adapter.updateIngredients(emptyList())
             timeInput.text.clear()

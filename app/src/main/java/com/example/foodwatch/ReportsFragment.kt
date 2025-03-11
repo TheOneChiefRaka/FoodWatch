@@ -32,8 +32,8 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
         recyclerView.layoutManager = LinearLayoutManager(this.context)
 
         suspend fun populateList() {
-            val ingredients = ingredientViewModel.findAllPossibleAllergens().await()
-            adapter.submitList(ingredients)
+            //val ingredients = ingredientViewModel.findAllPossibleAllergens().await()
+            //adapter.submitList(ingredients)
         }
 
         lifecycleScope.launch { populateList() }

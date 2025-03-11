@@ -26,6 +26,8 @@ import com.example.foodwatch.database.entities.Meal
 import com.example.foodwatch.database.entities.relations.MealIngredientCrossRef
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
 import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
+import com.example.foodwatch.database.viewmodel.MealIngredientViewModel
+import com.example.foodwatch.database.viewmodel.MealIngredientViewModelFactory
 import com.example.foodwatch.database.viewmodel.MealViewModel
 import com.example.foodwatch.database.viewmodel.MealViewModelFactory
 import kotlinx.coroutines.launch
@@ -41,6 +43,10 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
 
     val ingredientViewModel: IngredientViewModel by viewModels {
         IngredientViewModelFactory((activity?.application as MealsApplication).ingredients_repository)
+    }
+
+    val mealIngredientViewModel: MealIngredientViewModel by viewModels {
+        MealIngredientViewModelFactory((activity?.application as MealsApplication).mealingredient_repository)
     }
 
     override fun onCreateView(
@@ -118,8 +124,9 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             mealTimeView.setText(meal.timeEaten.takeLast(5))
             mealDateView.setText(meal.timeEaten.take(10))
             //query crossref for ingredients
-            for(ingredientId in ) {
-                val ingredient = ingredientViewModel.findIngredientById(ingredientId).await()
+            val oldIngredientsList = mealIngredientViewModel.getMealWithIngredientsById(mealId).await().ingredients
+            for(ingredientItem in oldIngredientsList) {
+                val ingredient = ingredientViewModel.findIngredientById(ingredientItem.ingredientId).await()
                 ingredientMutableList.add(Ingredient(ingredient.name))
                 adapter.notifyItemInserted(ingredientMutableList.size)
                 ingredients.add(ingredient.name)
@@ -173,9 +180,10 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             }
 
             val meal = Meal(
-                meal_id = mealId,
+                mealId = mealId,
                 name = mealName,
-                timeEaten = "$date $mealTime"
+                timeEaten = "$date $mealTime",
+                reactionId = null
             )
 
             mealViewModel.updateMealById(meal) {

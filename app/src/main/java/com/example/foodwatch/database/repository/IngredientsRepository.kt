@@ -19,7 +19,7 @@ class IngredientsRepository(private val ingredientDao: IngredientDao) {
     suspend fun findIngredientById(ingredientId: Int) : Ingredient {
         return ingredientDao.findIngredientById(ingredientId)
     }
-
+    /*
     @WorkerThread
     suspend fun addIngredientsReactionMild(ingredientIds: List<Int>) {
         ingredientDao.addIngredientsReactionMild(ingredientIds)
@@ -34,12 +34,11 @@ class IngredientsRepository(private val ingredientDao: IngredientDao) {
     suspend fun addIngredientsReactionSevere(ingredientIds: List<Int>) {
         ingredientDao.addIngredientsReactionSevere(ingredientIds)
     }
-
     @WorkerThread
     suspend fun findAllPossibleAllergens(): List<Ingredient> {
         return ingredientDao.findAllPossibleAllergens()
     }
-
+    */
     @WorkerThread
     suspend fun insert(ingredient: Ingredient) {
         ingredientDao.insert(ingredient)
@@ -51,11 +50,12 @@ class IngredientsRepository(private val ingredientDao: IngredientDao) {
         var ingredientId = ingredientDao.getIngredientIdByName(name)
         Log.i("TEST", "$ingredientId")
         if (ingredientId != null){ // ingredient exists
-            ingredientDao.incrementTimesEaten(name)
+            //ingredientDao.incrementTimesEaten(name)
             return ingredientId
         }
         else { //Otherwise ingredient was not found and needs to be added to table
-            ingredientDao.insertIngredientToTable(Ingredient(name = name, timesEaten = 1))
+            //insert into ingredients table
+            ingredientDao.insertIngredientToTable(Ingredient(name = name))
             ingredientId = getIngredientIdByName(name)
             return ingredientId
         }

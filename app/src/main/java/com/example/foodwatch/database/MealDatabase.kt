@@ -8,21 +8,24 @@ import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.example.foodwatch.database.dao.IngredientDao
 import com.example.foodwatch.database.dao.MealDao
+import com.example.foodwatch.database.dao.MealIngredientCrossRefDao
 import com.example.foodwatch.database.dao.ReactionDao
 import com.example.foodwatch.database.entities.Ingredient
 import com.example.foodwatch.database.entities.Meal
 import com.example.foodwatch.database.entities.Reaction
+import com.example.foodwatch.database.entities.relations.MealIngredientCrossRef
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 
 
 
-@Database(entities = [Meal::class, Reaction::class, Ingredient::class], version = 2)
+@Database(entities = [Meal::class, Reaction::class, Ingredient::class, MealIngredientCrossRef::class], version = 3)
 abstract class MealsDatabase : RoomDatabase() {
     abstract fun mealDao(): MealDao
     abstract fun reactionDao(): ReactionDao
     abstract fun ingredientDao(): IngredientDao
+    abstract fun mealIngredientDao(): MealIngredientCrossRefDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
