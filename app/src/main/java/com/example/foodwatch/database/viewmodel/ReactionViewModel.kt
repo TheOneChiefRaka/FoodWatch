@@ -27,6 +27,10 @@ class ReactionViewModel(private val repository: ReactionsRepository) : ViewModel
     fun findReactionsByDate(date: String) = viewModelScope.async {
         repository.findReactionsByDate(date)
     }
+
+    fun findReactionsByTimeRange(min: String, max: String) = viewModelScope.async {
+        repository.findReactionsByTimeRange(min, max)
+    }
 }
 
 class ReactionViewModelFactory(private val repository: ReactionsRepository) : ViewModelProvider.Factory {

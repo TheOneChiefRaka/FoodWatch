@@ -1,5 +1,7 @@
 package com.example.foodwatch
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.util.Log
@@ -11,10 +13,14 @@ import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentController
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.example.foodwatch.database.entities.Meal
 import com.example.foodwatch.database.entities.Reaction
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
@@ -28,6 +34,25 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+
+class MealNotFoundDialogFragment : DialogFragment() {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return activity?.let {
+            // Use the Builder class for convenient dialog construction.
+            val builder = AlertDialog.Builder(it)
+            builder.setMessage("A reaction cannot be more than 3 hours after a meal. Please add a meal or correct the date and time fields.")
+                .setPositiveButton("Add Meal") { dialog, id ->
+                    //navigate to addmeal page
+                    this.findNavController().navigate(R.id.addReaction_to_addMeal)
+                }
+                .setNegativeButton("Close") { dialog, id ->
+                    //close dialog
+                }
+            // Create the AlertDialog object and return it.
+            builder.create()
+        } ?: throw IllegalStateException("Activity cannot be null")
+    }
+}
 
 class AddReactionFragment : Fragment() {
 
@@ -102,26 +127,34 @@ class AddReactionFragment : Fragment() {
         }
 
         suspend fun updateMeals() {
+            //get the timestamp 3 hours before the reaction
+            val reactionTime = LocalDateTime.parse("$date ${reactionTimeField.text}", dateTimeFormat).toEpochSecond(ZoneOffset.UTC)
+            val minimumTimestamp = reactionTime - 3600 * 2 //3 hours before reaction
+            val minTime = LocalDateTime.ofEpochSecond(minimumTimestamp, 0, ZoneOffset.UTC)
+
+            //check whether any meals are present in the last 3 hours
+            val recentMeals = mealViewModel.findMealsByTimeRange(minTime.format(dateTimeFormat), "$date ${reactionTimeField.text}").await()
+            if(recentMeals.isEmpty()) {
+                MealNotFoundDialogFragment().show(parentFragmentManager, "MEAL_NOT_FOUND")
+                return
+            }
+
             val newReaction =
                 Reaction(0, "$date ${reactionTimeField.text}", reactionSeverityField.selectedItem.toString())
             val newReactionId = reactionViewModel.insert(newReaction).await()
 
-            val reactionTime = LocalDateTime.parse("$date ${reactionTimeField.text}", dateTimeFormat).toEpochSecond(ZoneOffset.UTC)
-            val minimumTimestamp = reactionTime - 3600 * 3 //3 hours before reaction
-            val minTime = LocalDateTime.ofEpochSecond(minimumTimestamp, 0, ZoneOffset.UTC)
-            val recentMeals = mealViewModel.findMealsByTimeRange(minTime.format(dateTimeFormat), "$date ${reactionTimeField.text}").await()
             val updatedRecentMeals = mutableListOf<Meal>()
 
             //add reaction id to all meals within the last 3 hours
             for(meal in recentMeals) {
                 mealViewModel.updateMealById(Meal(meal.mealId, newReactionId.toInt(), meal.timeEaten, meal.name), {})
             }
+            navFragment.navController.navigate(R.id.to_home)
         }
 
         addReactionButton.setOnClickListener {
             if(reactionSeverityField.selectedItem.toString() != "" || reactionTimeField.text.toString() != "") {
                 lifecycleScope.launch { updateMeals() }
-                navFragment.navController.navigate(R.id.to_home)
             }
             else {
                 //insert some error displaying code here

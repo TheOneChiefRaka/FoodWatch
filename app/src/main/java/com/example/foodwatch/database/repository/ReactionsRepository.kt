@@ -14,6 +14,11 @@ class ReactionsRepository(private val reactionDao: ReactionDao) {
     }
 
     @WorkerThread
+    suspend fun findReactionsByTimeRange(min: String, max: String): List<Reaction> {
+        return reactionDao.findReactionsByTimeRange(min, max)
+    }
+
+    @WorkerThread
     suspend fun insert(reaction: Reaction): Long {
         return reactionDao.insert(reaction)
     }

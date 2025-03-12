@@ -14,8 +14,10 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodwatch.database.dao.MealIngredientCrossRefDao
@@ -24,11 +26,14 @@ import com.example.foodwatch.database.entities.relations.MealIngredientCrossRef
 import com.example.foodwatch.database.repository.IngredientsRepository
 import com.example.foodwatch.database.repository.MealIngredientRepository
 import com.example.foodwatch.database.repository.MealsRepository
+import com.example.foodwatch.database.repository.ReactionsRepository
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
 import com.example.foodwatch.database.viewmodel.MealIngredientViewModel
 import com.example.foodwatch.database.viewmodel.MealViewModel
+import com.example.foodwatch.database.viewmodel.ReactionViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
@@ -50,9 +55,14 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
         val mealDao = (requireActivity().application as MealsApplication).database.mealDao()
         val mealRepository = MealsRepository(mealDao)
         var mealViewModel = MealViewModel(mealRepository)
+
         val mealIngredientCrossRefDao = (requireActivity().application as MealsApplication).database.mealIngredientDao()
         val mealIngredientRepository = MealIngredientRepository(mealIngredientCrossRefDao)
         val mealIngredientViewModel = MealIngredientViewModel(mealIngredientRepository)
+
+        val reactionDao = (requireActivity().application as MealsApplication).database.reactionDao()
+        val reactionsRepository = ReactionsRepository(reactionDao)
+        val reactionViewModel = ReactionViewModel(reactionsRepository)
 
         var mealNameInput = view.findViewById<EditText>(R.id.mealName) // Meal name
         var timeInput = view.findViewById<EditText>(R.id.mealTime) // Time of meal eaten
@@ -124,6 +134,22 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             }
         }
 
+        ingredientInput.setOnItemClickListener {listAdapter, view, pos, id ->
+            val title = listAdapter.getItemAtPosition(pos).toString()
+            val ingredientToAdd = Ingredient(title)
+            val ingredientText = ingredientInput.text.toString().trim()
+            if (ingredientText.isNotEmpty()) {
+                val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
+                ingredientMutableList.add(ingredientToAdd)
+                adapter.notifyItemInserted(ingredientMutableList.size)
+                ingredients.add(ingredientText)
+                ingredientInput.text.clear()
+                Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Please enter an ingredient", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         suspend fun submitMeal() {
             val mealName = mealNameInput.text.toString().trim()
             val mealTime = timeInput.text.toString().trim()
@@ -150,12 +176,20 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
                 }
             }
 
-
+            //check if there is already a reaction within 3 hours of the meal
+            var reactionId: Int? = null
+            val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+            val maxTimestamp = LocalDateTime.parse("$date $mealTime", dateTimeFormat).toEpochSecond(ZoneOffset.UTC) + 3600 * 2
+            val maxTime = LocalDateTime.ofEpochSecond(maxTimestamp, 0, ZoneOffset.UTC)
+            val futureReactions = reactionViewModel.findReactionsByTimeRange("$date $mealTime", maxTime.format(dateTimeFormat)).await()
+            if(futureReactions.isNotEmpty()) {
+                reactionId = futureReactions[0].reactionId
+            }
 
             val meal = Meal(
                 name = mealName,
                 timeEaten = "$date $mealTime",
-                reactionId = null
+                reactionId = reactionId
             )
 
             var newMealId = 0
@@ -178,6 +212,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             adapter.updateIngredients(emptyList())
             timeInput.text.clear()
             mealNameInput.text.clear()
+            findNavController().navigateUp()
         }
 
         enterMealButton.setOnClickListener() {
