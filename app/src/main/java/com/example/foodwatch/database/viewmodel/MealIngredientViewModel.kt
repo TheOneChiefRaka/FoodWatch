@@ -26,6 +26,9 @@ class MealIngredientViewModel(private val repository: MealIngredientRepository) 
         repository.insertIngredientsList(ingredients)
     }
 
+    fun deleteIngredientsByMealId(mealId: Int) = viewModelScope.launch {
+        repository.deleteIngredientsByMealId(mealId)
+    }
 }
 
 class MealIngredientViewModelFactory(private val repository: MealIngredientRepository) : ViewModelProvider.Factory {

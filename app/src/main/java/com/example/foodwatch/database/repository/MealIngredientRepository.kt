@@ -16,4 +16,9 @@ class MealIngredientRepository(private val mealIngredientCrossRefDao: MealIngred
     suspend fun insertIngredientsList(ingredients: List<MealIngredientCrossRef>) {
         return mealIngredientCrossRefDao.insertIngredients(ingredients)
     }
+
+    @WorkerThread
+    suspend fun deleteIngredientsByMealId(mealId: Int) {
+        return mealIngredientCrossRefDao.deleteIngredientsByMealId(mealId)
+    }
 }
