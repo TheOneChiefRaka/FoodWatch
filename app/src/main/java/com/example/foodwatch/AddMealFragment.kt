@@ -183,6 +183,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             val maxTime = LocalDateTime.ofEpochSecond(maxTimestamp, 0, ZoneOffset.UTC)
             val futureReactions = reactionViewModel.findReactionsByTimeRange("$date $mealTime", maxTime.format(dateTimeFormat)).await()
             if(futureReactions.isNotEmpty()) {
+                //there should only be one
                 reactionId = futureReactions[0].reactionId
             }
 

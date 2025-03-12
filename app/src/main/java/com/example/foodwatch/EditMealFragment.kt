@@ -30,8 +30,11 @@ import com.example.foodwatch.database.viewmodel.MealIngredientViewModel
 import com.example.foodwatch.database.viewmodel.MealIngredientViewModelFactory
 import com.example.foodwatch.database.viewmodel.MealViewModel
 import com.example.foodwatch.database.viewmodel.MealViewModelFactory
+import com.example.foodwatch.database.viewmodel.ReactionViewModel
+import com.example.foodwatch.database.viewmodel.ReactionViewModelFactory
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
@@ -39,6 +42,10 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
 
     val mealViewModel: MealViewModel by viewModels {
         MealViewModelFactory((activity?.application as MealsApplication).meals_repository)
+    }
+
+    val reactionViewModel: ReactionViewModel by viewModels {
+        ReactionViewModelFactory((activity?.application as MealsApplication).reactions_repository)
     }
 
     val ingredientViewModel: IngredientViewModel by viewModels {
@@ -182,11 +189,22 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
                 }
             }
 
+            var reactionId: Int? = null
+            val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+            val maxTimestamp = LocalDateTime.parse("$date $mealTime", dateTimeFormat).toEpochSecond(
+                ZoneOffset.UTC) + 3600 * 2
+            val maxTime = LocalDateTime.ofEpochSecond(maxTimestamp, 0, ZoneOffset.UTC)
+            val futureReactions = reactionViewModel.findReactionsByTimeRange("$date $mealTime", maxTime.format(dateTimeFormat)).await()
+            if(futureReactions.isNotEmpty()) {
+                //there should only be one
+                reactionId = futureReactions[0].reactionId
+            }
+
             val meal = Meal(
                 mealId = mealId,
                 name = mealName,
                 timeEaten = "$date $mealTime",
-                reactionId = mealReactionId
+                reactionId = reactionId
             )
 
             mealViewModel.updateMealById(meal) {
