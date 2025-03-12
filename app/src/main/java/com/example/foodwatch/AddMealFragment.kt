@@ -14,6 +14,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.view.contains
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -118,11 +119,12 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
         }
 
 
-        enterIngredientButton.setOnClickListener() {
+        enterIngredientButton.setOnClickListener {
             val title = ingredientInput.text.toString().trim()
             val ingredientToAdd = Ingredient(title)
             val ingredientText = ingredientInput.text.toString().trim()
-            if (ingredientText.isNotEmpty()) {
+            //no empty ingredient names, no duplicates
+            if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(ingredientToAdd)) {
                 val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
                 ingredientMutableList.add(ingredientToAdd)
                 adapter.notifyItemInserted(ingredientMutableList.size)
@@ -130,15 +132,20 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
                 ingredientInput.text.clear()
                 Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "Please enter an ingredient", Toast.LENGTH_SHORT).show()
+                if(!adapter.getIngredients().contains(ingredientToAdd))
+                    Toast.makeText(requireContext(), "Ingredient already entered", Toast.LENGTH_SHORT).show()
+                else
+                    Toast.makeText(requireContext(), "Please enter an ingredient", Toast.LENGTH_SHORT).show()
             }
         }
 
+        //executes when autocomplete option is clicked
         ingredientInput.setOnItemClickListener {listAdapter, view, pos, id ->
             val title = listAdapter.getItemAtPosition(pos).toString()
             val ingredientToAdd = Ingredient(title)
             val ingredientText = ingredientInput.text.toString().trim()
-            if (ingredientText.isNotEmpty()) {
+            //no empty ingredient names, no duplicates
+            if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(ingredientToAdd)) {
                 val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
                 ingredientMutableList.add(ingredientToAdd)
                 adapter.notifyItemInserted(ingredientMutableList.size)
@@ -146,7 +153,10 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
                 ingredientInput.text.clear()
                 Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "Please enter an ingredient", Toast.LENGTH_SHORT).show()
+                if(adapter.getIngredients().contains(ingredientToAdd))
+                    Toast.makeText(requireContext(), "Ingredient already entered", Toast.LENGTH_SHORT).show()
+                else
+                    Toast.makeText(requireContext(), "Please enter an ingredient", Toast.LENGTH_SHORT).show()
             }
         }
 
