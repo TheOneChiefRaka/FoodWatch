@@ -1,5 +1,6 @@
 package com.example.foodwatch
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -7,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.NavHostFragment
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
 import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
@@ -43,13 +45,23 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val nightMode = sharedPreferences.getBoolean("darkMode", false)
+        if (nightMode) {
+            // Dark mode is enabled
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            // Dark mode is disabled
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
         //find navController, used to navigate to different fragments
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navFragment) as NavHostFragment
         val navController = navHostFragment.navController
 
         //find bottom navigation bar
         val navBar = findViewById<BottomNavigationView>(R.id.navBar) as BottomNavigationView
-        navBar.selectedItemId = R.id.homeButton
+        navBar.selectedItemId = R.id.calendarButton
 
         //set listener for when a button is selected
         navBar.setOnItemSelectedListener {

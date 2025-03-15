@@ -23,16 +23,6 @@ class HomeFragment : Fragment() {
     ): View {
         //inflate view
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
-        val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val nightMode = sharedPreferences.getBoolean("darkMode", false)
-        if (nightMode) {
-            // Dark mode is enabled
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            // Dark mode is disabled
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
-
 
         //get navFragment
         val navFragment = activity?.supportFragmentManager?.findFragmentById(R.id.navFragment) as NavHostFragment
