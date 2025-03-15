@@ -16,6 +16,11 @@ class IngredientsRepository(private val ingredientDao: IngredientDao) {
     }
 
     @WorkerThread
+    suspend fun findIngredientById(ingredientId: Int) : Ingredient {
+        return ingredientDao.findIngredientById(ingredientId)
+    }
+
+    @WorkerThread
     suspend fun addIngredientsReactionMild(ingredientIds: List<Int>) {
         ingredientDao.addIngredientsReactionMild(ingredientIds)
     }

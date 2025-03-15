@@ -7,30 +7,42 @@
     android:background="#191A19">
 
     <Button
-        android:id="@+id/addMealToTableButton"
+        android:id="@+id/deleteButton"
         android:layout_width="166dp"
         android:layout_height="56dp"
-        android:layout_marginBottom="28dp"
-        android:backgroundTint="#4E9F3D"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="#B02222"
         android:forceDarkAllowed="false"
-        android:text="Add Meal"
+        android:text="Delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.929"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/saveEditsButton"
+        android:layout_width="166dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="#4E9F3D"
+        android:forceDarkAllowed="false"
+        android:text="Save Meal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/addMealHeader2"
+        android:id="@+id/editMealHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="28dp"
         android:scaleX="3"
         android:scaleY="3"
-        android:text="Add Meal"
+        android:text="Edit Meal"
         android:textColor="#4E9F3D"
         app:layout_constraintBottom_toTopOf="@+id/mealTime"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -50,10 +62,8 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/mealName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintHorizontal_bias="0.422"
         app:layout_constraintStart_toEndOf="@+id/mealDate"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
         tools:text="Time" />
 
     <AutoCompleteTextView
@@ -80,7 +90,7 @@
         android:id="@+id/mealDate"
         android:layout_width="148dp"
         android:layout_height="56dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="44dp"
         android:layout_marginBottom="31dp"
         android:background="@drawable/roundstyle"
         android:backgroundTint="#2A2C2A"
@@ -102,7 +112,7 @@
         android:id="@+id/mealName"
         android:layout_width="267dp"
         android:layout_height="56dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/roundstyle"
         android:backgroundTint="#2A2C2A"
         android:ems="10"
@@ -120,12 +130,12 @@
         android:id="@+id/addIngredientButton"
         android:layout_width="148dp"
         android:layout_height="56dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="24dp"
         android:backgroundTint="#4E9F3D"
         android:text="Add"
         app:layout_constraintBottom_toTopOf="@+id/ingredientList"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.844"
+        app:layout_constraintHorizontal_bias="0.922"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -133,7 +143,7 @@
         android:layout_width="398dp"
         android:layout_height="120dp"
         android:layout_marginBottom="29dp"
-        app:layout_constraintBottom_toTopOf="@+id/addMealToTableButton"
+        app:layout_constraintBottom_toTopOf="@+id/saveEditsButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent" />

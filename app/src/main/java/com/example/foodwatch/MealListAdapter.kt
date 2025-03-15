@@ -7,24 +7,32 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import com.example.foodwatch.database.entities.Meal
 
-class CalendarListAdapter : ListAdapter<CalendarListObject, CalendarListAdapter.MealViewHolder>(calendarListObjectsComparator()) {
-
+class MealListAdapter : ListAdapter<Meal, MealListAdapter.MealViewHolder>(mealListObjectsComparator()) {
+    var navcontroller: NavController? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder {
+        navcontroller = parent.findNavController()
         return MealViewHolder.create(parent)
     }
 
     override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.text, current.time)
+        holder.itemView.setOnClickListener {
+            val action = CalendarFragmentDirections.calendarToEditMeal(current.id)
+            navcontroller?.navigate(action)
+        }
+        holder.bind(current.name, current.timeEaten)
     }
 
     class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val listItemView: TextView = itemView.findViewById(R.id.textView)
 
-        fun bind(text: String?, time: String?) {
+        fun bind(name: String?, time: String?) {
             val newTime = time?.takeLast(5)
-            listItemView.text = "$newTime: $text"
+            listItemView.text = "$newTime: $name"
         }
 
         companion object {
@@ -36,13 +44,13 @@ class CalendarListAdapter : ListAdapter<CalendarListObject, CalendarListAdapter.
         }
     }
 
-    class calendarListObjectsComparator : DiffUtil.ItemCallback<CalendarListObject>() {
-        override fun areItemsTheSame(oldItem: CalendarListObject, newItem: CalendarListObject): Boolean {
+    class mealListObjectsComparator : DiffUtil.ItemCallback<Meal>() {
+        override fun areItemsTheSame(oldItem: Meal, newItem: Meal): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: CalendarListObject, newItem: CalendarListObject): Boolean {
-            return oldItem.text == newItem.text
+        override fun areContentsTheSame(oldItem: Meal, newItem: Meal): Boolean {
+            return oldItem == newItem
         }
     }
 }

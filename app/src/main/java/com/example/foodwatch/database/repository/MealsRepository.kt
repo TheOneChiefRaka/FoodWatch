@@ -1,6 +1,7 @@
 package com.example.foodwatch.database.repository
 
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
 import com.example.foodwatch.database.dao.MealDao
 import com.example.foodwatch.database.entities.Meal
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +26,19 @@ class MealsRepository(private val mealDao: MealDao) {
     }
 
     @WorkerThread
-    suspend fun getMealById(mealId: Int): Meal{
+    suspend fun getMealById(mealId: Int): Meal {
         return mealDao.getMealById(mealId)
+    }
+
+    @WorkerThread
+    suspend fun updateMealById(meal: Meal) {
+        val ingredientList = meal.ingredients.toString()
+        val ingredients = ingredientList.filterNot { it.isWhitespace() }
+        return mealDao.updateMealById(meal.timeEaten, meal.name, ingredients, meal.id)
+    }
+
+    @WorkerThread
+    suspend fun deleteMealById(mealId: Int) {
+        return mealDao.deleteMealById(mealId)
     }
 }

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CalendarView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -41,34 +42,35 @@ class CalendarFragment : Fragment() {
         //inflate view
         val view: View = inflater.inflate(R.layout.fragment_calendar, container, false)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.dailyListRecycler)
-        val adapter = CalendarListAdapter()
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        //set up linear recycler view for meals
+        val mealRecyclerView = view.findViewById<RecyclerView>(R.id.mealListRecycler)
+        val mealAdapter = MealListAdapter()
+        mealRecyclerView.adapter = mealAdapter
+        mealRecyclerView.layoutManager = LinearLayoutManager(this.context)
 
-
-
+        //set up recycler view for reactions
+        val reactionRecyclerView = view.findViewById<RecyclerView>(R.id.reactionListRecycler)
+        val reactionAdapter = ReactionListAdapter()
+        reactionRecyclerView.adapter = reactionAdapter
+        reactionRecyclerView.layoutManager = LinearLayoutManager(this.context)
 
         //get navFragment
         val navFragment = activity?.supportFragmentManager?.findFragmentById(R.id.navFragment) as NavHostFragment
         val mealText = view.findViewById<TextView>(R.id.dayMealText)
         val calendar = view.findViewById<CalendarView>(R.id.calendar)
+        val returnHomeButton = view.findViewById<Button>(R.id.returnHomeButton)
 
-        suspend fun updateMeal(date: String) {
+
+        suspend fun updateList(date: String) {
             val meals = mealViewModel.findMealsByDate(date).await().sortedBy { it.timeEaten }
             val reactions = reactionViewModel.findReactionsByDate(date).await().sortedBy { it.reactionTime }
-            var sorted = mutableListOf<CalendarListObject>()
-            for(meal in meals) {
-                sorted += CalendarListObject(meal.name, meal.timeEaten)
-            }
-            for(reaction in reactions)
-                sorted += CalendarListObject(reaction.severity + " reaction", reaction.reactionTime)
-            adapter.submitList(sorted.sortedBy { it.time })
+            mealAdapter.submitList(meals)
+            reactionAdapter.submitList(reactions)
         }
 
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         var date: String = LocalDateTime.now().format(formatter)
-        lifecycleScope.launch { updateMeal(date) }
+        lifecycleScope.launch { updateList(date) }
 
         calendar.setOnDateChangeListener { calendar, year, month, day ->
             date = "$year"
@@ -85,7 +87,7 @@ class CalendarFragment : Fragment() {
                 date += "-${day}"
             }
             Log.d("DATE", date)
-            lifecycleScope.launch { updateMeal(date) }
+            lifecycleScope.launch { updateList(date) }
         }
 
         return view

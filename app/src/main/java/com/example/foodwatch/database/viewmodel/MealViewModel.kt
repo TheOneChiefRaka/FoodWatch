@@ -26,9 +26,17 @@ class MealViewModel(private val repository: MealsRepository) : ViewModel() {
         onSuccess(mealId)
     }
 
-    fun getMealById(mealId: Int, onResult: (Meal) -> Unit) = viewModelScope.launch {
-        val meal = repository.getMealById(mealId)
-        onResult(meal)
+    fun deleteMealById(mealId: Int) = viewModelScope.launch {
+        repository.deleteMealById(mealId)
+    }
+
+    fun getMealById(mealId: Int) = viewModelScope.async {
+        repository.getMealById(mealId)
+    }
+
+    fun updateMealById(meal: Meal, onSuccess: () -> Unit) = viewModelScope.launch {
+        repository.updateMealById(meal)
+        onSuccess()
     }
 
     fun findMealsByTimeRange(min: String, max: String) = viewModelScope.async {

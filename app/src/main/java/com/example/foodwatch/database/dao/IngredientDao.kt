@@ -40,6 +40,9 @@ interface IngredientDao {
     @Query("SELECT name FROM Ingredient")
     suspend fun getAllIngredientNames(): List<String>
 
+    @Query("SELECT * FROM Ingredient WHERE id = :id")
+    suspend fun findIngredientById(id: Int): Ingredient
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertIngredientToTable(ingredient: Ingredient)
 
