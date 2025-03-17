@@ -86,10 +86,9 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
         val saveButton = view.findViewById<Button>(R.id.saveEditsButton)
         val deleteButton = view.findViewById<Button>(R.id.deleteButton)
 
-        val ingredientMutableList = mutableListOf<Ingredient>()
         val ingredients = mutableListOf<String>() // List of ingredients
 
-        val adapter = IngredientListAdapter(ingredientMutableList)
+        val adapter = IngredientListAdapter(ingredients)
         ingredientsList.adapter = adapter
         ingredientsList.layoutManager = LinearLayoutManager(this.context)
 
@@ -136,11 +135,10 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             mealReactionId = meal.reactionId
             //query crossref for ingredients
             val oldIngredientsList = mealIngredientViewModel.getMealWithIngredientsById(mealId).await().ingredients
-            for(ingredientItem in oldIngredientsList) {
-                val ingredient = ingredientViewModel.findIngredientById(ingredientItem.ingredientId).await()
-                ingredientMutableList.add(Ingredient(ingredient.name))
-                adapter.notifyItemInserted(ingredientMutableList.size)
+            for(oldIngredient in oldIngredientsList) {
+                val ingredient = ingredientViewModel.findIngredientById(oldIngredient.ingredientId).await()
                 ingredients.add(ingredient.name)
+                adapter.notifyItemInserted(ingredients.size)
             }
         }
 
@@ -154,15 +152,14 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             val ingredientToAdd = Ingredient(title)
             val ingredientText = ingredientInput.text.toString().trim()
             //no empty ingredient names, no duplicates
-            if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(ingredientToAdd)) {
+            if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(title)) {
                 val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
-                ingredientMutableList.add(ingredientToAdd)
-                adapter.notifyItemInserted(ingredientMutableList.size)
                 ingredients.add(ingredientText)
+                adapter.notifyItemInserted(ingredients.size)
                 ingredientInput.text.clear()
                 Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
             } else {
-                if(!adapter.getIngredients().contains(ingredientToAdd))
+                if(!adapter.getIngredients().contains(title))
                     Toast.makeText(requireContext(), "Ingredient already entered", Toast.LENGTH_SHORT).show()
                 else
                     Toast.makeText(requireContext(), "Please enter an ingredient", Toast.LENGTH_SHORT).show()
@@ -175,15 +172,14 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             val ingredientToAdd = Ingredient(title)
             val ingredientText = ingredientInput.text.toString().trim()
             //no empty ingredient names, no duplicates
-            if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(ingredientToAdd)) {
+            if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(title)) {
                 val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
-                ingredientMutableList.add(ingredientToAdd)
-                adapter.notifyItemInserted(ingredientMutableList.size)
                 ingredients.add(ingredientText)
+                adapter.notifyItemInserted(ingredients.size)
                 ingredientInput.text.clear()
                 Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
             } else {
-                if(adapter.getIngredients().contains(ingredientToAdd))
+                if(adapter.getIngredients().contains(title))
                     Toast.makeText(requireContext(), "Ingredient already entered", Toast.LENGTH_SHORT).show()
                 else
                     Toast.makeText(requireContext(), "Please enter an ingredient", Toast.LENGTH_SHORT).show()
@@ -206,8 +202,8 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             val ingredientIds = mutableListOf<Int>()
 
             for (ingredient in updatedIngredients){
-                ingredientViewModel.addOrUpdateIngredients(ingredient.title).join()
-                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient.title).await()
+                ingredientViewModel.addOrUpdateIngredients(ingredient).join()
+                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient).await()
                 if(ingredientId != null){
                     ingredientIds.add(ingredientId)
                 }
@@ -276,7 +272,7 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
         }
     }
 
-    private fun setupAutoComplete(ingredientInput: AutoCompleteTextView, ingredientNames: List<String>) {
+    fun setupAutoComplete(ingredientInput: AutoCompleteTextView, ingredientNames: List<String>) {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, ingredientNames)
         ingredientInput.setAdapter(adapter)
     }

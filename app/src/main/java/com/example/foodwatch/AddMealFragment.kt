@@ -106,9 +106,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
         }
 
         // Add ingredient
-        val ingredientMutableList = mutableListOf<Ingredient>()
-
-        val adapter = IngredientListAdapter(ingredientMutableList)
+        val adapter = IngredientListAdapter(ingredients)
         //ingredientList.adapter = adapter
         view.findViewById<RecyclerView>(R.id.ingredientList).adapter = adapter
         view.findViewById<RecyclerView>(R.id.ingredientList).layoutManager = LinearLayoutManager(this.context)
@@ -121,18 +119,16 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
         enterIngredientButton.setOnClickListener {
             val title = ingredientInput.text.toString().trim()
-            val ingredientToAdd = Ingredient(title)
             val ingredientText = ingredientInput.text.toString().trim()
             //no empty ingredient names, no duplicates
-            if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(ingredientToAdd)) {
+            if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(title)) {
                 val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
-                ingredientMutableList.add(ingredientToAdd)
-                adapter.notifyItemInserted(ingredientMutableList.size)
-                ingredients.add(ingredientText)
+                ingredients.add(normalizedIngredient)
+                adapter.notifyItemInserted(ingredients.size)
                 ingredientInput.text.clear()
                 Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
             } else {
-                if(!adapter.getIngredients().contains(ingredientToAdd))
+                if(!adapter.getIngredients().contains(title))
                     Toast.makeText(requireContext(), "Ingredient already entered", Toast.LENGTH_SHORT).show()
                 else
                     Toast.makeText(requireContext(), "Please enter an ingredient", Toast.LENGTH_SHORT).show()
@@ -145,15 +141,14 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             val ingredientToAdd = Ingredient(title)
             val ingredientText = ingredientInput.text.toString().trim()
             //no empty ingredient names, no duplicates
-            if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(ingredientToAdd)) {
+            if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(title)) {
                 val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
-                ingredientMutableList.add(ingredientToAdd)
-                adapter.notifyItemInserted(ingredientMutableList.size)
-                ingredients.add(ingredientText)
+                ingredients.add(normalizedIngredient)
+                adapter.notifyItemInserted(ingredients.size)
                 ingredientInput.text.clear()
                 Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
             } else {
-                if(adapter.getIngredients().contains(ingredientToAdd))
+                if(adapter.getIngredients().contains(title))
                     Toast.makeText(requireContext(), "Ingredient already entered", Toast.LENGTH_SHORT).show()
                 else
                     Toast.makeText(requireContext(), "Please enter an ingredient", Toast.LENGTH_SHORT).show()
@@ -176,8 +171,8 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             val ingredientIds = mutableListOf<Int>()
 
             for (ingredient in updatedIngredients){
-                ingredientViewModel.addOrUpdateIngredients(ingredient.title).join()
-                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient.title).await()
+                ingredientViewModel.addOrUpdateIngredients(ingredient).join()
+                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient).await()
                 if(ingredientId != null){
                     ingredientIds.add(ingredientId)
                 }
