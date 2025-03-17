@@ -138,7 +138,6 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
         //executes when autocomplete option is clicked
         ingredientInput.setOnItemClickListener {listAdapter, view, pos, id ->
             val title = listAdapter.getItemAtPosition(pos).toString()
-            val ingredientToAdd = Ingredient(title)
             val ingredientText = ingredientInput.text.toString().trim()
             //no empty ingredient names, no duplicates
             if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(title)) {
