@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import com.kizitonwose.calendar.view.CalendarView
 import android.widget.TextView
 import androidx.core.view.children
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +29,7 @@ import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.MonthHeaderFooterBinder
 import com.kizitonwose.calendar.view.ViewContainer
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
@@ -70,7 +73,6 @@ class CalendarFragment : Fragment() {
         val mealText = view.findViewById<TextView>(R.id.dayMealText)
         val calendar = view.findViewById<CalendarView>(R.id.calendarView)
         val returnHomeButton = view.findViewById<Button>(R.id.returnHomeButton)
-        val monthText = view.findViewById<TextView>(R.id.calendarMonthText)
 
         calendar.dayBinder = object: MonthDayBinder<DayViewContainer> {
             override fun create(view: View) = DayViewContainer(view)
@@ -85,7 +87,6 @@ class CalendarFragment : Fragment() {
         val daysOfWeek = daysOfWeek()
         calendar.setup(startMonth, endMonth, daysOfWeek.first())
         calendar.scrollToMonth(currentMonth)
-        monthText.text = currentMonth.month.name.take(3).uppercase()
 
         suspend fun updateList(date: String) {
             val meals = mealViewModel.findMealsByDate(date).await().sortedBy { it.timeEaten }
@@ -100,7 +101,8 @@ class CalendarFragment : Fragment() {
 
         class MonthViewContainer(view: View) : ViewContainer(view) {
             // Alternatively, you can add an ID to the container layout and use findViewById()
-            val titlesContainer = view as ViewGroup
+            val dayTitleView = view.findViewById<LinearLayout>(R.id.legendLayout)
+            val monthTitleView = view.findViewById<TextView>(R.id.calendarMonthText)
         }
 
         calendar.monthHeaderBinder = object : MonthHeaderFooterBinder<MonthViewContainer> {
@@ -109,9 +111,10 @@ class CalendarFragment : Fragment() {
                 // Remember that the header is reused so this will be called for each month.
                 // However, the first day of the week will not change so no need to bind
                 // the same view every time it is reused.
-                if (container.titlesContainer.tag == null) {
-                    container.titlesContainer.tag = data.yearMonth
-                    container.titlesContainer.children.map { it as TextView }
+                container.monthTitleView.text = data.yearMonth.month.name.take(3).uppercase()
+                if (container.dayTitleView.tag == null) {
+                    container.dayTitleView.tag = data.yearMonth
+                    container.dayTitleView.children.map { it as TextView }
                         .forEachIndexed { index, textView ->
                             val dayOfWeek = daysOfWeek[index]
                             val title = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
