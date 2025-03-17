@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.foodwatch"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.foodwatch"
@@ -59,4 +59,5 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.mpandroidchart)
+    implementation(libs.calendar)
 }
