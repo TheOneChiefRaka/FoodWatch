@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Light Version -->
-    <color name="light_background">#EEF5EB</color>
-    <color name="light_button_text_color">#FFFFFF</color>
-    <color name="light_background_text_color">#000000</color>
-    <color name="light_icon_selected_tint">#4CAF50</color>
-    <color name="light_icon_unselected_tint">#000000</color>
-    <color name="light_icon_selected_background">#FFFFFF</color>
-    <color name="light_icon_unselected_background">#FFFFFF</color>
+    <color name="background">#EEF5EB</color>
+    <color name="button_text_color">#FFFFFF</color>
+    <color name="background_text_color">#000000</color>
+    <color name="icon_selected_tint">#4CAF50</color>
+    <color name="icon_unselected_tint">#000000</color>
+    <color name="icon_selected_background">#FFFFFF</color>
+    <color name="icon_unselected_background">#FFFFFF</color>
+    <color name="nav_bar_color">#FFFFFF</color>
 
 
     <!-- Subject to Change to fit with light/dark mode themes -->
@@ -24,15 +25,4 @@
 
     <!-- Common Colors -->
     <color name="common_switch">#47FF31</color>
-
-    <!-- Dark Version -->
-    <color name="dark_background">#191A19</color>
-    <color name="dark_button_text_color">#FFFFFF</color>
-    <color name="dark_background_text_color">#FFFFFF</color>
-    <color name="dark_icon_selected_tint">#4CAF50</color>
-    <color name="dark_icon_unselected_tint">#FFFFFF</color>
-    <color name="dark_icon_selected_background">#333333</color>
-    <color name="dark_icon_unselected_background">#333333</color>
-
-
 </resources>

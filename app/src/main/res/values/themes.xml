@@ -6,19 +6,19 @@
     </style>
 
     <style name="background" parent="Theme.AppCompat.Light">
-        <item name="android:background">@color/light_background</item>
+        <item name="android:background">@color/background</item>
     </style>
     <style name="buttonTextColor" parent="Theme.AppCompat.Light">
-        <item name="android:textColor">@color/light_button_text_color</item>
+        <item name="android:textColor">@color/button_text_color</item>
     </style>
     <style name="backgroundTextColor" parent="Theme.AppCompat.Light">
-        <item name="android:textColor">@color/light_background_text_color</item>
+        <item name="android:textColor">@color/background_text_color</item>
     </style>
     <style name="navigationBarIconTint" parent="Theme.AppCompat.Light">
-        <item name="android:tint">@color/light_icon_unselected_tint</item>
+        <item name="android:tint">@color/icon_unselected_background</item>
     </style>
     <style name="navigationBarIconBackground" parent="Theme.AppCompat.Light">
-        <item name="android:background">@color/light_icon_unselected_background</item>
+        <item name="android:background">@color/icon_unselected_background</item>
     </style>
 
     <style name="Theme.FoodWatch" parent="Base.Theme.FoodWatch" />
