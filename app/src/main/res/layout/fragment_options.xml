@@ -99,7 +99,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:switchMinWidth="50dp"
-                        android:theme="@style/darkModeSwitch">
+                        android:theme="@style/Common.Switch">
                     </androidx.appcompat.widget.SwitchCompat>
                 </RelativeLayout>
                 <!-- Notifications -->
@@ -135,7 +135,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:switchMinWidth="50dp"
-                        android:theme="@style/notificationsSwitch">
+                        android:theme="@style/Common.Switch">
                     </androidx.appcompat.widget.SwitchCompat>
                 </RelativeLayout>
                 <!-- Sounds -->
@@ -171,7 +171,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:switchMinWidth="50dp"
-                        android:theme="@style/soundsSwitch">
+                        android:theme="@style/Common.Switch">
                     </androidx.appcompat.widget.SwitchCompat>
                 </RelativeLayout>
 

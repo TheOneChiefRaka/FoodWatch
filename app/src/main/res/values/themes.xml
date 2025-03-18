@@ -14,21 +14,17 @@
     <style name="backgroundTextColor" parent="Theme.AppCompat.Light">
         <item name="android:textColor">@color/light_background_text_color</item>
     </style>
+    <style name="navigationBarIconTint" parent="Theme.AppCompat.Light">
+        <item name="android:tint">@color/light_icon_unselected_tint</item>
+    </style>
+    <style name="navigationBarIconBackground" parent="Theme.AppCompat.Light">
+        <item name="android:background">@color/light_icon_unselected_background</item>
+    </style>
 
     <style name="Theme.FoodWatch" parent="Base.Theme.FoodWatch" />
-    <style name="darkModeSwitch" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">@color/dark_mode</item>
+    <style name="Common.Switch" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/common_switch</item>
         <item name="colorSwitchThumbNormal">#FFFFFF</item>
-        <item name="android:colorForeground">#99FFFFFF</item>
-    </style>
-    <style name="notificationsSwitch" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">@color/notifications</item>
-        <item name="colorSwitchThumbNormal">#FFFFFF</item>
-        <item name="android:colorForeground">#99FFFFFF</item>
-    </style>
-    <style name="soundsSwitch" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">@color/sounds</item>
-        <item name="colorSwitchThumbNormal">#FFFFFF</item>
-        <item name="android:colorForeground">#99FFFFFF</item>
+        <item name="android:colorForeground">#FFFFFF</item>
     </style>
 </resources>
