@@ -25,6 +25,7 @@ import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.CalendarMonth
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
+import com.kizitonwose.calendar.view.DaySize
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.MonthHeaderFooterBinder
 import com.kizitonwose.calendar.view.ViewContainer
@@ -72,7 +73,8 @@ class CalendarFragment : Fragment() {
         val navFragment = activity?.supportFragmentManager?.findFragmentById(R.id.navFragment) as NavHostFragment
         val mealText = view.findViewById<TextView>(R.id.dayMealText)
         val calendar = view.findViewById<CalendarView>(R.id.calendarView)
-        val returnHomeButton = view.findViewById<Button>(R.id.returnHomeButton)
+
+        calendar.daySize = DaySize.Square
 
         calendar.dayBinder = object: MonthDayBinder<DayViewContainer> {
             override fun create(view: View) = DayViewContainer(view)
