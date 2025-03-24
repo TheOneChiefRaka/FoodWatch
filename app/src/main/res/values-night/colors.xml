@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">@color/dark_background</color>
+    <color name="text_primary">#FFFFFF</color> <!-- White -->
+    <color name="text_secondary">#BBBBBB</color> <!-- Light gray -->
+    <color name="button_background">@color/darkGreen</color> <!-- #569831 -->
+    <color name="button_stroke">#A3C585</color> <!-- Lighter green for contrast -->
+    <color name="nav_background">#2A2C2A</color> <!-- Darker shade -->
+    <color name="nav_icon_tint">#D3D3D3</color> <!-- Light gray for visibility -->
+    <color name="edit_text_background">#2A2C2A</color> <!-- Dark gray -->
+    <color name="edit_text_hint">#BBBBBB</color> <!-- Light gray -->
+    <color name="no_reaction">#48D479</color> <!-- Same, readable on dark -->
+    <color name="mild_reaction">#FFE733</color> <!-- Same, readable -->
+    <color name="medium_reaction">#FF8C01</color> <!-- Same, readable -->
+    <color name="severe_reaction">#ED2938</color> <!-- Same, readable -->
+</resources>
