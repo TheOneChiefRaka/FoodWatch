@@ -11,7 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/button_background"
         android:text="Add Meal"
+        android:textColor="@color/text_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -24,6 +26,7 @@
         android:scaleX="3"
         android:scaleY="3"
         android:text="Add Meal"
+        android:textColor="@color/text_primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,6 +35,7 @@
         android:id="@+id/ingredient_listview"
         android:layout_width="411dp"
         android:layout_height="441dp"
+        android:background="@color/edit_text_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -53,6 +57,9 @@
         android:inputType="none"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:backgroundTint="@color/edit_text_background"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/edit_text_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addMealHeader" />
 
@@ -61,6 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select Ingredients"
+        android:textColor="@color/text_primary"
         app:layout_constraintBottom_toTopOf="@+id/ingredient_listview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -74,7 +82,10 @@
         android:ems="10"
         android:inputType="text"
         android:hint="Meal Name"
-        app:layout_constraintEnd_toStartOf="@+id/reactionTime"
+        android:backgroundTint="@color/edit_text_background"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/edit_text_hint"
+        app:layout_constraintEnd_toStartOf="@+id/mealTime"
         app:layout_constraintHorizontal_bias="0.354"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addMealHeader" />

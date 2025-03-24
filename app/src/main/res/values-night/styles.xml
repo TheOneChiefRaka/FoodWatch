@@ -3,8 +3,8 @@
     <!-- Base application theme -->
     <style name="Base.Theme.FoodWatch" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:background">@color/background</item>
-        <item name="colorPrimary">@color/darkGreen</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">@color/lightGreen</item>
+        <item name="colorOnPrimary">@color/black</item>
         <item name="android:textColorPrimary">@color/text_primary</item>
         <item name="android:textColorSecondary">@color/text_secondary</item>
         <item name="android:navigationBarColor">@color/background</item>
@@ -21,27 +21,27 @@
 
     <style name="darkModeSwitch" parent="Theme.Material3.DayNight">
         <item name="colorControlActivated">@color/dark_mode</item>
-        <item name="colorSwitchThumbNormal">@color/white</item>
+        <item name="colorSwitchThumbNormal">@color/text_primary</item>
         <item name="android:colorForeground">@color/text_secondary</item>
     </style>
 
     <style name="notificationsSwitch" parent="Theme.Material3.DayNight">
         <item name="colorControlActivated">@color/notifications</item>
-        <item name="colorSwitchThumbNormal">@color/white</item>
+        <item name="colorSwitchThumbNormal">@color/text_primary</item>
         <item name="android:colorForeground">@color/text_secondary</item>
     </style>
 
     <style name="soundsSwitch" parent="Theme.Material3.DayNight">
         <item name="colorControlActivated">@color/sounds</item>
-        <item name="colorSwitchThumbNormal">@color/white</item>
+        <item name="colorSwitchThumbNormal">@color/text_primary</item>
         <item name="android:colorForeground">@color/text_secondary</item>
     </style>
 
-    <!-- Define word_title style -->
+    <!-- Override word_title for dark mode -->
     <style name="word_title">
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:paddingLeft">8dp</item>
-        <item name="android:background">@color/background</item> <!-- Matches #EEF5EB in light mode -->
+        <item name="android:background">@color/background</item> <!-- #191A19 in dark mode -->
         <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
     </style>
 </resources>

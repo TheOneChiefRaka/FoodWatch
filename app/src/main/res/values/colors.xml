@@ -2,6 +2,15 @@
 <resources>
     <!-- Light Version -->
     <color name="light_background">#EEF5EB</color>
+    <color name="background">@color/light_background</color>
+    <color name="text_primary">#FF000000</color> <!-- Black -->
+    <color name="text_secondary">#606060</color> <!-- Gray -->
+    <color name="button_background">@color/lightGreen</color> <!-- #81B266 -->
+    <color name="button_stroke">@color/strokeGreen</color> <!-- #6BA54B -->
+    <color name="nav_background">#FFFFFF</color>
+    <color name="nav_icon_tint">@color/navButtonColor</color> <!-- #606060 -->
+    <color name="edit_text_background">#E0E0E0</color> <!-- Light gray for contrast -->
+    <color name="edit_text_hint">#757575</color> <!-- Darker gray -->
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -14,7 +23,7 @@
     <color name="mediumReaction">#FF8C01</color>
     <color name="severeReaction">#ED2938</color>
 
-    <!-- Dark Version -->
+    <!-- Dark Version (unchanged here, moved to values-night) -->
     <color name="dark_background">#191A19</color>
 
     <!-- Options Display Colors -->
