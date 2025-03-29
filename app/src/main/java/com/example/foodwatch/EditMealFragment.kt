@@ -19,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.foodwatch.database.entities.Ingredient
 import com.example.foodwatch.database.entities.Meal
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
 import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
@@ -114,7 +115,7 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             mealDateView.setText(meal.timeEaten.take(10))
             for(ingredientId in meal.ingredients) {
                 val ingredient = ingredientViewModel.findIngredientById(ingredientId).await()
-                ingredientMutableList.add(Ingredient(ingredient.name))
+                ingredientMutableList.add(ingredient)
                 adapter.notifyItemInserted(ingredientMutableList.size)
                 ingredients.add(ingredient.name)
             }
@@ -126,8 +127,8 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
         }
 
         enterIngredientButton.setOnClickListener {
-            val title = ingredientInput.text.toString().trim()
-            val ingredientToAdd = Ingredient(title)
+            val name = ingredientInput.text.toString().trim()
+            val ingredientToAdd = Ingredient(name = name)
             val ingredientText = ingredientInput.text.toString().trim()
             if (ingredientText.isNotEmpty()) {
                 ingredientMutableList.add(ingredientToAdd)
@@ -156,8 +157,8 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             val ingredientIds = mutableListOf<Int>()
 
             for (ingredient in updatedIngredients){
-                ingredientViewModel.addOrUpdateIngredients(ingredient.title).join()
-                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient.title).await()
+                ingredientViewModel.addOrUpdateIngredients(ingredient.name).join()
+                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient.name).await()
                 if(ingredientId != null){
                     ingredientIds.add(ingredientId)
                 }

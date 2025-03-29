@@ -26,6 +26,7 @@ import com.example.foodwatch.database.viewmodel.MealViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import com.example.foodwatch.database.entities.Ingredient
 
 class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
@@ -102,8 +103,8 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
 
         enterIngredientButton.setOnClickListener() {
-            val title = ingredientInput.text.toString().trim()
-            val ingredientToAdd = Ingredient(title)
+            val name = ingredientInput.text.toString().trim()
+            val ingredientToAdd = Ingredient(name = name)
             val ingredientText = ingredientInput.text.toString().trim()
             if (ingredientText.isNotEmpty()) {
                 val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
@@ -117,6 +118,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             }
         }
 
+        // This is called when the submit meal button is pressed
         suspend fun submitMeal() {
             val mealName = mealNameInput.text.toString().trim()
             val mealTime = timeInput.text.toString().trim()
@@ -125,6 +127,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
             val updatedIngredients = adapter.getIngredients()
 
+            // If the user did not enter any ingredients show an error
             if (updatedIngredients.isEmpty()){
                 Toast.makeText(requireContext(), "No ingredients to save!", Toast.LENGTH_SHORT).show()
                 return
@@ -133,8 +136,8 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             val ingredientIds = mutableListOf<Int>()
 
             for (ingredient in updatedIngredients){
-                ingredientViewModel.addOrUpdateIngredients(ingredient.title).join()
-                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient.title).await()
+                ingredientViewModel.addOrUpdateIngredients(ingredient.name).join()
+                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient.name).await()
                 if(ingredientId != null){
                     ingredientIds.add(ingredientId)
                 }
@@ -142,8 +145,6 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
                     Toast.makeText(requireContext(), "Error finding ingredientID!", Toast.LENGTH_LONG).show()
                 }
             }
-
-
 
             val meal = Meal(
                 name = mealName,

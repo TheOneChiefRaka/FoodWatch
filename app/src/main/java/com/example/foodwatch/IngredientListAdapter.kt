@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.foodwatch.database.entities.Ingredient
 
 class IngredientListAdapter(
     private var ingredients: MutableList<Ingredient>
@@ -23,7 +24,7 @@ class IngredientListAdapter(
 
     override fun onBindViewHolder(holder: AddedIngredientViewHolder, position: Int) {
         val ingredient = ingredients[position]
-        holder.ingredientTitle.text = ingredient.title
+        holder.ingredientTitle.text = ingredient.name
 
         holder.deleteButton.setOnClickListener{
             removeItem(position)
