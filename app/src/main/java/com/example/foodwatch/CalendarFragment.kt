@@ -15,8 +15,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.foodwatch.database.entities.Reaction
 import com.example.foodwatch.database.viewmodel.MealViewModel
 import com.example.foodwatch.database.viewmodel.MealViewModelFactory
 import com.example.foodwatch.database.viewmodel.ReactionViewModel
@@ -71,15 +73,24 @@ class CalendarFragment : Fragment() {
 
         //get navFragment
         val navFragment = activity?.supportFragmentManager?.findFragmentById(R.id.navFragment) as NavHostFragment
-        val mealText = view.findViewById<TextView>(R.id.dayMealText)
         val calendar = view.findViewById<CalendarView>(R.id.calendarView)
+        val testList = mutableListOf<Reaction>()
+        testList.add(Reaction(0, "1", "Medium"))
+        testList.add(Reaction(1, "1", "Mild"))
+        testList.add(Reaction(2, "1", "Severe"))
+        testList.add(Reaction(3, "1", "Severe"))
+        testList.add(Reaction(4, "1", "Mild"))
 
         calendar.daySize = DaySize.Square
 
         calendar.dayBinder = object: MonthDayBinder<DayViewContainer> {
             override fun create(view: View) = DayViewContainer(view)
             override fun bind(container: DayViewContainer, data: CalendarDay) {
+                val dotAdapter = ReactionDotAdapter()
                 container.dayOfMonth.text = data.date.dayOfMonth.toString()
+                container.reactionDotRecycler.adapter = dotAdapter
+                container.reactionDotRecycler.layoutManager = GridLayoutManager(calendar.context, 4)
+                dotAdapter.submitList(testList)
             }
         }
 
@@ -102,7 +113,6 @@ class CalendarFragment : Fragment() {
         lifecycleScope.launch { updateList(date) }
 
         class MonthViewContainer(view: View) : ViewContainer(view) {
-            // Alternatively, you can add an ID to the container layout and use findViewById()
             val dayTitleView = view.findViewById<LinearLayout>(R.id.legendLayout)
             val monthTitleView = view.findViewById<TextView>(R.id.calendarMonthText)
         }
