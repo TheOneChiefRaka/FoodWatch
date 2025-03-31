@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.example.foodwatch.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/home_to_addmeal"
             app:destination="@id/addMealFragment" />

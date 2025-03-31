@@ -10,8 +10,8 @@
         android:title="Account" />
     <item
         android:id="@+id/calendarButton"
-        android:enabled="true"
         android:checked="false"
+        android:enabled="true"
         android:icon="@drawable/calendar"
         android:title="Calendar" />
     <item

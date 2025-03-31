@@ -9,20 +9,14 @@
     <color name="icon_selected_background">#FFFFFF</color>
     <color name="icon_unselected_background">#FFFFFF</color>
     <color name="nav_bar_color">#FFFFFF</color>
+    <color name="nav_bar_button_color">#606060</color>
 
-
-    <!-- Subject to Change to fit with light/dark mode themes -->
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="darkGreen">#569831</color>
-    <color name="lightGreen">#81B266</color>
-    <color name="strokeGreen">#6BA54B</color>
-    <color name="navButtonColor">#606060</color>
+    <!-- Common Colors -->
+    <color name="common_switch">#47FF31</color>
     <color name="noReaction">#48D479</color>
     <color name="mildReaction">#FFE733</color>
     <color name="mediumReaction">#FF8C01</color>
     <color name="severeReaction">#ED2938</color>
-
-    <!-- Common Colors -->
-    <color name="common_switch">#47FF31</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>
