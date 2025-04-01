@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
@@ -54,6 +55,11 @@ class OptionsFragment : Fragment(R.layout.fragment_options) {
         val soundSwitch = view.findViewById<SwitchCompat>(R.id.soundSwitch)
         soundSwitch.setOnCheckedChangeListener { _, isChecked ->{}}
 
+        val displayButton = view.findViewById<Button>(R.id.displayButton)
+        displayButton.setOnClickListener {
+            val displayBottomPopup = DisplayBottomPopup()
+            displayBottomPopup.show(childFragmentManager, "DisplayBottomPopup")
+        }
 
         return view
     }

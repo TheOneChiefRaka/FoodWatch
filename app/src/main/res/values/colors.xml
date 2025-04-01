@@ -15,6 +15,8 @@
     <color name="button_text_color">#000000</color>
     <color name="button_drawable_tint">#000000</color>
     <color name="delete_button_background_tint">#B02222</color>
+    <color name="text_highlight">#EEF5EB</color>
+    <color name="highlighted_text">#000000</color>
 
 
     <!-- Common Colors -->

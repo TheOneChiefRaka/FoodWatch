@@ -7,7 +7,8 @@
     <TextView
         android:id="@+id/textView"
         style="@style/word_title"
+        android:textColor="@color/highlighted_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#EEF5EB" />
+        android:background="@color/text_highlight" />
 </LinearLayout>
