@@ -18,6 +18,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 
+
 class ReportListAdapter : ListAdapter<Ingredient, ReportListAdapter.IngredientViewHolder>(IngredientsComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
@@ -88,7 +89,7 @@ class ReportListAdapter : ListAdapter<Ingredient, ReportListAdapter.IngredientVi
 
     class IngredientsComparator : DiffUtil.ItemCallback<Ingredient>() {
         override fun areItemsTheSame(oldItem: Ingredient, newItem: Ingredient): Boolean {
-            return oldItem === newItem
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Ingredient, newItem: Ingredient): Boolean {

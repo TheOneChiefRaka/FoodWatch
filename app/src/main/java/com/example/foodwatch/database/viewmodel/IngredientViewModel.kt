@@ -56,6 +56,14 @@ class IngredientViewModel(private val repository: IngredientsRepository) : ViewM
     fun getAllIngredientNames() = viewModelScope.async {
         repository.getAllIngredientNames()
     }
+
+    fun getIngredientNames() = viewModelScope.async{
+        repository.getIngredientNames()
+    }
+
+    fun deleteIngredient(ingredient: Ingredient) = viewModelScope.launch{
+        repository.deleteIngredient(ingredient)
+    }
 }
 
 class IngredientViewModelFactory(private val repository: IngredientsRepository) : ViewModelProvider.Factory {

@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,23 +11,21 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.foodwatch.database.entities.Ingredient
 import com.example.foodwatch.database.entities.Meal
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
 import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
 import com.example.foodwatch.database.viewmodel.MealViewModel
 import com.example.foodwatch.database.viewmodel.MealViewModelFactory
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
@@ -118,7 +115,7 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             mealDateView.setText(meal.timeEaten.take(10))
             for(ingredientId in meal.ingredients) {
                 val ingredient = ingredientViewModel.findIngredientById(ingredientId).await()
-                ingredientMutableList.add(Ingredient(ingredient.name))
+                ingredientMutableList.add(ingredient)
                 adapter.notifyItemInserted(ingredientMutableList.size)
                 ingredients.add(ingredient.name)
             }
@@ -130,8 +127,8 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
         }
 
         enterIngredientButton.setOnClickListener {
-            val title = ingredientInput.text.toString().trim()
-            val ingredientToAdd = Ingredient(title)
+            val name = ingredientInput.text.toString().trim()
+            val ingredientToAdd = Ingredient(name = name)
             val ingredientText = ingredientInput.text.toString().trim()
             if (ingredientText.isNotEmpty()) {
                 ingredientMutableList.add(ingredientToAdd)
@@ -160,8 +157,8 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             val ingredientIds = mutableListOf<Int>()
 
             for (ingredient in updatedIngredients){
-                ingredientViewModel.addOrUpdateIngredients(ingredient.title).join()
-                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient.title).await()
+                ingredientViewModel.addOrUpdateIngredients(ingredient.name).join()
+                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient.name).await()
                 if(ingredientId != null){
                     ingredientIds.add(ingredientId)
                 }
