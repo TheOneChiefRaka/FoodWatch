@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodwatch.database.entities.Ingredient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
-class IngredientsDatabaseAdapter(private val onDeleteClicked: (Ingredient) -> Unit) : RecyclerView.Adapter<IngredientsDatabaseAdapter.IngredientViewHolder>() {
+class IngredientsDatabaseAdapter(private val lifecycleScope: CoroutineScope) : RecyclerView.Adapter<IngredientsDatabaseAdapter.IngredientViewHolder>() {
 
     private val ingredients = mutableListOf<Ingredient>()
 
@@ -29,7 +32,11 @@ class IngredientsDatabaseAdapter(private val onDeleteClicked: (Ingredient) -> Un
         holder.ingredientTitle.text = ingredient.name
 
         holder.deleteButton.setOnClickListener{
-            deleteIngredient(ingredient)
+            lifecycleScope.launch {
+                val ingredientDao = (holder.itemView.context.applicationContext as MealsApplication).database.ingredientDao()
+                ingredientDao.delete(ingredient)
+                deleteIngredient(ingredient)
+            }
         }
     }
 
@@ -44,6 +51,14 @@ class IngredientsDatabaseAdapter(private val onDeleteClicked: (Ingredient) -> Un
     }
 
     fun deleteIngredient(ingredient: Ingredient) {
+        val index = ingredients.indexOfFirst { it.id == ingredient.id }
         Log.d("IngredientsTab", "I'm going to delete ${ingredient.name}!")
+
+        if (index >= 0){
+            ingredients.removeAt(index)
+            notifyItemRemoved(index)
+            notifyItemRangeChanged(index, ingredients.size)
+        }
+
     }
 }

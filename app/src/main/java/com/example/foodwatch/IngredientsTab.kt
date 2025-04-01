@@ -1,7 +1,6 @@
 package com.example.foodwatch
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,23 +14,15 @@ import kotlinx.coroutines.launch
 
 class IngredientsTab : Fragment(R.layout.fragment_ingredients_tab) {
 
-    private val ingredientViewModel: IngredientViewModel by viewModels {
-        IngredientViewModelFactory((activity?.application as MealsApplication).ingredients_repository)
-    }
-
-    private lateinit var adapter: IngredientsDatabaseAdapter
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.d("IngredientsTab", "onViewCreated called")
-
         val recyclerView = view.findViewById<RecyclerView>(R.id.ingredientsRecyclerView)
-        val adapter = IngredientsDatabaseAdapter { ingredientToDelete -> viewLifecycleOwner.lifecycleScope.launch {
-            ingredientViewModel.deleteIngredient(ingredientToDelete)
-            //adapter.deleteIngredient(ingredientToDelete)
-            }
+        val adapter = IngredientsDatabaseAdapter(viewLifecycleOwner.lifecycleScope)
+
+        val ingredientViewModel: IngredientViewModel by viewModels {
+            IngredientViewModelFactory((activity?.application as MealsApplication).ingredients_repository)
         }
+
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
