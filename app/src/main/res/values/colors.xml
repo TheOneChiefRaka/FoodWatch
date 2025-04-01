@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Light Version -->
-    <color name="background">#EEF5EB</color>
-    <color name="button_text_color">#FFFFFF</color>
+    <color name="background">#FFFFFF</color>
     <color name="background_text_color">#000000</color>
     <color name="icon_selected_tint">#4CAF50</color>
     <color name="icon_unselected_tint">#000000</color>
@@ -10,7 +9,11 @@
     <color name="icon_unselected_background">#FFFFFF</color>
     <color name="nav_bar_color">#FFFFFF</color>
     <color name="nav_bar_button_color">#606060</color>
-    <color name="button_background">#E7E7E7</color>"
+
+    <!-- Button Text Colors -->
+    <color name="button_background">#EFEFEF</color>
+    <color name="button_text_color">#000000</color>
+    <color name="button_drawable_tint">#000000</color>
 
 
     <!-- Common Colors -->

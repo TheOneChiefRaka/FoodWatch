@@ -21,13 +21,11 @@
     <style name="navigationBarIconBackground" parent="Theme.AppCompat.Light">
         <item name="android:background">@color/icon_selected_background</item>
     </style>
-    <style name="Common.Switch" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">@color/common_switch</item>
-        <item name="colorSwitchThumbNormal">#FFFFFF</item>
-        <item name="android:colorForeground">#FFFFFF</item>
-    </style>
-    <style name="Common.Button" parent="Theme.AppCompat.Light">
+    <style name="buttonTransitionColor" parent="Theme.AppCompat.Light">
+        <item name="android:background">@color/button_background</item>
+        <item name="android:textColor">@color/button_text_color</item>
         <item name="backgroundTint">@color/button_background</item>
+        <item name="android:drawableTint">@color/button_drawable_tint</item>
     </style>
 
 

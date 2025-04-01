@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:text="PREFERENCES"
         android:paddingStart="40dp"
+        android:paddingEnd="0dp"
         android:textStyle="bold"
         style="@style/backgroundTextColor"
         app:layout_constraintTop_toBottomOf="@id/settings_title"
@@ -37,54 +38,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dark_mode"
-        android:checked="false"
-        app:layout_constraintTop_toBottomOf="@+id/preferencesText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/soundSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sounds"
-        android:checked="false"
-        app:layout_constraintTop_toBottomOf="@+id/darkModeSwitch"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/notificationSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/notifications"
-        android:checked="false"
-        app:layout_constraintTop_toBottomOf="@+id/soundSwitch"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/preferencesText" />
 
     <Button
         android:id="@+id/displayButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         android:text="DISPLAY"
-        style="@style/Common.Button"
+        android:background="@drawable/constraint_rounded_background"
+        style="@style/buttonTransitionColor"
         android:textAlignment="textStart"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="20dp"
-        android:drawableEnd="@drawable/calendar"
-        app:layout_constraintTop_toBottomOf="@id/notificationSwitch"
+        android:drawableEnd="@drawable/navigate_next"
+        app:layout_constraintTop_toBottomOf="@id/darkModeSwitch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Box Background for Switch -->
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/soundSwitchContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:background="@color/button_background"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/constraint_rounded_background"
         app:layout_constraintTop_toBottomOf="@+id/displayButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -92,26 +75,69 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/calendar"
             android:paddingStart="15dp"
+            android:paddingEnd="0dp"
             android:drawablePadding="5dp"
             android:text="Sounds"
+            style="@style/buttonTransitionColor"
+            app:drawableStartCompat="@drawable/calendar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             />
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switches"
+            android:id="@+id/soundSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/custom_thumb"
             android:clickable="true"
             android:drawablePadding="10dp"
             android:focusable="true"
-            android:paddingLeft="15dp"
-            android:paddingRight="0dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="0dp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/notificationSwitchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/constraint_rounded_background"
+        app:layout_constraintTop_toBottomOf="@+id/soundSwitchContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="15dp"
+            android:paddingEnd="0dp"
+            android:drawablePadding="5dp"
+            android:text="Notifications"
+            style="@style/buttonTransitionColor"
+            app:drawableStartCompat="@drawable/calendar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/notificationSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:clickable="true"
+            android:drawablePadding="10dp"
+            android:focusable="true"
+            android:paddingStart="15dp"
+            android:paddingEnd="0dp"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
