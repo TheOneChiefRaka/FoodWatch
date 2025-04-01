@@ -3,6 +3,10 @@ package com.example.foodwatch
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.BounceInterpolator
+import android.view.animation.DecelerateInterpolator
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -64,8 +68,39 @@ class MainActivity : AppCompatActivity() {
         navBar.selectedItemId = R.id.calendarButton
 
         //set listener for when a button is selected
-        navBar.setOnItemSelectedListener {
-            when (it.itemId) {
+        navBar.setOnItemSelectedListener { item ->
+            val view = navBar.findViewById<View>(item.itemId)
+            view?.animate()
+                /// Jumps up
+                ?.translationY(-30f)
+                ?.scaleY(1.2f)
+                ?.scaleX(0.65f)
+                ?.setDuration(200)
+                ?.setInterpolator(AccelerateInterpolator())
+                ?.withEndAction {
+                    /// Goes down
+                    view.animate()
+                        .translationY(0f)
+                        .setDuration(100)
+                        .withEndAction {
+                            /// Hits ground
+                            view.animate()
+                                .scaleX(1.25f)
+                                .scaleY(0.5f)
+                                .setDuration(100)
+                                .withEndAction {
+                                    /// Goes back to normal
+                                    view.animate()
+                                        .scaleX(1f)
+                                        .scaleY(1f)
+                                        .setDuration(100)
+                                        .setInterpolator(DecelerateInterpolator())
+                                }
+                        }
+            }
+
+            // Handle navigation
+            when (item.itemId) {
                 R.id.accountButton -> navController.navigate(R.id.to_account)
                 R.id.calendarButton -> navController.navigate(R.id.to_calendar)
                 R.id.homeButton -> navController.navigate(R.id.to_home)
@@ -74,6 +109,5 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
     }
 }

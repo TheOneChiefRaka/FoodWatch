@@ -27,4 +27,7 @@
         <item name="colorSwitchThumbNormal">#FFFFFF</item>
         <item name="android:colorForeground">#FFFFFF</item>
     </style>
+    <style name="Common.Button" parent="Theme.AppCompat.Light">
+        <item name="backgroundTint">@color/button_background</item>
+    </style>
 </resources>

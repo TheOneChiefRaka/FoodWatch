@@ -21,6 +21,15 @@
     <style name="navigationBarIconBackground" parent="Theme.AppCompat.Light">
         <item name="android:background">@color/icon_selected_background</item>
     </style>
+    <style name="Common.Switch" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/common_switch</item>
+        <item name="colorSwitchThumbNormal">#FFFFFF</item>
+        <item name="android:colorForeground">#FFFFFF</item>
+    </style>
+    <style name="Common.Button" parent="Theme.AppCompat.Light">
+        <item name="backgroundTint">@color/button_background</item>
+    </style>
+
 
     <style name="Theme.FoodWatch" parent="Base.Theme.FoodWatch" />
 </resources>

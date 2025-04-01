@@ -20,17 +20,7 @@ class OptionsFragment : Fragment(R.layout.fragment_options) {
         val view = inflater.inflate(R.layout.fragment_options, container, false)
         val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        val nightMode = sharedPreferences.getBoolean("darkMode", false)
         val darkModeSwitch = view.findViewById<SwitchCompat>(R.id.darkModeSwitch)
-        if (nightMode) {
-            // Dark mode is enabled
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            darkModeSwitch.isChecked = true
-        } else {
-            // Dark mode is disabled
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            darkModeSwitch.isChecked = false
-        }
         darkModeSwitch.setOnCheckedChangeListener { _, isChecked ->
             // Handle dark mode switch state change
             if (isChecked) {

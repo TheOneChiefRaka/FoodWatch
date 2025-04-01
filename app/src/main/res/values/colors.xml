@@ -10,6 +10,8 @@
     <color name="icon_unselected_background">#FFFFFF</color>
     <color name="nav_bar_color">#FFFFFF</color>
     <color name="nav_bar_button_color">#606060</color>
+    <color name="button_background">#E7E7E7</color>"
+
 
     <!-- Common Colors -->
     <color name="common_switch">#47FF31</color>
