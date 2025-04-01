@@ -9,8 +9,9 @@
     <color name="icon_unselected_background">#333333</color>
 
     <!-- Button Text Colors -->
-    <color name="button_background">#181818</color>
+    <color name="button_background">#2A2C2A</color>
     <color name="button_text_color">#FFFFFF</color>
     <color name="button_drawable_tint">#FFFFFF</color>
+    <color name="delete_button_background_tint">#B02222</color>
 
 </resources>
