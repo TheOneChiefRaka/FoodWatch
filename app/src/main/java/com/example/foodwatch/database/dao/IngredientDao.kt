@@ -44,7 +44,7 @@ interface IngredientDao {
     @Query("SELECT * FROM Ingredient WHERE id = :id")
     suspend fun findIngredientById(id: Int): Ingredient
 
-    @Query("SELECT * FROM Ingredient")
+    @Query("SELECT * FROM Ingredient ORDER BY name ASC")
     suspend fun getIngredientNames(): List<Ingredient>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

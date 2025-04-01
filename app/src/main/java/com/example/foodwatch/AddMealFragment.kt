@@ -104,10 +104,11 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
         enterIngredientButton.setOnClickListener() {
             val name = ingredientInput.text.toString().trim()
-            val ingredientToAdd = Ingredient(name = name)
+
             val ingredientText = ingredientInput.text.toString().trim()
             if (ingredientText.isNotEmpty()) {
                 val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
+                val ingredientToAdd = Ingredient(name = normalizedIngredient)
                 ingredientMutableList.add(ingredientToAdd)
                 adapter.notifyItemInserted(ingredientMutableList.size)
                 ingredients.add(ingredientText)
