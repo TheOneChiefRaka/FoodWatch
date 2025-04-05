@@ -101,7 +101,6 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             setupAutoComplete(ingredientInput, ingredientNames)
         }
 
-
         enterIngredientButton.setOnClickListener() {
             val name = ingredientInput.text.toString().trim()
 
