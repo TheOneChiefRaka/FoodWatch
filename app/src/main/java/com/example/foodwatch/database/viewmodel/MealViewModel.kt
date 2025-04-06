@@ -7,8 +7,10 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.foodwatch.database.repository.MealsRepository
 import com.example.foodwatch.database.entities.Meal
+import com.kizitonwose.calendar.core.CalendarMonth
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.time.YearMonth
 
 class MealViewModel(private val repository: MealsRepository) : ViewModel() {
 
@@ -45,6 +47,10 @@ class MealViewModel(private val repository: MealsRepository) : ViewModel() {
 
     fun findMealsByDate(date: String) = viewModelScope.async {
         repository.findMealsByDate(date)
+    }
+
+    fun countMealsEatenByYearMonth(yearMonth: YearMonth) = viewModelScope.async {
+        repository.countMealsEatenByYearMonth(yearMonth)
     }
 }
 
