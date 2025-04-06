@@ -33,6 +33,7 @@ import com.kizitonwose.calendar.view.MonthHeaderFooterBinder
 import com.kizitonwose.calendar.view.ViewContainer
 import kotlinx.coroutines.launch
 import org.w3c.dom.Text
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
@@ -83,6 +84,22 @@ class CalendarFragment : Fragment() {
 
         calendar.daySize = DaySize.Square
 
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        suspend fun updateDayData(adapter: ReactionDotAdapter, day: LocalDate, mealCountText: TextView) {
+            val currentDay = day.format(formatter)
+            val mealCount = mealViewModel.findMealsByDate(currentDay).await().count()
+            var reactionList = reactionViewModel.findReactionsByDate(currentDay).await()
+            //don't display more than 4 reactions
+            if(reactionList.count() > 4)
+                reactionList = reactionList.take(4)
+            //easter egg or lazy UI design? you decide!
+            if(mealCount > 99)
+                mealCountText.text = "∞"
+            else
+                mealCountText.text = mealCount.toString()
+            adapter.submitList(reactionList)
+        }
+
         calendar.dayBinder = object: MonthDayBinder<DayViewContainer> {
             override fun create(view: View) = DayViewContainer(view)
             override fun bind(container: DayViewContainer, data: CalendarDay) {
@@ -90,7 +107,7 @@ class CalendarFragment : Fragment() {
                 container.dayOfMonth.text = data.date.dayOfMonth.toString()
                 container.reactionDotRecycler.adapter = dotAdapter
                 container.reactionDotRecycler.layoutManager = GridLayoutManager(calendar.context, 4)
-                dotAdapter.submitList(testList)
+                lifecycleScope.launch { updateDayData(dotAdapter, data.date, container.mealCountTextView) }
             }
         }
 
@@ -108,7 +125,6 @@ class CalendarFragment : Fragment() {
             reactionAdapter.submitList(reactions)
         }
 
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         var date: String = LocalDateTime.now().format(formatter)
         lifecycleScope.launch { updateList(date) }
 
