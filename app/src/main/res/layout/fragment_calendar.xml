@@ -8,36 +8,52 @@
     android:layout_height="match_parent"
     tools:context=".CalendarFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/reactionListRecycler"
-        android:layout_width="170dp"
-        android:layout_height="130dp"
-        android:layout_marginEnd="16dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/recyclerContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/calendar_recycler_border"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mealListRecycler"
-        android:layout_width="170dp"
-        android:layout_height="130dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/reactionListRecycler"
-        app:layout_constraintHorizontal_bias="0.594"
-        app:layout_constraintStart_toStartOf="parent" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reactionListRecycler"
+            android:layout_width="170dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mealListRecycler"
+            android:layout_width="170dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/reactionListRecycler"
+            app:layout_constraintHorizontal_bias="0.594"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/mealListRecycler"
+        app:layout_constraintBottom_toTopOf="@id/recyclerContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
 
         <com.kizitonwose.calendar.view.CalendarView
             android:id="@+id/calendarView"

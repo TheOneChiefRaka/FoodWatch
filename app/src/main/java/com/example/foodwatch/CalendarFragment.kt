@@ -164,7 +164,7 @@ class CalendarFragment : Fragment() {
                 container.day = data
                 container.dayOfMonth.text = data.date.dayOfMonth.toString()
                 container.reactionDotRecycler.adapter = dotAdapter
-                container.reactionDotRecycler.layoutManager = GridLayoutManager(calendar.context, 4)
+                container.reactionDotRecycler.layoutManager = GridLayoutManager(calendar.context, 6)
                 container.reactionDotRecycler.itemAnimator = null
                 if(data.position == DayPosition.MonthDate) {  //true if day is part of the current month
                     if(data.date == selectedDay)
