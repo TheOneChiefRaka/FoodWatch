@@ -228,28 +228,16 @@ class CalendarFragment : Fragment() {
 
         calendar.monthScrollListener = {month ->
             lifecycleScope.launch {
-                if(currentMonth < month.yearMonth) {
-                    updateMonthData(month.yearMonth.previousMonth.previousMonth)
-                    calendar.notifyMonthChanged(month.yearMonth.previousMonth.previousMonth)
-                }
-                else if(currentMonth > month.yearMonth) {
-                    updateMonthData(month.yearMonth.nextMonth.nextMonth)
-                    calendar.notifyMonthChanged(month.yearMonth.nextMonth.nextMonth)
-                }
-                else if(currentMonth == month.yearMonth) {    //true when first opening the calendar
-                    updateMonthData(month.yearMonth)
-                    calendar.notifyMonthChanged(month.yearMonth)
+                updateMonthData(month.yearMonth)
+                calendar.notifyMonthChanged(month.yearMonth)
+                if(reactionsLists[month.yearMonth.previousMonth.year]?.get(month.yearMonth.previousMonth.month.value) == null) {
                     updateMonthData(month.yearMonth.previousMonth)
                     calendar.notifyMonthChanged(month.yearMonth.previousMonth)
+                }
+                if(reactionsLists[month.yearMonth.nextMonth.year]?.get(month.yearMonth.nextMonth.month.value) == null) {
                     updateMonthData(month.yearMonth.nextMonth)
                     calendar.notifyMonthChanged(month.yearMonth.nextMonth)
-                    updateMonthData(month.yearMonth.previousMonth.previousMonth)
-                    calendar.notifyMonthChanged(month.yearMonth.previousMonth.previousMonth)
-                    updateMonthData(month.yearMonth.nextMonth.nextMonth)
-                    calendar.notifyMonthChanged(month.yearMonth.nextMonth.nextMonth)
-
                 }
-                currentMonth = month.yearMonth
             }
         }
 
