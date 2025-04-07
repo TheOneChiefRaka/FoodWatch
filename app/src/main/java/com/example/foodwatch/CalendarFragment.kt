@@ -93,7 +93,9 @@ class CalendarFragment : Fragment() {
             if(reactionList.count() > 4)
                 reactionList = reactionList.take(4)
             //easter egg or lazy UI design? you decide!
-            if(mealCount > 99)
+            if(mealCount == 0)
+                mealCountText.text = ""
+            else if(mealCount > 99)
                 mealCountText.text = "∞"
             else
                 mealCountText.text = mealCount.toString()
