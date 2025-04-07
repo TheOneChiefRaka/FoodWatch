@@ -11,7 +11,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/calendar"
+        android:src="@drawable/background_icon"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="15dp"
@@ -47,22 +47,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Button
-        android:id="@+id/displayButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="DISPLAY"
-        android:background="@drawable/constraint_rounded_background"
-        style="@style/buttonTransitionColor"
-        android:textAlignment="textStart"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="20dp"
-        android:drawableEnd="@drawable/navigate_next"
-        app:layout_constraintTop_toBottomOf="@id/preferencesText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/darkmodeSwitchContainer"
         android:layout_width="match_parent"
@@ -71,7 +55,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/constraint_rounded_background"
-        app:layout_constraintTop_toBottomOf="@+id/displayButton"
+        app:layout_constraintTop_toBottomOf="@+id/preferencesText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
