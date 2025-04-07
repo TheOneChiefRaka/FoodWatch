@@ -8,6 +8,20 @@
     style="@style/background"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/calendar"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:alpha="0.05"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
     <TextView
         android:id="@+id/settings_title"
         android:layout_width="wrap_content"
@@ -33,16 +47,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/darkModeSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/dark_mode"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/preferencesText" />
-
     <Button
         android:id="@+id/displayButton"
         android:layout_width="match_parent"
@@ -55,9 +59,51 @@
         android:layout_marginEnd="15dp"
         android:layout_marginTop="20dp"
         android:drawableEnd="@drawable/navigate_next"
-        app:layout_constraintTop_toBottomOf="@id/darkModeSwitch"
+        app:layout_constraintTop_toBottomOf="@id/preferencesText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/darkmodeSwitchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/constraint_rounded_background"
+        app:layout_constraintTop_toBottomOf="@+id/displayButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="15dp"
+            android:paddingEnd="0dp"
+            android:drawablePadding="5dp"
+            android:text="Dark Mode"
+            style="@style/buttonTransitionColor"
+            app:drawableStartCompat="@drawable/calendar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/darkModeSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:clickable="true"
+            android:drawablePadding="10dp"
+            android:focusable="true"
+            android:paddingStart="15dp"
+            android:paddingEnd="0dp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Box Background for Switch -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,7 +114,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/constraint_rounded_background"
-        app:layout_constraintTop_toBottomOf="@+id/displayButton"
+        app:layout_constraintTop_toBottomOf="@+id/darkmodeSwitchContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -107,26 +153,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
         android:background="@drawable/constraint_rounded_background"
-        app:layout_constraintTop_toBottomOf="@+id/soundSwitchContainer"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/soundSwitchContainer">
 
         <TextView
+            style="@style/buttonTransitionColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
             android:paddingStart="15dp"
             android:paddingEnd="0dp"
-            android:drawablePadding="5dp"
             android:text="Notifications"
-            style="@style/buttonTransitionColor"
             app:drawableStartCompat="@drawable/calendar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/notificationSwitch"
@@ -142,6 +187,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="left"
+            app:constraint_referenced_ids="notificationSwitchContainer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
@@ -160,4 +212,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <Button
+        android:id="@+id/exportDataButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/constraint_rounded_background"
+        android:text="EXPORT DATA"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/languageButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>
