@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.MotionEvent
 import android.widget.Button
 import android.widget.LinearLayout
 import com.kizitonwose.calendar.view.CalendarView
@@ -106,6 +107,8 @@ class CalendarFragment : Fragment() {
             reactionAdapter.submitList(reactions)
         }
 
+        var selectedDay = LocalDate.now()
+
         class DayViewContainer(view: View) : ViewContainer(view) {
             val dayOfMonth = view.findViewById<TextView>(R.id.calendarDayText)
             val mealCountTextView = view.findViewById<TextView>(R.id.dayMealCount)
@@ -114,9 +117,32 @@ class CalendarFragment : Fragment() {
             lateinit var day: CalendarDay
 
             init {
-                view.setOnClickListener{
-                    if(day.position == DayPosition.MonthDate)
+                view.setOnClickListener {
+                    if(day.position == DayPosition.MonthDate) {
+                        val previousSelection = selectedDay
                         lifecycleScope.launch { updateList(day.date.format(formatter)) }
+                        selectedDay = day.date
+                        calendar.notifyDateChanged(day.date)    //update this day to be selected
+                        if(previousSelection != null)
+                            calendar.notifyDateChanged(previousSelection)    //update the previous selection to no longer be highlighted
+                    }
+                }
+                reactionDotRecycler.setOnTouchListener { view, motionEvent ->
+                    if (motionEvent.action == MotionEvent.ACTION_UP)
+                        view.performClick()
+                    else
+                        false
+                }
+
+                reactionDotRecycler.setOnClickListener { view ->
+                    if(day.position == DayPosition.MonthDate) {
+                        val previousSelection = selectedDay
+                        lifecycleScope.launch { updateList(day.date.format(formatter)) }
+                        selectedDay = day.date
+                        calendar.notifyDateChanged(day.date)    //update this day to be selected
+                        if(previousSelection != null)
+                            calendar.notifyDateChanged(previousSelection)    //update the previous selection to no longer be highlighted
+                    }
                 }
             }
         }
@@ -137,8 +163,12 @@ class CalendarFragment : Fragment() {
                 container.dayOfMonth.text = data.date.dayOfMonth.toString()
                 container.reactionDotRecycler.adapter = dotAdapter
                 container.reactionDotRecycler.layoutManager = GridLayoutManager(calendar.context, 4)
+                container.reactionDotRecycler.itemAnimator = null
                 if(data.position == DayPosition.MonthDate) {  //true if day is part of the current month
-                    container.view.background = ContextCompat.getDrawable(view.context, R.drawable.calendar_day_border)
+                    if(data.date == selectedDay)
+                        container.view.background = ContextCompat.getDrawable(view.context, R.drawable.calendar_day_border_selected)
+                    else
+                        container.view.background = ContextCompat.getDrawable(view.context, R.drawable.calendar_day_border)
                     container.dayOfMonth.setTextColor(Color.parseColor("#81B266"))
                     lifecycleScope.launch { updateDayData(dotAdapter, data.date, container.mealCountTextView) }
                 }
