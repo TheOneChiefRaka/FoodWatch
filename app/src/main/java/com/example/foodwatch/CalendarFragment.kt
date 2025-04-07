@@ -2,15 +2,17 @@ package com.example.foodwatch
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.LinearLayout
+import com.kizitonwose.calendar.view.CalendarView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +20,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemAnimator
 import com.example.foodwatch.database.entities.Reaction
 import com.example.foodwatch.database.viewmodel.MealViewModel
 import com.example.foodwatch.database.viewmodel.MealViewModelFactory
@@ -25,24 +28,22 @@ import com.example.foodwatch.database.viewmodel.ReactionViewModel
 import com.example.foodwatch.database.viewmodel.ReactionViewModelFactory
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.CalendarMonth
-import com.kizitonwose.calendar.core.CalendarYear
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.daysOfWeek
-import com.kizitonwose.calendar.core.nextMonth
-import com.kizitonwose.calendar.core.previousMonth
-import com.kizitonwose.calendar.core.yearMonth
-import com.kizitonwose.calendar.view.CalendarView
+import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import com.kizitonwose.calendar.view.DaySize
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.MonthHeaderFooterBinder
 import com.kizitonwose.calendar.view.ViewContainer
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
-
 
 data class CalendarListObject(val text: String, val time: String)
 
@@ -105,8 +106,6 @@ class CalendarFragment : Fragment() {
             reactionAdapter.submitList(reactions)
         }
 
-        var selectedDay = LocalDate.now()
-
         class DayViewContainer(view: View) : ViewContainer(view) {
             val dayOfMonth = view.findViewById<TextView>(R.id.calendarDayText)
             val mealCountTextView = view.findViewById<TextView>(R.id.dayMealCount)
@@ -115,55 +114,20 @@ class CalendarFragment : Fragment() {
             lateinit var day: CalendarDay
 
             init {
-                view.setOnClickListener {
-                    if(day.position == DayPosition.MonthDate) {
-                        val previousSelection = selectedDay
+                view.setOnClickListener{
+                    if(day.position == DayPosition.MonthDate)
                         lifecycleScope.launch { updateList(day.date.format(formatter)) }
-                        selectedDay = day.date
-                        calendar.notifyDateChanged(day.date)    //update this day to be selected
-                        if(previousSelection != null)
-                            calendar.notifyDateChanged(previousSelection)    //update the previous selection to no longer be highlighted
-                    }
-                }
-                reactionDotRecycler.setOnTouchListener { view, motionEvent ->
-                    if (motionEvent.action == MotionEvent.ACTION_UP)
-                        view.performClick()
-                    else
-                        false
-                }
-
-                reactionDotRecycler.setOnClickListener { view ->
-                    if(day.position == DayPosition.MonthDate) {
-                        val previousSelection = selectedDay
-                        lifecycleScope.launch { updateList(day.date.format(formatter)) }
-                        selectedDay = day.date
-                        calendar.notifyDateChanged(day.date)    //update this day to be selected
-                        if(previousSelection != null)
-                            calendar.notifyDateChanged(previousSelection)    //update the previous selection to no longer be highlighted
-                    }
                 }
             }
         }
 
-        var currentMonth = YearMonth.now()
-        val startMonth = currentMonth.minusMonths(120)
-        val endMonth = currentMonth.plusMonths(120)
+        val currentMonth = YearMonth.now()
+        val startMonth = currentMonth.minusMonths(12)
+        val endMonth = currentMonth.plusMonths(12)
         val daysOfWeek = daysOfWeek()
 
-        //worst code i've written in my life
-        val mealsEatenCounts = mutableMapOf<Int, MutableMap<Int, List<Int>>>()             //year -> month -> day -> count of meals eaten
-        val reactionsLists = mutableMapOf<Int, MutableMap<Int, List<List<Reaction>>>>()    //year -> month -> day -> list of reactions
-
-        suspend fun updateMonthData(yearMonth: YearMonth) {
-            if(mealsEatenCounts[yearMonth.year] == null) {
-                mealsEatenCounts[yearMonth.year] = mutableMapOf()
-            }
-            mealsEatenCounts[yearMonth.year]?.put(yearMonth.month.value, mealViewModel.countMealsEatenByYearMonth(yearMonth).await())
-            if(reactionsLists[yearMonth.year] == null) {
-                reactionsLists[yearMonth.year] = mutableMapOf()
-            }
-            reactionsLists[yearMonth.year]?.put(yearMonth.month.value, reactionViewModel.findReactionsByYearMonth(yearMonth).await())
-        }
+        var monthMealsEatenCounts: List<Int>
+        var monthReactionsList: List<List<Reaction>>
 
         calendar.dayBinder = object: MonthDayBinder<DayViewContainer> {
             override fun create(view: View) = DayViewContainer(view)
@@ -174,16 +138,9 @@ class CalendarFragment : Fragment() {
                 container.reactionDotRecycler.adapter = dotAdapter
                 container.reactionDotRecycler.layoutManager = GridLayoutManager(calendar.context, 4)
                 if(data.position == DayPosition.MonthDate) {  //true if day is part of the current month
-                    if(data.date == selectedDay)
-                        container.view.background = ContextCompat.getDrawable(view.context, R.drawable.calendar_day_border_selected)
-                    else
-                        container.view.background = ContextCompat.getDrawable(view.context, R.drawable.calendar_day_border)
+                    container.view.background = ContextCompat.getDrawable(view.context, R.drawable.calendar_day_border)
                     container.dayOfMonth.setTextColor(Color.parseColor("#81B266"))
-                    //lifecycleScope.launch { updateDayData(dotAdapter, data.date, container.mealCountTextView) }
-                    if(reactionsLists[data.date.yearMonth.year]?.get(data.date.yearMonth.month.value) != null && mealsEatenCounts[data.date.yearMonth.year]?.get(data.date.yearMonth.month.value) != null) {
-                        container.mealCountTextView.text = mealsEatenCounts[data.date.yearMonth.year]?.get(data.date.yearMonth.month.value)?.get(data.date.dayOfMonth-1).toString()
-                        dotAdapter.submitList(reactionsLists[data.date.yearMonth.year]?.get(data.date.yearMonth.month.value)?.get(data.date.dayOfMonth-1))
-                    }
+                    lifecycleScope.launch { updateDayData(dotAdapter, data.date, container.mealCountTextView) }
                 }
                 else {
                     container.mealCountTextView.text = ""
@@ -195,6 +152,9 @@ class CalendarFragment : Fragment() {
 
         calendar.setup(startMonth, endMonth, daysOfWeek.first())
         calendar.scrollToMonth(currentMonth)
+
+        var date: String = LocalDateTime.now().format(formatter)
+        lifecycleScope.launch { updateList(date) }
 
         class MonthViewContainer(view: View) : ViewContainer(view) {
             val dayTitleView = view.findViewById<LinearLayout>(R.id.legendLayout)
@@ -228,28 +188,7 @@ class CalendarFragment : Fragment() {
 
         calendar.monthScrollListener = {month ->
             lifecycleScope.launch {
-                if(currentMonth < month.yearMonth) {
-                    updateMonthData(month.yearMonth.previousMonth.previousMonth)
-                    calendar.notifyMonthChanged(month.yearMonth.previousMonth.previousMonth)
-                }
-                else if(currentMonth > month.yearMonth) {
-                    updateMonthData(month.yearMonth.nextMonth.nextMonth)
-                    calendar.notifyMonthChanged(month.yearMonth.nextMonth.nextMonth)
-                }
-                else if(currentMonth == month.yearMonth) {    //true when first opening the calendar
-                    updateMonthData(month.yearMonth)
-                    calendar.notifyMonthChanged(month.yearMonth)
-                    updateMonthData(month.yearMonth.previousMonth)
-                    calendar.notifyMonthChanged(month.yearMonth.previousMonth)
-                    updateMonthData(month.yearMonth.nextMonth)
-                    calendar.notifyMonthChanged(month.yearMonth.nextMonth)
-                    updateMonthData(month.yearMonth.previousMonth.previousMonth)
-                    calendar.notifyMonthChanged(month.yearMonth.previousMonth.previousMonth)
-                    updateMonthData(month.yearMonth.nextMonth.nextMonth)
-                    calendar.notifyMonthChanged(month.yearMonth.nextMonth.nextMonth)
 
-                }
-                currentMonth = month.yearMonth
             }
         }
 
