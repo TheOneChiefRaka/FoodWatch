@@ -30,7 +30,6 @@ class MealsRepository(private val mealDao: MealDao) {
             count.add(0)
         //count meals eaten on a given day
         for(meal in meals) {
-            Log.i("TEST", "countMealsEatenByYearMonth: ${meal.timeEaten.slice(8..9).toInt()-1}")
             count[meal.timeEaten.slice(8..9).toInt()-1]++
         }
         return count
