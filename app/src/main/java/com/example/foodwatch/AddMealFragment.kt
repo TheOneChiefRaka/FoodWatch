@@ -122,8 +122,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             val ingredientText = ingredientInput.text.toString().trim()
             //no empty ingredient names, no duplicates
             if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(title)) {
-                val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
-                ingredients.add(normalizedIngredient)
+                ingredients.add(ingredientText)
                 adapter.notifyItemInserted(ingredients.size)
                 ingredientInput.text.clear()
                 Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
@@ -141,8 +140,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             val ingredientText = ingredientInput.text.toString().trim()
             //no empty ingredient names, no duplicates
             if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(title)) {
-                val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
-                ingredients.add(normalizedIngredient)
+                ingredients.add(ingredientText)
                 adapter.notifyItemInserted(ingredients.size)
                 ingredientInput.text.clear()
                 Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
@@ -154,6 +152,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             }
         }
 
+        // This is called when the submit meal button is pressed
         suspend fun submitMeal() {
             val mealName = mealNameInput.text.toString().trim()
             val mealTime = timeInput.text.toString().trim()
@@ -162,6 +161,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
             val updatedIngredients = adapter.getIngredients()
 
+            // If the user did not enter any ingredients show an error
             if (updatedIngredients.isEmpty()){
                 Toast.makeText(requireContext(), "No ingredients to save!", Toast.LENGTH_SHORT).show()
                 return

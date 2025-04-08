@@ -1,5 +1,6 @@
 package com.example.foodwatch.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -45,11 +46,17 @@ interface IngredientDao {
     @Query("SELECT * FROM Ingredient WHERE ingredientId = :id")
     suspend fun findIngredientById(id: Int): Ingredient
 
+    @Query("SELECT * FROM Ingredient ORDER BY name ASC")
+    suspend fun getIngredientNames(): List<Ingredient>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertIngredientToTable(ingredient: Ingredient)
 
     @Insert
     suspend fun insert(ingredient: Ingredient)
+
+    @Query("SELECT * FROM ingredient ORDER BY name ASC")
+    fun getAllIngredients(): LiveData<List<Ingredient>>
 
     @Delete
     suspend fun delete(ingredient: Ingredient)
