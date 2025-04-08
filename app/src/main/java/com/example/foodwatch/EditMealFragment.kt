@@ -152,7 +152,6 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             val ingredientText = ingredientInput.text.toString().trim()
             //no empty ingredient names, no duplicates
             if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(title)) {
-                val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
                 ingredients.add(ingredientText)
                 adapter.notifyItemInserted(ingredients.size)
                 ingredientInput.text.clear()
@@ -171,7 +170,6 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             val ingredientText = ingredientInput.text.toString().trim()
             //no empty ingredient names, no duplicates
             if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(title)) {
-                val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
                 ingredients.add(ingredientText)
                 adapter.notifyItemInserted(ingredients.size)
                 ingredientInput.text.clear()

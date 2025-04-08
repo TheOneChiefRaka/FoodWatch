@@ -88,7 +88,15 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
         // Date picker
         val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
-            mealDate.setText("$selectedYear-${selectedMonth + 1}-$selectedDay")
+            var viewDay = selectedDay.toString()
+            var viewMonth = (selectedMonth+1).toString()
+            if(selectedDay < 10) {
+                viewDay = "0$viewDay"
+            }
+            if(selectedMonth < 9) {
+                viewMonth = "0$viewMonth"
+            }
+            mealDate.setText("$selectedYear-${viewMonth}-$viewDay")
         }, year, month, day)
 
         mealDate.setOnClickListener {
@@ -157,7 +165,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             val mealName = mealNameInput.text.toString().trim()
             val mealTime = timeInput.text.toString().trim()
             val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            var date: String = LocalDateTime.now().format(dateFormat)
+            var date: String = mealDate.text.toString()
 
             val updatedIngredients = adapter.getIngredients()
 
