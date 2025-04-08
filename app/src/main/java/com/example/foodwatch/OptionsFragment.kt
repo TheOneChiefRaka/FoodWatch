@@ -55,12 +55,6 @@ class OptionsFragment : Fragment(R.layout.fragment_options) {
         val soundSwitch = view.findViewById<SwitchCompat>(R.id.soundSwitch)
         soundSwitch.setOnCheckedChangeListener { _, isChecked ->{}}
 
-        val displayButton = view.findViewById<Button>(R.id.displayButton)
-        displayButton.setOnClickListener {
-            val displayBottomPopup = DisplayBottomPopup()
-            displayBottomPopup.show(childFragmentManager, "DisplayBottomPopup")
-        }
-
         return view
     }
 }
