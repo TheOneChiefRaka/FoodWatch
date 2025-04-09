@@ -11,6 +11,7 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
+        /*
 
         val tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
         val viewPager = view.findViewById<ViewPager2>(R.id.viewPager)
@@ -25,5 +26,6 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
                 else -> ""
             }
         }.attach()
+        */
     }
 }
