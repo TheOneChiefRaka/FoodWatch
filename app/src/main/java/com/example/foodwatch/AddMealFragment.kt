@@ -33,6 +33,7 @@ import com.example.foodwatch.database.viewmodel.MealIngredientViewModel
 import com.example.foodwatch.database.viewmodel.MealViewModel
 import com.example.foodwatch.database.viewmodel.ReactionViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -77,6 +78,8 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
         val ingredientIds = mutableListOf<Int>() // List of ingredient IDs
         val mealDate = view.findViewById<EditText>(R.id.mealDate) // Date of meal eaten
+        val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        mealDate.setText(LocalDate.now().format(dateFormat).toString())
 
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -164,8 +167,9 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
         suspend fun submitMeal() {
             val mealName = mealNameInput.text.toString().trim()
             val mealTime = timeInput.text.toString().trim()
-            val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
             var date: String = mealDate.text.toString()
+            if(date == "")
+                date = LocalDate.now().format(dateFormat)
 
             val updatedIngredients = adapter.getIngredients()
 

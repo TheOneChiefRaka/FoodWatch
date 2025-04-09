@@ -221,7 +221,8 @@ class CalendarFragment : Fragment() {
                 // Remember that the header is reused so this will be called for each month.
                 // However, the first day of the week will not change so no need to bind
                 // the same view every time it is reused.
-                container.monthTitleView.text = data.yearMonth.month.name.take(3).uppercase() + " ${data.yearMonth.year.toString()}"
+                //format of MON YYYY
+                container.monthTitleView.text = "${data.yearMonth.month.name.take(3).uppercase()} ${data.yearMonth.year}"
                 if (container.dayTitleView.tag == null) {
                     container.dayTitleView.tag = data.yearMonth
                     container.dayTitleView.children.map { it as TextView }
