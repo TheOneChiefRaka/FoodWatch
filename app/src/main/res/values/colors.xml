@@ -20,6 +20,7 @@
 
 
     <!-- Common Colors -->
+    <color name="darkGreen">#3BA900</color>
     <color name="common_switch">#47FF31</color>
     <color name="noReaction">#48D479</color>
     <color name="mildReaction">#FFE733</color>

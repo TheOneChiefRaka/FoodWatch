@@ -93,7 +93,8 @@ class ReportListAdapter : ListAdapter<Ingredient, ReportListAdapter.IngredientVi
 
     class IngredientsComparator : DiffUtil.ItemCallback<Ingredient>() {
         override fun areItemsTheSame(oldItem: Ingredient, newItem: Ingredient): Boolean {
-            return oldItem.id == newItem.id
+//            return oldItem.id == newItem.id
+            return true
         }
 
         override fun areContentsTheSame(oldItem: Ingredient, newItem: Ingredient): Boolean {

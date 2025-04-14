@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -26,7 +25,6 @@ import com.example.foodwatch.database.viewmodel.ReactionViewModel
 import com.example.foodwatch.database.viewmodel.ReactionViewModelFactory
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.CalendarMonth
-import com.kizitonwose.calendar.core.CalendarYear
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.nextMonth
@@ -46,11 +44,11 @@ import java.util.Locale
 
 class CalendarFragment : Fragment() {
 
-    val mealViewModel: MealViewModel by viewModels {
+    private val mealViewModel: MealViewModel by viewModels {
         MealViewModelFactory((activity?.application as MealsApplication).meals_repository)
     }
 
-    val reactionViewModel: ReactionViewModel by viewModels {
+    private val reactionViewModel: ReactionViewModel by viewModels {
         ReactionViewModelFactory((activity?.application as MealsApplication).reactions_repository)
     }
 
@@ -103,7 +101,7 @@ class CalendarFragment : Fragment() {
         suspend fun updateList(date: String) {
             val meals = mealViewModel.findMealsByDate(date).await().sortedBy { it.timeEaten }
             val reactions = reactionViewModel.findReactionsByDate(date).await().sortedBy { it.reactionTime }
-            if(meals.count() > 0 || reactions.count() > 0) {   //if there's data to display
+            if(meals.isNotEmpty() || reactions.isNotEmpty()) {   //if there's data to display
                 listRecyclerContainer.background = ContextCompat.getDrawable(view.context, R.drawable.calendar_recycler_border)
             }
             else {
@@ -153,7 +151,7 @@ class CalendarFragment : Fragment() {
             }
         }
 
-        var currentMonth = YearMonth.now()
+        val currentMonth = YearMonth.now()
         selectedDay = LocalDate.now()
         lifecycleScope.launch { updateList(selectedDay.format(formatter)) }
         val startMonth = currentMonth.minusMonths(120)
@@ -221,7 +219,7 @@ class CalendarFragment : Fragment() {
                 // Remember that the header is reused so this will be called for each month.
                 // However, the first day of the week will not change so no need to bind
                 // the same view every time it is reused.
-                container.monthTitleView.text = data.yearMonth.month.name.take(3).uppercase() + " ${data.yearMonth.year.toString()}"
+                container.monthTitleView.text = data.yearMonth.month.name.take(3).uppercase() + " ${data.yearMonth.year}"
                 if (container.dayTitleView.tag == null) {
                     container.dayTitleView.tag = data.yearMonth
                     container.dayTitleView.children.map { it as TextView }
