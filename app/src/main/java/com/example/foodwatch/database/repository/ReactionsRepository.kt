@@ -4,6 +4,7 @@ import androidx.annotation.WorkerThread
 import com.example.foodwatch.database.dao.ReactionDao
 import com.example.foodwatch.database.entities.Reaction
 import kotlinx.coroutines.flow.Flow
+import java.time.YearMonth
 
 class ReactionsRepository(private val reactionDao: ReactionDao) {
     val allReactions: Flow<List<Reaction>> = reactionDao.getAll()
@@ -16,6 +17,24 @@ class ReactionsRepository(private val reactionDao: ReactionDao) {
     @WorkerThread
     suspend fun findReactionsByTimeRange(min: String, max: String): List<Reaction> {
         return reactionDao.findReactionsByTimeRange(min, max)
+    }
+
+    @WorkerThread
+    suspend fun findReactionsByYearMonth(yearMonth: YearMonth): List<List<Reaction>> {
+        var monthString = yearMonth.month.value.toString()
+        if(yearMonth.month.value < 10)
+            monthString = "0${yearMonth.month.value}"
+        val yearMonthString = "${yearMonth.year}-${monthString}"
+
+        val reactions = findReactionsByTimeRange("$yearMonthString-01", "$yearMonthString-31")
+        val reactionsList = mutableListOf<MutableList<Reaction>>()
+        for(i in 0..30)
+            reactionsList.add(mutableListOf())
+        //count meals eaten on a given day
+        for(reaction in reactions) {
+            reactionsList[reaction.reactionTime.slice(8..9).toInt()-1].add(reaction)
+        }
+        return reactionsList
     }
 
     @WorkerThread

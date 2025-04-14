@@ -133,8 +133,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ingredientList"
-        android:layout_width="398dp"
-        android:layout_height="120dp"
+        android:layout_width="394dp"
+        android:layout_height="288dp"
         android:layout_marginBottom="29dp"
         android:background="@color/edit_text_background"
     app:layout_constraintBottom_toTopOf="@+id/addMealToTableButton"

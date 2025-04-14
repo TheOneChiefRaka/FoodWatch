@@ -33,6 +33,7 @@ import com.example.foodwatch.database.viewmodel.MealIngredientViewModel
 import com.example.foodwatch.database.viewmodel.MealViewModel
 import com.example.foodwatch.database.viewmodel.ReactionViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -77,6 +78,8 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
         val ingredientIds = mutableListOf<Int>() // List of ingredient IDs
         val mealDate = view.findViewById<EditText>(R.id.mealDate) // Date of meal eaten
+        val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        mealDate.setText(LocalDate.now().format(dateFormat).toString())
 
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -88,7 +91,15 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
 
         // Date picker
         val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
-            mealDate.setText("$selectedYear-${selectedMonth + 1}-$selectedDay")
+            var viewDay = selectedDay.toString()
+            var viewMonth = (selectedMonth+1).toString()
+            if(selectedDay < 10) {
+                viewDay = "0$viewDay"
+            }
+            if(selectedMonth < 9) {
+                viewMonth = "0$viewMonth"
+            }
+            mealDate.setText("$selectedYear-${viewMonth}-$viewDay")
         }, year, month, day)
 
         mealDate.setOnClickListener {
@@ -122,8 +133,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             val ingredientText = ingredientInput.text.toString().trim()
             //no empty ingredient names, no duplicates
             if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(title)) {
-                val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
-                ingredients.add(normalizedIngredient)
+                ingredients.add(ingredientText)
                 adapter.notifyItemInserted(ingredients.size)
                 ingredientInput.text.clear()
                 Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
@@ -141,8 +151,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             val ingredientText = ingredientInput.text.toString().trim()
             //no empty ingredient names, no duplicates
             if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(title)) {
-                val normalizedIngredient = ingredientText.lowercase().replaceFirstChar { it.uppercase() } // This normalizes ingredients to be capitalized properly such as "Garlic"
-                ingredients.add(normalizedIngredient)
+                ingredients.add(ingredientText)
                 adapter.notifyItemInserted(ingredients.size)
                 ingredientInput.text.clear()
                 Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
@@ -154,14 +163,17 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
             }
         }
 
+        // This is called when the submit meal button is pressed
         suspend fun submitMeal() {
             val mealName = mealNameInput.text.toString().trim()
             val mealTime = timeInput.text.toString().trim()
-            val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            var date: String = LocalDateTime.now().format(dateFormat)
+            var date: String = mealDate.text.toString()
+            if(date == "")
+                date = LocalDate.now().format(dateFormat)
 
             val updatedIngredients = adapter.getIngredients()
 
+            // If the user did not enter any ingredients show an error
             if (updatedIngredients.isEmpty()){
                 Toast.makeText(requireContext(), "No ingredients to save!", Toast.LENGTH_SHORT).show()
                 return

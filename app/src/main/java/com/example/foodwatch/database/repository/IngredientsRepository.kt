@@ -2,12 +2,12 @@ package com.example.foodwatch.database.repository
 
 import android.util.Log
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
 import com.example.foodwatch.database.dao.IngredientDao
 import com.example.foodwatch.database.entities.Ingredient
 import kotlinx.coroutines.flow.Flow
 
 class IngredientsRepository(private val ingredientDao: IngredientDao) {
-    //
     val allIngredients: Flow<List<Ingredient>> = ingredientDao.getAll()
 
     @WorkerThread
@@ -69,5 +69,13 @@ class IngredientsRepository(private val ingredientDao: IngredientDao) {
 
     suspend fun getAllIngredientNames(): List<String>{
         return ingredientDao.getAllIngredientNames()
+    }
+
+    suspend fun getIngredientNames(): List<Ingredient>{
+        return ingredientDao.getIngredientNames()
+    }
+
+    suspend fun deleteIngredient(ingredient: Ingredient){
+        ingredientDao.delete(ingredient)
     }
 }
