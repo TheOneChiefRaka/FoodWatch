@@ -2,14 +2,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme -->
     <style name="Base.Theme.FoodWatch" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:background">@color/background</item>
         <item name="colorPrimary">@color/darkGreen</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="android:textColorPrimary">@color/text_primary</item>
         <item name="android:textColorSecondary">@color/text_secondary</item>
         <item name="android:navigationBarColor">@color/background</item>
         <item name="android:statusBarColor">@color/background</item>
-        <item name="android:editTextBackground">@color/edit_text_background</item>
         <item name="android:textColorHint">@color/edit_text_hint</item>
     </style>
 
@@ -41,7 +39,6 @@
     <style name="word_title">
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:paddingLeft">8dp</item>
-        <item name="android:background">@color/background</item> <!-- Matches #EEF5EB in light mode -->
         <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
     </style>
 </resources>
