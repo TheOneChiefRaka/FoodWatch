@@ -27,7 +27,7 @@ class ReportListAdapter : ListAdapter<Ingredient, ReportListAdapter.IngredientVi
 
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.name, current.timesEaten, current.mildReactions, current.mediumReactions, current.severeReactions)
+        //holder.bind(current.name, current.timesEaten, current.mildReactions, current.mediumReactions, current.severeReactions)
     }
 
     class IngredientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -67,15 +67,19 @@ class ReportListAdapter : ListAdapter<Ingredient, ReportListAdapter.IngredientVi
             val pieData = PieData(dataSet)
             pieData.setValueFormatter(PercentFormatter(pieChart))
 
+            pieChart.setDrawEntryLabels(false) // Get rid of the labels
+
+            pieChart.isDrawHoleEnabled = false
+            pieChart.isRotationEnabled = false
             pieChart.data = pieData
-            pieChart.setUsePercentValues(true) //display percents instead of floats
+            pieChart.setUsePercentValues(true) // Display percents instead of floats
             pieChart.setEntryLabelColor(R.color.black)
             pieChart.data.setValueTextSize(13f)
             pieChart.data.setValueTextColor(R.color.black)
             pieChart.invalidate() // Refresh the chart
             pieChart.description.isEnabled = false // Disable description
             pieChart.legend.isEnabled = false // Enable legend
-            pieChart.animateY(1400) // Animate the chart
+            pieChart.animateXY(0, 0) // Animate the chart
         }
 
         companion object {
@@ -93,12 +97,8 @@ class ReportListAdapter : ListAdapter<Ingredient, ReportListAdapter.IngredientVi
         }
 
         override fun areContentsTheSame(oldItem: Ingredient, newItem: Ingredient): Boolean {
-            return     oldItem.id == newItem.id
+            return     oldItem.ingredientId == newItem.ingredientId
                     && oldItem.name == newItem.name
-                    && oldItem.timesEaten == newItem.timesEaten
-                    && oldItem.mildReactions == newItem.mildReactions
-                    && oldItem.mediumReactions == newItem.mediumReactions
-                    && oldItem.severeReactions == newItem.severeReactions
         }
     }
 }

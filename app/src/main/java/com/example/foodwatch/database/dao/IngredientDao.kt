@@ -16,8 +16,8 @@ interface IngredientDao {
 
     @Query("SELECT * FROM ingredient WHERE name IN (:ingredientNames)")
     suspend fun findIngredientsByName(ingredientNames: List<String>): List<Ingredient>
-
-    @Query("UPDATE ingredient SET mildReactions = mildReactions + 1 WHERE id IN (:ingredientIds)" )
+    /*
+    @Query("UPDATE ingredient SET mildReactions = mildReactions + 1 WHERE ingredient_id IN (:ingredientIds)" )
     suspend fun addIngredientsReactionMild(ingredientIds: List<Int>)
 
     @Query("UPDATE ingredient SET mediumReactions = mediumReactions + 1 WHERE id IN (:ingredientIds)" )
@@ -28,20 +28,22 @@ interface IngredientDao {
 
     @Query("SELECT * FROM Ingredient WHERE (mildReactions + mediumReactions + severeReactions) > 0")
     suspend fun findAllPossibleAllergens(): List<Ingredient>
-
+    */
     @Query("SELECT * FROM Ingredient WHERE name = :name LIMIT 1")
     suspend fun checkForIngredient(name: String): Ingredient?
 
+    /*
     @Query("UPDATE ingredient SET timesEaten = timesEaten + 1 WHERE name = :name")
     suspend fun incrementTimesEaten(name: String)
+    */
 
-    @Query("SELECT id FROM Ingredient WHERE name = :name LIMIT 1")
+    @Query("SELECT ingredientId FROM Ingredient WHERE name = :name LIMIT 1")
     suspend fun getIngredientIdByName(name: String): Int?
 
     @Query("SELECT name FROM Ingredient")
     suspend fun getAllIngredientNames(): List<String>
 
-    @Query("SELECT * FROM Ingredient WHERE id = :id")
+    @Query("SELECT * FROM Ingredient WHERE ingredientId = :id")
     suspend fun findIngredientById(id: Int): Ingredient
 
     @Query("SELECT * FROM Ingredient ORDER BY name ASC")

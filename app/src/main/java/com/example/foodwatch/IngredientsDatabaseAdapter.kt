@@ -1,5 +1,6 @@
 package com.example.foodwatch
 
+import android.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -32,11 +33,18 @@ class IngredientsDatabaseAdapter(private val lifecycleScope: CoroutineScope) : R
         holder.ingredientTitle.text = ingredient.name
 
         holder.deleteButton.setOnClickListener{
-            lifecycleScope.launch {
-                val ingredientDao = (holder.itemView.context.applicationContext as MealsApplication).database.ingredientDao()
-                ingredientDao.delete(ingredient)
-                deleteIngredient(ingredient)
+            AlertDialog.Builder(holder.itemView.context)
+                .setTitle("Delete Ingredient")
+                .setMessage("Are you sure you want to delete ${ingredient.name}?")
+                .setPositiveButton("Yes"){ dialog, _ ->
+                    lifecycleScope.launch {
+                        val ingredientDao = (holder.itemView.context.applicationContext as MealsApplication).database.ingredientDao()
+                        ingredientDao.delete(ingredient)
+                        deleteIngredient(ingredient)
+                }
             }
+                .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+                .show()
         }
     }
 

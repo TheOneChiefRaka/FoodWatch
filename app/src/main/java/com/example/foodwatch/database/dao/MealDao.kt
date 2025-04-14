@@ -5,8 +5,10 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.TypeConverters
 import com.example.foodwatch.database.entities.Meal
+import com.example.foodwatch.database.entities.ReactionWithMeal
 import kotlinx.coroutines.flow.Flow
 
 // All function needed to modify meal table go here
@@ -22,13 +24,13 @@ interface MealDao {
     @Query("SELECT * FROM meal WHERE timeEaten >= :min AND timeEaten <= :max")
     suspend fun findMealsByTimeRange(min: String, max: String): List<Meal>
 
-    @Query("SELECT * FROM meal WHERE id = :mealId")
+    @Query("SELECT * FROM meal WHERE mealId = :mealId")
     suspend fun getMealById(mealId: Int): Meal
 
-    @Query("UPDATE meal SET timeEaten = :timeEaten, name = :name, ingredients = :ingredients WHERE id = :id")
-    suspend fun updateMealById(timeEaten: String, name: String, ingredients: String, id: Int)
+    @Query("UPDATE meal SET timeEaten = :timeEaten, name = :name, reactionId = :reactionId WHERE mealId = :id")
+    suspend fun updateMealById(timeEaten: String, name: String, id: Int, reactionId: Int?)
 
-    @Query("DELETE FROM meal WHERE id = :mealId")
+    @Query("DELETE FROM meal WHERE mealId = :mealId")
     suspend fun deleteMealById(mealId: Int)
 
     @Insert
@@ -36,4 +38,10 @@ interface MealDao {
 
     @Delete
     suspend fun delete(meal: Meal)
+
+    /*
+    @Transaction
+    @Query("SELECT * FROM Meal")
+    fun getReactionsWithMeals(): List<ReactionWithMeal>
+    */
 }

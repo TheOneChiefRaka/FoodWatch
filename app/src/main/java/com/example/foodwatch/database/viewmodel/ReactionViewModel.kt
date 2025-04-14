@@ -9,6 +9,7 @@ import com.example.foodwatch.database.repository.ReactionsRepository
 import com.example.foodwatch.database.entities.Reaction
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.time.YearMonth
 
 class ReactionViewModel(private val repository: ReactionsRepository) : ViewModel() {
 
@@ -21,11 +22,19 @@ class ReactionViewModel(private val repository: ReactionsRepository) : ViewModel
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-    fun insert(reaction: Reaction) = viewModelScope.launch {
+    fun insert(reaction: Reaction) = viewModelScope.async {
         repository.insert(reaction)
     }
     fun findReactionsByDate(date: String) = viewModelScope.async {
         repository.findReactionsByDate(date)
+    }
+
+    fun findReactionsByTimeRange(min: String, max: String) = viewModelScope.async {
+        repository.findReactionsByTimeRange(min, max)
+    }
+
+    fun findReactionsByYearMonth(yearMonth: YearMonth) = viewModelScope.async {
+        repository.findReactionsByYearMonth(yearMonth)
     }
 }
 

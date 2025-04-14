@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,21 +12,30 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.foodwatch.database.entities.Ingredient
 import com.example.foodwatch.database.entities.Meal
+import com.example.foodwatch.database.entities.relations.MealIngredientCrossRef
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
 import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
+import com.example.foodwatch.database.viewmodel.MealIngredientViewModel
+import com.example.foodwatch.database.viewmodel.MealIngredientViewModelFactory
 import com.example.foodwatch.database.viewmodel.MealViewModel
 import com.example.foodwatch.database.viewmodel.MealViewModelFactory
+import com.example.foodwatch.database.viewmodel.ReactionViewModel
+import com.example.foodwatch.database.viewmodel.ReactionViewModelFactory
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
@@ -35,8 +45,16 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
         MealViewModelFactory((activity?.application as MealsApplication).meals_repository)
     }
 
+    val reactionViewModel: ReactionViewModel by viewModels {
+        ReactionViewModelFactory((activity?.application as MealsApplication).reactions_repository)
+    }
+
     val ingredientViewModel: IngredientViewModel by viewModels {
         IngredientViewModelFactory((activity?.application as MealsApplication).ingredients_repository)
+    }
+
+    val mealIngredientViewModel: MealIngredientViewModel by viewModels {
+        MealIngredientViewModelFactory((activity?.application as MealsApplication).mealingredient_repository)
     }
 
     override fun onCreateView(
@@ -68,10 +86,9 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
         val saveButton = view.findViewById<Button>(R.id.saveEditsButton)
         val deleteButton = view.findViewById<Button>(R.id.deleteButton)
 
-        val ingredientMutableList = mutableListOf<Ingredient>()
         val ingredients = mutableListOf<String>() // List of ingredients
 
-        val adapter = IngredientListAdapter(ingredientMutableList)
+        val adapter = IngredientListAdapter(ingredients)
         ingredientsList.adapter = adapter
         ingredientsList.layoutManager = LinearLayoutManager(this.context)
 
@@ -108,16 +125,20 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
         }
 
         //launch asynchronous database query
+        var mealReactionId: Int? = null
+
         lifecycleScope.launch {
             val meal = mealViewModel.getMealById(mealId).await()
             mealNameView.setText(meal.name)
             mealTimeView.setText(meal.timeEaten.takeLast(5))
             mealDateView.setText(meal.timeEaten.take(10))
-            for(ingredientId in meal.ingredients) {
-                val ingredient = ingredientViewModel.findIngredientById(ingredientId).await()
-                ingredientMutableList.add(ingredient)
-                adapter.notifyItemInserted(ingredientMutableList.size)
+            mealReactionId = meal.reactionId
+            //query crossref for ingredients
+            val oldIngredientsList = mealIngredientViewModel.getMealWithIngredientsById(mealId).await().ingredients
+            for(oldIngredient in oldIngredientsList) {
+                val ingredient = ingredientViewModel.findIngredientById(oldIngredient.ingredientId).await()
                 ingredients.add(ingredient.name)
+                adapter.notifyItemInserted(ingredients.size)
             }
         }
 
@@ -127,17 +148,37 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
         }
 
         enterIngredientButton.setOnClickListener {
-            val name = ingredientInput.text.toString().trim()
-            val ingredientToAdd = Ingredient(name = name)
+            val title = ingredientInput.text.toString().trim()
             val ingredientText = ingredientInput.text.toString().trim()
-            if (ingredientText.isNotEmpty()) {
-                ingredientMutableList.add(ingredientToAdd)
-                adapter.notifyItemInserted(ingredientMutableList.size)
+            //no empty ingredient names, no duplicates
+            if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(title)) {
                 ingredients.add(ingredientText)
+                adapter.notifyItemInserted(ingredients.size)
                 ingredientInput.text.clear()
                 Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "Please enter an ingredient", Toast.LENGTH_SHORT).show()
+                if(!adapter.getIngredients().contains(title))
+                    Toast.makeText(requireContext(), "Ingredient already entered", Toast.LENGTH_SHORT).show()
+                else
+                    Toast.makeText(requireContext(), "Please enter an ingredient", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        //executes when autocomplete option is clicked
+        ingredientInput.setOnItemClickListener {listAdapter, view, pos, id ->
+            val title = listAdapter.getItemAtPosition(pos).toString()
+            val ingredientText = ingredientInput.text.toString().trim()
+            //no empty ingredient names, no duplicates
+            if (ingredientText.isNotEmpty() && !adapter.getIngredients().contains(title)) {
+                ingredients.add(ingredientText)
+                adapter.notifyItemInserted(ingredients.size)
+                ingredientInput.text.clear()
+                Toast.makeText(requireContext(), "Ingredient added: $ingredientText", Toast.LENGTH_SHORT).show()
+            } else {
+                if(adapter.getIngredients().contains(title))
+                    Toast.makeText(requireContext(), "Ingredient already entered", Toast.LENGTH_SHORT).show()
+                else
+                    Toast.makeText(requireContext(), "Please enter an ingredient", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -157,8 +198,8 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
             val ingredientIds = mutableListOf<Int>()
 
             for (ingredient in updatedIngredients){
-                ingredientViewModel.addOrUpdateIngredients(ingredient.name).join()
-                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient.name).await()
+                ingredientViewModel.addOrUpdateIngredients(ingredient).join()
+                val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient).await()
                 if(ingredientId != null){
                     ingredientIds.add(ingredientId)
                 }
@@ -167,16 +208,38 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
                 }
             }
 
+            var reactionId: Int? = null
+            val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+            val maxTimestamp = LocalDateTime.parse("$date $mealTime", dateTimeFormat).toEpochSecond(
+                ZoneOffset.UTC) + 3600 * 2
+            val maxTime = LocalDateTime.ofEpochSecond(maxTimestamp, 0, ZoneOffset.UTC)
+            val futureReactions = reactionViewModel.findReactionsByTimeRange("$date $mealTime", maxTime.format(dateTimeFormat)).await()
+            if(futureReactions.isNotEmpty()) {
+                //there should only be one
+                reactionId = futureReactions[0].reactionId
+            }
+
             val meal = Meal(
-                id = mealId,
+                mealId = mealId,
                 name = mealName,
                 timeEaten = "$date $mealTime",
-                ingredients = ingredientIds
+                reactionId = reactionId
             )
 
             mealViewModel.updateMealById(meal) {
                 Toast.makeText(requireContext(), "Meal edited!", Toast.LENGTH_SHORT).show()
             }
+
+            //populate list of ingredients in the meal
+            val newIngredientList = mutableListOf<MealIngredientCrossRef>()
+
+            for(ingredientId in ingredientIds) {
+                newIngredientList.add(MealIngredientCrossRef(mealId, ingredientId))
+            }
+            //insert or delete ingredients
+            mealIngredientViewModel.deleteIngredientsByMealId(mealId).join()
+            mealIngredientViewModel.insertIngredientsList(newIngredientList).join()
+            findNavController().navigateUp()
         }
 
         saveButton.setOnClickListener {
@@ -200,11 +263,12 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
 
         deleteButton.setOnClickListener {
             mealViewModel.deleteMealById(mealId)
+            mealIngredientViewModel.deleteIngredientsByMealId(mealId)
             findNavController().navigateUp()
         }
     }
 
-    private fun setupAutoComplete(ingredientInput: AutoCompleteTextView, ingredientNames: List<String>) {
+    fun setupAutoComplete(ingredientInput: AutoCompleteTextView, ingredientNames: List<String>) {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, ingredientNames)
         ingredientInput.setAdapter(adapter)
     }

@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.foodwatch.database.entities.Ingredient
 
 class IngredientListAdapter(
-    private var ingredients: MutableList<Ingredient>
+    private var ingredients: MutableList<String>
 ) : RecyclerView.Adapter<IngredientListAdapter.AddedIngredientViewHolder>() {
 
     inner class AddedIngredientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -23,9 +22,7 @@ class IngredientListAdapter(
     }
 
     override fun onBindViewHolder(holder: AddedIngredientViewHolder, position: Int) {
-        val ingredient = ingredients[position]
-        holder.ingredientTitle.text = ingredient.name
-
+        holder.ingredientTitle.text = ingredients[position]
         holder.deleteButton.setOnClickListener{
             removeItem(position)
         }
@@ -41,13 +38,13 @@ class IngredientListAdapter(
         notifyItemRangeChanged(position, ingredients.size)
     }
 
-    fun updateIngredients(newIngredients: List<Ingredient>){
+    fun updateIngredients(newIngredients: List<String>){
         ingredients.clear()
         ingredients.addAll(newIngredients)
         notifyDataSetChanged()
     }
 
-    fun getIngredients(): List<Ingredient>{
+    fun getIngredients(): List<String>{
         return ingredients
     }
 

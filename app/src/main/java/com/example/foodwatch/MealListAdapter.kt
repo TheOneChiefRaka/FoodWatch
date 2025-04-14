@@ -21,7 +21,7 @@ class MealListAdapter : ListAdapter<Meal, MealListAdapter.MealViewHolder>(mealLi
     override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
         val current = getItem(position)
         holder.itemView.setOnClickListener {
-            val action = CalendarFragmentDirections.calendarToEditMeal(current.id)
+            val action = CalendarFragmentDirections.calendarToEditMeal(current.mealId)
             navcontroller?.navigate(action)
         }
         holder.bind(current.name, current.timeEaten)
