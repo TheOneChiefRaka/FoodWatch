@@ -2,65 +2,119 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     style="@style/background"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/toAddReactionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:id="@+id/addReactionButton"
+        android:layout_width="166dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/button_background"
+        android:forceDarkAllowed="false"
         android:text="Add Reaction"
+        android:textColor="@color/text_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/addMealHeader"
+        android:id="@+id/addReactionHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
         android:scaleX="3"
         android:scaleY="3"
         android:text="Add Reaction"
-        app:layout_constraintBottom_toTopOf="@+id/calendarField"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <CalendarView
-        android:id="@+id/calendarField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:textColor="@color/text_primary"
         app:layout_constraintBottom_toTopOf="@+id/reactionTime"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
     <EditText
         android:id="@+id/reactionTime"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginBottom="28dp"
+        android:layout_width="148dp"
+        android:layout_height="56dp"
+        android:background="@drawable/roundstyle"
+        android:backgroundTint="@color/edit_text_background"
+        android:drawableLeft="@android:drawable/ic_menu_recent_history"
+        android:drawableTint="@color/button_background"
         android:ems="10"
-        android:hint="Reaction Time"
-        android:inputType="none"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        app:layout_constraintBottom_toTopOf="@+id/reactionSeverity"
+        android:inputType="text"
+        android:paddingLeft="10dp"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/edit_text_hint"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/reactionDate"
+        app:layout_constraintTop_toBottomOf="@+id/addReactionHeader"
+        tools:text="Time" />
 
-    <Spinner
-        android:id="@+id/reactionSeverity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:entries="@array/reaction_severity_array"
-        android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toTopOf="@+id/toAddReactionButton"
+    <EditText
+        android:id="@+id/reactionDate"
+        android:layout_width="148dp"
+        android:layout_height="56dp"
+        android:background="@drawable/roundstyle"
+        android:backgroundTint="@color/edit_text_background"
+        android:drawableLeft="@drawable/calendar"
+        android:drawablePadding="4dp"
+        android:drawableTint="@color/button_background"
+        android:ems="10"
+        android:hint="Date"
+        android:inputType="text"
+        android:paddingLeft="10dp"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/edit_text_hint"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toStartOf="@+id/reactionTime"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addReactionHeader" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="157dp"
+        android:layout_height="56dp"
+        android:background="@drawable/roundstyle"
+        android:backgroundTint="@color/edit_text_background"
+        app:layout_constraintBottom_toTopOf="@+id/addReactionButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reactionTime"
+        app:layout_constraintVertical_bias="0.5">
+
+        <TextView
+            android:id="@+id/reactionSeverityText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Severity"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/reactionSeverity"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="2dp"
+            android:entries="@array/reaction_severity_array"
+            android:spinnerMode="dropdown"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reactionSeverityText" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
