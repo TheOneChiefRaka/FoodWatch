@@ -36,6 +36,18 @@ class ReactionViewModel(private val repository: ReactionsRepository) : ViewModel
     fun findReactionsByYearMonth(yearMonth: YearMonth) = viewModelScope.async {
         repository.findReactionsByYearMonth(yearMonth)
     }
+
+    fun findReactionById(id: Int) = viewModelScope.async {
+        repository.findReactionById(id)
+    }
+
+    fun updateReactionById(reactionTime: String, severity: String, reactionId: Int) = viewModelScope.launch {
+        repository.updateReactionById(reactionTime, severity, reactionId)
+    }
+
+    fun deleteReaction(reaction: Reaction) = viewModelScope.launch {
+        repository.deleteReaction(reaction)
+    }
 }
 
 class ReactionViewModelFactory(private val repository: ReactionsRepository) : ViewModelProvider.Factory {

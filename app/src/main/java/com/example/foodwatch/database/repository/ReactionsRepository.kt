@@ -38,6 +38,21 @@ class ReactionsRepository(private val reactionDao: ReactionDao) {
     }
 
     @WorkerThread
+    suspend fun updateReactionById(reactionTime: String, severity: String, reactionId: Int) {
+        return reactionDao.updateReactionById(reactionTime, severity, reactionId)
+    }
+
+    @WorkerThread
+    suspend fun findReactionById(id: Int): Reaction {
+        return reactionDao.findReactionById(id)
+    }
+
+    @WorkerThread
+    suspend fun deleteReaction(reaction: Reaction) {
+        return reactionDao.delete(reaction)
+    }
+
+    @WorkerThread
     suspend fun insert(reaction: Reaction): Long {
         return reactionDao.insert(reaction)
     }

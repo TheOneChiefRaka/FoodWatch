@@ -30,7 +30,7 @@ class MealsRepository(private val mealDao: MealDao) {
             count.add(0)
         //count meals eaten on a given day
         for(meal in meals) {
-            Log.i("TEST", "countMealsEatenByYearMonth: ${meal.timeEaten.slice(8..9).toInt()-1}")
+//            Log.i("TEST", "countMealsEatenByYearMonth: ${meal.timeEaten.slice(8..9).toInt()-1}")
             count[meal.timeEaten.slice(8..9).toInt()-1]++
         }
         return count
@@ -54,6 +54,11 @@ class MealsRepository(private val mealDao: MealDao) {
     @WorkerThread
     suspend fun updateMealById(meal: Meal) {
         return mealDao.updateMealById(meal.timeEaten, meal.name, meal.mealId, meal.reactionId)
+    }
+
+    @WorkerThread
+    suspend fun removeReactionFromMeals(reactionId: Int) {
+        return mealDao.removeReactionFromMeals(reactionId)
     }
 
     @WorkerThread

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/deleteReactionButton"
+        android:layout_width="166dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/design_default_color_error"
+        android:forceDarkAllowed="false"
+        android:text="Delete"
+        android:textColor="@color/text_primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editReactionButton" />
+
+    <Button
+        android:id="@+id/editReactionButton"
+        android:layout_width="166dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/button_background"
+        android:forceDarkAllowed="false"
+        android:text="Edit Reaction"
+        android:textColor="@color/text_primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/deleteReactionButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/editReactionHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="3"
+        android:scaleY="3"
+        android:text="Edit Reaction"
+        android:textColor="@color/text_primary"
+        app:layout_constraintBottom_toTopOf="@+id/reactionTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <EditText
+        android:id="@+id/reactionTime"
+        android:layout_width="148dp"
+        android:layout_height="56dp"
+        android:background="@drawable/roundstyle"
+        android:backgroundTint="@color/edit_text_background"
+        android:drawableLeft="@android:drawable/ic_menu_recent_history"
+        android:drawableTint="@color/button_background"
+        android:ems="10"
+        android:inputType="text"
+        android:paddingLeft="10dp"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/edit_text_hint"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/reactionDate"
+        app:layout_constraintTop_toBottomOf="@+id/editReactionHeader"
+        tools:text="Time" />
+
+    <EditText
+        android:id="@+id/reactionDate"
+        android:layout_width="148dp"
+        android:layout_height="56dp"
+        android:background="@drawable/roundstyle"
+        android:backgroundTint="@color/edit_text_background"
+        android:drawableLeft="@drawable/calendar"
+        android:drawablePadding="4dp"
+        android:drawableTint="@color/button_background"
+        android:ems="10"
+        android:hint="Date"
+        android:inputType="text"
+        android:paddingLeft="10dp"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/edit_text_hint"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toStartOf="@+id/reactionTime"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editReactionHeader" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="157dp"
+        android:layout_height="56dp"
+        android:background="@drawable/roundstyle"
+        android:backgroundTint="@color/edit_text_background"
+        app:layout_constraintBottom_toTopOf="@+id/editReactionButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reactionTime"
+        app:layout_constraintVertical_bias="0.5">
+
+        <TextView
+            android:id="@+id/reactionSeverityText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Severity"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/reactionSeverity"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="2dp"
+            android:entries="@array/reaction_severity_array"
+            android:spinnerMode="dropdown"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reactionSeverityText" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
