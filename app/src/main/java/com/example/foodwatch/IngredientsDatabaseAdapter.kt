@@ -57,15 +57,16 @@ class IngredientsDatabaseAdapter(private val lifecycleScope: CoroutineScope) : R
         ingredients.addAll(newIngredients)
         notifyDataSetChanged()
     }
-//    fun deleteIngredient(ingredient: Ingredient) {
-//        val index = ingredients.indexOfFirst { it.id == ingredient.id }
-//        Log.d("IngredientsTab", "I'm going to delete ${ingredient.name}!")
-//
-//        if (index >= 0){
-//            ingredients.removeAt(index)
-//            notifyItemRemoved(index)
-//            notifyItemRangeChanged(index, ingredients.size)
-//        }
-//
-//    }
+
+    fun deleteIngredient(ingredient: Ingredient) {
+        val index = ingredients.indexOfFirst { it.name == ingredient.name }
+        Log.d("IngredientsTab", "I'm going to delete ${ingredient.name}!")
+
+        if (index >= 0){
+            ingredients.removeAt(index)
+            notifyItemRemoved(index)
+            notifyItemRangeChanged(index, ingredients.size)
+        }
+
+    }
 }

@@ -59,15 +59,18 @@ class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-//        lifecycleScope.launch{
-//            val ingredients = ingredientViewModel.findAllPossibleAllergens().await()
-//            Log.d("ReactionsTab", "Loaded ${ingredients.size} ingredients")
-//
-//            ingredients.forEach{
-//                Log.d("ReactionsTab", "Ingredient: ${it.name}, timesEaten=${it.timesEaten}")
-//            }
-//            adapter.submitList(ingredients)
-//        }
+        /*
+        lifecycleScope.launch{
+            val ingredients = ingredientViewModel.findAllPossibleAllergens().await()
+            Log.d("ReactionsTab", "Loaded ${ingredients.size} ingredients")
+
+            ingredients.forEach{
+                Log.d("ReactionsTab", "Ingredient: ${it.name}, timesEaten=${it.timesEaten}")
+            }
+            adapter.submitList(ingredients)
+        }
+
+         */
     }
 
     private fun showDatePickerDialog(onDateSelected: (Date) -> Unit) {
