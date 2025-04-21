@@ -38,7 +38,7 @@ interface IngredientDao {
     */
 
     @Query("SELECT ingredientId FROM Ingredient WHERE name = :name LIMIT 1")
-    suspend fun getIngredientIdByName(name: String): Int?
+    suspend fun getIngredientIdByName(name: String): Long?
 
     @Query("SELECT name FROM Ingredient")
     suspend fun getAllIngredientNames(): List<String>
@@ -50,10 +50,10 @@ interface IngredientDao {
     suspend fun getIngredientNames(): List<Ingredient>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertIngredientToTable(ingredient: Ingredient)
+    suspend fun insertIngredientToTable(ingredient: Ingredient): Long
 
     @Insert
-    suspend fun insert(ingredient: Ingredient)
+    suspend fun insert(ingredient: Ingredient): Long
 
     @Query("SELECT * FROM ingredient ORDER BY name ASC")
     fun getAllIngredients(): LiveData<List<Ingredient>>

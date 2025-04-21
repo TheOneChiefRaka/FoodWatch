@@ -1,13 +1,16 @@
 package com.example.foodwatch
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
@@ -30,6 +33,7 @@ import com.example.foodwatch.database.viewmodel.MealViewModelFactory
 import com.example.foodwatch.database.viewmodel.ReactionViewModel
 import com.example.foodwatch.database.viewmodel.ReactionViewModelFactory
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
@@ -56,9 +60,6 @@ class MealNotFoundDialogFragment : DialogFragment() {
 
 class AddReactionFragment : Fragment() {
 
-    private lateinit var calendarField: CalendarView
-    private lateinit var reactionTimeField: EditText
-
     val reactionViewModel: ReactionViewModel by viewModels {
         ReactionViewModelFactory((activity?.application as MealsApplication).reactions_repository)
     }
@@ -83,64 +84,65 @@ class AddReactionFragment : Fragment() {
         val navFragment = activity?.supportFragmentManager?.findFragmentById(R.id.navFragment) as NavHostFragment
 
         //get form fields
-        val calendarField = view.findViewById<CalendarView>(R.id.calendarField)
-        val addReactionButton = view.findViewById<Button>(R.id.toAddReactionButton)
+        val reactionDate = view.findViewById<EditText>(R.id.reactionDate)
+        val addReactionButton = view.findViewById<Button>(R.id.addReactionButton)
         val reactionTimeField = view.findViewById<EditText>(R.id.reactionTime)
         val reactionSeverityField = view.findViewById<Spinner>(R.id.reactionSeverity)
 
-        calendarField.maxDate = System.currentTimeMillis()
         val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
         val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        var date: String = LocalDateTime.now().format(dateFormat)
-        var time: String = LocalTime.now().toString().take(5)
-        reactionTimeField.setText(time, TextView.BufferType.EDITABLE)
+        reactionDate.setText(LocalDate.now().format(dateFormat).toString())
 
-        //Log.i("TEST", LocalDateTime.parse("2024-12-02 15:00", formatter).toEpochSecond(ZoneOffset.UTC).toString())
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+        reactionTimeField.setText(String.format("%02d:%02d", hour, minute))
 
-        // TimePicker
+        // Date picker
+        val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+            var viewDay = selectedDay.toString()
+            var viewMonth = (selectedMonth+1).toString()
+            if(selectedDay < 10) {
+                viewDay = "0$viewDay"
+            }
+            if(selectedMonth < 9) {
+                viewMonth = "0$viewMonth"
+            }
+            reactionDate.setText("$selectedYear-${viewMonth}-$viewDay")
+        }, year, month, day)
+
+        reactionDate.setOnClickListener {
+            datePickerDialog.show()
+        }
+
+        // Time picker
         val timePickerDialog = TimePickerDialog(requireContext(), { _, selectedHour, selectedMinute ->
             // Update time with user selected time
             reactionTimeField.setText(String.format("%02d:%02d", selectedHour, selectedMinute))
-        }, LocalTime.now().hour, LocalTime.now().minute, true)
+        }, hour, minute, true)
 
-        // Show TimePicker
         reactionTimeField.setOnClickListener {
             timePickerDialog.show()
         }
 
-
-        calendarField.setOnDateChangeListener { calendar, year, month, day ->
-            var newDate = "$year"
-            if(month < 10) {
-                newDate += "-0${month+1}"
-            }
-            else {
-                newDate += "-${month+1}"
-            }
-            if(day < 10) {
-                newDate += "-0${day}"
-            }
-            else {
-                newDate += "-${day}"
-            }
-            date = newDate
-        }
-
         suspend fun updateMeals() {
             //get the timestamp 3 hours before the reaction
-            val reactionTime = LocalDateTime.parse("$date ${reactionTimeField.text}", dateTimeFormat).toEpochSecond(ZoneOffset.UTC)
+            val reactionTime = LocalDateTime.parse("${reactionDate.text} ${reactionTimeField.text}", dateTimeFormat).toEpochSecond(ZoneOffset.UTC)
             val minimumTimestamp = reactionTime - 3600 * 2 //3 hours before reaction
             val minTime = LocalDateTime.ofEpochSecond(minimumTimestamp, 0, ZoneOffset.UTC)
 
             //check whether any meals are present in the last 3 hours
-            val recentMeals = mealViewModel.findMealsByTimeRange(minTime.format(dateTimeFormat), "$date ${reactionTimeField.text}").await()
+            val recentMeals = mealViewModel.findMealsByTimeRange(minTime.format(dateTimeFormat), "${reactionDate.text} ${reactionTimeField.text}").await()
             if(recentMeals.isEmpty()) {
                 MealNotFoundDialogFragment().show(parentFragmentManager, "MEAL_NOT_FOUND")
                 return
             }
 
             val newReaction =
-                Reaction(0, "$date ${reactionTimeField.text}", reactionSeverityField.selectedItem.toString())
+                Reaction(0, "${reactionDate.text} ${reactionTimeField.text}", reactionSeverityField.selectedItem.toString())
             val newReactionId = reactionViewModel.insert(newReaction).await()
 
             val updatedRecentMeals = mutableListOf<Meal>()
