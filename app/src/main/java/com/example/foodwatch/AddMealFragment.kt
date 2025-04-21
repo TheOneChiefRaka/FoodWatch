@@ -2,26 +2,21 @@ package com.example.foodwatch
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Context
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.core.view.contains
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.foodwatch.database.dao.MealIngredientCrossRefDao
 import com.example.foodwatch.database.entities.Meal
 import com.example.foodwatch.database.entities.relations.MealIngredientCrossRef
 import com.example.foodwatch.database.repository.IngredientsRepository
@@ -38,7 +33,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
+class AddMealFragment : Fragment(R.layout.fragment_addmeal) {
 
     private var selectedDate: String = ""
 
@@ -48,7 +43,7 @@ class AddMealFragment : Fragment(R.layout.fragment_typemeals) {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view: View = inflater.inflate(R.layout.fragment_typemeals, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_addmeal, container, false)
 
         val ingredientDao = (requireActivity().application as MealsApplication).database.ingredientDao()
         val ingredientRepository = IngredientsRepository(ingredientDao)

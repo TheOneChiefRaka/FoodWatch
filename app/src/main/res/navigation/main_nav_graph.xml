@@ -33,9 +33,9 @@
     <action android:id="@+id/to_calendar" app:destination="@id/calendarFragment" />
     <fragment
         android:id="@+id/accountFragment"
-        android:name="com.example.foodwatch.AccountFragment"
+        android:name="com.example.foodwatch.FAQFragment"
         android:label="AccountFragment"
-        tools:layout="@layout/fragment_account"/>
+        tools:layout="@layout/fragment_help"/>
     <fragment
         android:id="@+id/reportsFragment"
         android:name="com.example.foodwatch.ReportsFragment"
@@ -62,7 +62,7 @@
         android:id="@+id/addMealFragment"
         android:name="com.example.foodwatch.AddMealFragment"
         android:label="AddMealFragment"
-        tools:layout="@layout/fragment_typemeals"/>
+        tools:layout="@layout/fragment_addmeal"/>
     <fragment
         android:id="@+id/editMealFragment"
         android:name="com.example.foodwatch.EditMealFragment"
