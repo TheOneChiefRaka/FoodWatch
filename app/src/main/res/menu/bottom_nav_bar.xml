@@ -6,8 +6,8 @@
         android:id="@+id/accountButton"
         android:checked="false"
         android:enabled="true"
-        android:icon="@drawable/user_icon"
-        android:title="Account" />
+        android:icon="@drawable/faq"
+        android:title="FAQ" />
     <item
         android:id="@+id/calendarButton"
         android:checked="false"
