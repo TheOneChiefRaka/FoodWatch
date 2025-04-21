@@ -16,24 +16,28 @@ interface MealDao {
     @Query("SELECT * FROM meal")
     fun getAll(): Flow<List<Meal>>
 
-    @Query("SELECT * FROM meal WHERE timeEaten >= :dateEaten || \" 00:00\" AND timeEaten <= :dateEaten || \" 23:59\" ORDER BY timeEaten")
+    @Query("SELECT * FROM meal WHERE substr(timeEaten, 1, 10) = :dateEaten ORDER BY timeEaten")
     suspend fun findMealsByDate(dateEaten: String): List<Meal>
 
-    @Query("SELECT * FROM meal WHERE timeEaten >= :min AND timeEaten <= :max")
+    @Query("SELECT * FROM meal WHERE timeEaten BETWEEN :min AND :max")
     suspend fun findMealsByTimeRange(min: String, max: String): List<Meal>
 
-    @Query("SELECT * FROM meal WHERE id = :mealId")
+    @Query("SELECT * FROM meal WHERE mealId = :mealId")
     suspend fun getMealById(mealId: Int): Meal
 
-    @Query("UPDATE meal SET timeEaten = :timeEaten, name = :name, ingredients = :ingredients WHERE id = :id")
-    suspend fun updateMealById(timeEaten: String, name: String, ingredients: String, id: Int)
+    @Query("UPDATE meal SET timeEaten = :timeEaten, name = :name WHERE mealId = :id")
+    suspend fun updateMealById(timeEaten: String, name: String, id: Int)
 
-    @Query("DELETE FROM meal WHERE id = :mealId")
+    @Query("DELETE FROM meal WHERE mealId = :mealId")
     suspend fun deleteMealById(mealId: Int)
+
+    @Query("UPDATE meal SET reactionId = NULL WHERE reactionId = :reactionId")
+    suspend fun removeReactionFromMeals(reactionId: Int)
 
     @Insert
     suspend fun addMeal(meal: Meal): Long
 
     @Delete
     suspend fun delete(meal: Meal)
+
 }

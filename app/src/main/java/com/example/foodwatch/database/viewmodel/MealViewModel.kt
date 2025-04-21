@@ -9,6 +9,7 @@ import com.example.foodwatch.database.repository.MealsRepository
 import com.example.foodwatch.database.entities.Meal
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.time.YearMonth
 
 class MealViewModel(private val repository: MealsRepository) : ViewModel() {
 
@@ -17,13 +18,14 @@ class MealViewModel(private val repository: MealsRepository) : ViewModel() {
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
     val allMeals: LiveData<List<Meal>> = repository.allMeals.asLiveData()
-
-    /**
-     * Launching a new coroutine to insert the data in a non-blocking way
-     */
+/*
     fun addMeal(meal: Meal, onSuccess: (Long) -> Unit) = viewModelScope.launch {
         val mealId = repository.addMeal(meal)
         onSuccess(mealId)
+    }
+*/
+    suspend fun addMeal(meal: Meal): Long {
+        return repository.addMeal(meal)
     }
 
     fun deleteMealById(mealId: Int) = viewModelScope.launch {
@@ -39,12 +41,20 @@ class MealViewModel(private val repository: MealsRepository) : ViewModel() {
         onSuccess()
     }
 
+    fun removeReactionFromMeals(reactionId: Int) = viewModelScope.launch {
+        repository.removeReactionFromMeals(reactionId)
+    }
+
     fun findMealsByTimeRange(min: String, max: String) = viewModelScope.async {
         repository.findMealsByTimeRange(min, max)
     }
 
     fun findMealsByDate(date: String) = viewModelScope.async {
         repository.findMealsByDate(date)
+    }
+
+    fun countMealsEatenByYearMonth(yearMonth: YearMonth) = viewModelScope.async {
+        repository.countMealsEatenByYearMonth(yearMonth)
     }
 }
 

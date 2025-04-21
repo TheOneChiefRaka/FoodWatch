@@ -53,7 +53,10 @@
         android:id="@+id/addReactionFragment"
         android:name="com.example.foodwatch.AddReactionFragment"
         android:label="AddReactionFragment"
-        tools:layout="@layout/fragment_addreaction"/>
+        tools:layout="@layout/fragment_addreaction"
+        <action
+            android:id="@+id/addReaction_to_addMeal"
+            app:destination="@id/addMealFragment" />
     <fragment
         android:id="@+id/addMealFragment"
         android:name="com.example.foodwatch.AddMealFragment"

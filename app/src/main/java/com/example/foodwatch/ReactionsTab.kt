@@ -1,6 +1,7 @@
 package com.example.foodwatch
 
 import android.app.DatePickerDialog
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,7 +15,6 @@ import com.example.foodwatch.database.viewmodel.IngredientViewModel
 import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import android.icu.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -24,13 +24,12 @@ class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
         IngredientViewModelFactory((activity?.application as MealsApplication).ingredients_repository)
     }
 
+    // Added
     private var startDate: Date? = null
     private var endDate: Date? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.d("ReactionsTab", "onViewCreated called")
 
         // Added buttons
         val startDateButton = view.findViewById<Button>(R.id.btn_start)
@@ -41,7 +40,7 @@ class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
             showDatePickerDialog { selectedDate ->
                 startDate = selectedDate
                 // Update the button text with new date
-                startDateButton.text = SimpleDateFormat("d MMM yy", Locale.ENGLISH).format(selectedDate)
+                startDateButton.text = SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH).format(selectedDate)
             }
         }
 
@@ -50,15 +49,17 @@ class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
             showDatePickerDialog { selectedDate ->
                 endDate = selectedDate
                 // Update the button text with new date
-                endDateButton.text = SimpleDateFormat("d MMM yy", Locale.ENGLISH).format(selectedDate)
+                endDateButton.text = SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH).format(selectedDate)
             }
         }
+
+        Log.d("ReactionsTab", "onViewCreated called")
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.reportsRecyclerList)
         val adapter = ReportListAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
+/*
         lifecycleScope.launch{
             val ingredients = ingredientViewModel.findAllPossibleAllergens().await()
             Log.d("ReactionsTab", "Loaded ${ingredients.size} ingredients")
@@ -68,6 +69,8 @@ class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
             }
             adapter.submitList(ingredients)
         }
+
+ */
     }
 
     private fun showDatePickerDialog(onDateSelected: (Date) -> Unit) {

@@ -3,6 +3,7 @@ package com.example.foodwatch.database.repository
 import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import com.example.foodwatch.database.dao.IngredientDao
 import com.example.foodwatch.database.entities.Ingredient
 import kotlinx.coroutines.flow.Flow
@@ -14,6 +15,73 @@ class IngredientsRepository(private val ingredientDao: IngredientDao) {
     suspend fun findIngredientsByName(ingredientNames: List<String>): List<Ingredient> {
         return ingredientDao.findIngredientsByName(ingredientNames)
     }
+
+    @WorkerThread
+    suspend fun findIngredientById(id: Int): Ingredient {
+        return ingredientDao.findIngredientById(id)
+    }
+
+    @WorkerThread
+    suspend fun insert(ingredient: Ingredient) {
+        ingredientDao.insert(ingredient)
+    }
+
+    // First check if ingredient is already in table
+    @WorkerThread
+    suspend fun addOrUpdateIngredient(name: String): Int? {
+        var ingredientId = ingredientDao.getIngredientIdByName(name)
+        Log.i("TEST", "$ingredientId")
+        if (ingredientId != null){ // ingredient exists
+            //ingredientDao.incrementTimesEaten(name)
+            return ingredientId
+        }
+        else { //Otherwise ingredient was not found and needs to be added to table
+            ingredientDao.insertIngredientToTable(Ingredient(name = name))
+            ingredientId = getIngredientIdByName(name)
+            return ingredientId
+        }
+    }
+
+    // Gets ingredient ID
+    @WorkerThread
+    suspend fun getIngredientIdByName(name: String): Int? {
+        return ingredientDao.getIngredientIdByName(name)
+    }
+
+    suspend fun getAllIngredientNames(): List<String>{
+        return ingredientDao.getAllIngredientNames()
+    }
+
+    suspend fun getIngredientNames(): List<Ingredient>{
+        return ingredientDao.getIngredientNames()
+    }
+
+    suspend fun deleteIngredient(ingredient: Ingredient){
+        ingredientDao.delete(ingredient)
+    }
+/*
+    fun getAllIngredients(): LiveData<List<Ingredient>> {
+        return ingredientDao.getAllIngredients().asLiveData()
+    }
+
+
+
+    @WorkerThread
+    suspend fun deleteIngredient(ingredientId: Int) {
+        ingredientDao.deleteIngredient(ingredientId)
+    }
+
+
+
+    suspend fun addOrUpdateIngredient(ingredient: Ingredient) {
+        ingredientDao.addOrUpdateIngredient(ingredient)
+    }
+
+    suspend fun getIngredientIdByName(name: String): Int? {
+        return ingredientDao.getIngredientIdByName(name)
+    }
+
+
 
     @WorkerThread
     suspend fun findIngredientById(ingredientId: Int) : Ingredient {
@@ -45,31 +113,11 @@ class IngredientsRepository(private val ingredientDao: IngredientDao) {
         ingredientDao.insert(ingredient)
     }
 
-    // First check if ingredient is already in table
-    @WorkerThread
-    suspend fun addOrUpdateIngredient(name: String): Int? {
-        var ingredientId = ingredientDao.getIngredientIdByName(name)
-        Log.i("TEST", "$ingredientId")
-        if (ingredientId != null){ // ingredient exists
-            ingredientDao.incrementTimesEaten(name)
-            return ingredientId
-        }
-        else { //Otherwise ingredient was not found and needs to be added to table
-            ingredientDao.insertIngredientToTable(Ingredient(name = name, timesEaten = 1))
-            ingredientId = getIngredientIdByName(name)
-            return ingredientId
-        }
-    }
 
-    // Gets ingredient ID
-    @WorkerThread
-    suspend fun getIngredientIdByName(name: String): Int? {
-        return ingredientDao.getIngredientIdByName(name)
-    }
 
-    suspend fun getAllIngredientNames(): List<String>{
-        return ingredientDao.getAllIngredientNames()
-    }
+
+
+
 
     suspend fun getIngredientNames(): List<Ingredient>{
         return ingredientDao.getIngredientNames()
@@ -78,4 +126,6 @@ class IngredientsRepository(private val ingredientDao: IngredientDao) {
     suspend fun deleteIngredient(ingredient: Ingredient){
         ingredientDao.delete(ingredient)
     }
+
+*/
 }

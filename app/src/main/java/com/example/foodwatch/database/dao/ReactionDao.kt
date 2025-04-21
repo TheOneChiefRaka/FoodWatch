@@ -15,9 +15,25 @@ interface ReactionDao {
     @Query("SELECT * FROM reaction WHERE reactionTime >= :reactionDate || \" 00:00\" AND reactionTime <= :reactionDate || \" 23:59\" ORDER BY reactionTime")
     suspend fun findReactionsByDate(reactionDate: String): List<Reaction>
 
-    @Insert
-    suspend fun insert(reaction: Reaction)
+    @Query("SELECT * FROM reaction WHERE reactionTime >= :startDate AND reactionTime <= :endDate ORDER BY reactionTime")
+    fun findReactionsByDateRange(startDate: String, endDate: String): List<Reaction>
+
+    @Query("SELECT * FROM reaction WHERE :min <= reactionTime AND reactionTime <= :max")
+    suspend fun findReactionsByTimeRange(min: String, max: String): List<Reaction>
+
+    @Query("UPDATE reaction SET reactionTime = :reactionTime, severity = :severity WHERE reactionId = :id")
+    suspend fun updateReactionById(reactionTime: String, severity: String, id: Int)
+
+    @Query("SELECT * FROM reaction WHERE reactionId = :id")
+    suspend fun findReactionById(id: Int): Reaction
 
     @Delete
     suspend fun delete(reaction: Reaction)
+
+    @Insert
+    suspend fun insert(reaction: Reaction): Long
+/*
+    @Query("DELETE FROM reaction WHERE reactionId = :reactionId")
+    suspend fun delete(reactionId: Int)
+*/
 }

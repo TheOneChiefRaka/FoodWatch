@@ -15,8 +15,7 @@ import kotlinx.coroutines.runBlocking
 class IngredientViewModel(private val repository: IngredientsRepository) : ViewModel() {
     val allIngredients: LiveData<List<Ingredient>> = repository.allIngredients.asLiveData()
 
-    //running the function asynchronously so we can get a result from it
-    fun findIngredientsByName(ingredientNames: List<String>) = viewModelScope.async {
+    fun findIngredientByName(ingredientNames: List<String>) = viewModelScope.async {
         repository.findIngredientsByName(ingredientNames)
     }
 
@@ -24,6 +23,7 @@ class IngredientViewModel(private val repository: IngredientsRepository) : ViewM
         repository.findIngredientById(ingredientId)
     }
 
+/*
     //launching the function because we don't care about its result
     fun addIngredientsReactionMild(ingredientIds: List<Int>) = viewModelScope.launch {
         repository.addIngredientsReactionMild(ingredientIds)
@@ -40,7 +40,7 @@ class IngredientViewModel(private val repository: IngredientsRepository) : ViewM
     fun findAllPossibleAllergens() = viewModelScope.async {
         repository.findAllPossibleAllergens()
     }
-
+*/
     fun insert(ingredient: Ingredient) = viewModelScope.launch {
         repository.insert(ingredient)
     }
