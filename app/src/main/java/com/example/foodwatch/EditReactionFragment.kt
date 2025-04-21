@@ -162,6 +162,7 @@ class EditReactionFragment : Fragment() {
 
         deleteReactionButton.setOnClickListener {
             reactionViewModel.deleteReaction(Reaction(reactionId, "${reactionDate.text} ${reactionTimeField.text}", reactionSeverityField.selectedItem.toString()))
+            navFragment.navController.navigateUp()
         }
 
         editReactionButton.setOnClickListener {

@@ -103,8 +103,12 @@ class CalendarFragment : Fragment() {
             val reactions = reactionViewModel.findReactionsByDate(date).await().sortedBy { it.reactionTime }
             if(meals.isNotEmpty() || reactions.isNotEmpty()) {   //if there's data to display
                 listRecyclerContainer.background = ContextCompat.getDrawable(view.context, R.drawable.calendar_recycler_border)
+                reactionRecyclerView.setBackgroundColor(ContextCompat.getColor(view.context, R.color.background))
+                mealRecyclerView.setBackgroundColor(ContextCompat.getColor(view.context, R.color.background))
             }
             else {
+                reactionRecyclerView.background = null
+                mealRecyclerView.background = null
                 listRecyclerContainer.background = null
             }
             mealAdapter.submitList(meals)

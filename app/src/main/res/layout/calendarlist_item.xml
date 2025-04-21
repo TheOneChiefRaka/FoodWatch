@@ -8,8 +8,8 @@
     <TextView
         android:id="@+id/textView"
         style="@style/word_title"
-        android:textColor="@color/highlighted_text"
+        android:textColor="@color/background_text_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/text_highlight" />
+        />
 </LinearLayout>
