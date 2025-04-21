@@ -41,6 +41,10 @@ class MealViewModel(private val repository: MealsRepository) : ViewModel() {
         onSuccess()
     }
 
+    fun removeReactionFromMeals(reactionId: Int) = viewModelScope.launch {
+        repository.removeReactionFromMeals(reactionId)
+    }
+
     fun findMealsByTimeRange(min: String, max: String) = viewModelScope.async {
         repository.findMealsByTimeRange(min, max)
     }

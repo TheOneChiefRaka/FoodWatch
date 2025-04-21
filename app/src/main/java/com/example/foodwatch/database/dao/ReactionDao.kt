@@ -18,6 +18,12 @@ interface ReactionDao {
     @Query("SELECT * FROM reaction WHERE :min <= reactionTime AND reactionTime <= :max")
     suspend fun findReactionsByTimeRange(min: String, max: String): List<Reaction>
 
+    @Query("UPDATE reaction SET reactionTime = :reactionTime, severity = :severity WHERE reactionId = :reactionId")
+    suspend fun updateReactionById(reactionTime: String, severity: String, reactionId: Int)
+
+    @Query("SELECT * FROM reaction WHERE reactionId = :id")
+    suspend fun findReactionById(id: Int): Reaction
+
     @Insert
     suspend fun insert(reaction: Reaction): Long
 
