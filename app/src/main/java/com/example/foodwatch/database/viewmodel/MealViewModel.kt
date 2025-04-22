@@ -9,6 +9,7 @@ import com.example.foodwatch.database.repository.MealsRepository
 import com.example.foodwatch.database.entities.Meal
 import com.kizitonwose.calendar.core.CalendarMonth
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.time.YearMonth
 

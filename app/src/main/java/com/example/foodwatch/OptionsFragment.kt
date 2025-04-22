@@ -1,17 +1,31 @@
 package com.example.foodwatch
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Switch
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.example.foodwatch.database.entities.Ingredient
+import com.example.foodwatch.database.viewmodel.IngredientViewModel
+import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
+import java.io.File
 
 class OptionsFragment : Fragment(R.layout.fragment_options) {
+
+    private val ingredientViewModel: IngredientViewModel by viewModels {
+        IngredientViewModelFactory((requireActivity().application as MealsApplication).ingredients_repository)
+    }
+
+    private var latestIngredients: List<Ingredient> = emptyList()
+
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -22,6 +36,19 @@ class OptionsFragment : Fragment(R.layout.fragment_options) {
         val editor = sharedPreferences.edit()
         val nightMode = sharedPreferences.getBoolean("darkMode", false)
         val darkModeSwitch = view.findViewById<SwitchCompat>(R.id.darkModeSwitch)
+        val exportButton = view.findViewById<Button>(R.id.exportData)
+
+        ingredientViewModel.allIngredients.observe(viewLifecycleOwner) { list -> latestIngredients = list }
+
+        view.findViewById<Button>(R.id.exportData).setOnClickListener {
+            if (latestIngredients.isEmpty()) {
+                Toast.makeText(requireContext(), "No ingredients to export", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                exportIngredientsCSV(latestIngredients)
+            }
+        }
+
         if (nightMode) {
             // Dark mode is enabled
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -46,15 +73,39 @@ class OptionsFragment : Fragment(R.layout.fragment_options) {
             }
         }
 
-        /// Notifications and sounds
         val notificationSwitch = view.findViewById<SwitchCompat>(R.id.notificationSwitch)
-        notificationSwitch.setOnCheckedChangeListener { _, isChecked -> {}
-            // Handle notification switch state change
-        }
+        notificationSwitch.setOnCheckedChangeListener { _, isChecked -> {} }
         val soundSwitch = view.findViewById<SwitchCompat>(R.id.soundSwitch)
         soundSwitch.setOnCheckedChangeListener { _, isChecked ->{}}
 
-
         return view
+    }
+
+    private fun exportIngredientsCSV(ingredients: List<Ingredient>) {
+        val header = listOf(
+            "id",
+            "name",
+            "timesEaten",
+            "mildReactions",
+            "mediumReactions",
+            "severeReactions"
+        ).joinToString(",") + "\n"
+
+        val rows = ingredients.joinToString("\n") { ing ->
+            val safeName = "\"${ing.name.replace("\"","\"\"")}\""
+            listOf(
+                ing.ingredientId.toString(),
+                safeName
+            ).joinToString(",")
+        }
+
+        val csvText = header + rows
+
+        val file = File(requireContext().getExternalFilesDir(null), "ingredients_export.csv")
+        file.writeText(csvText)
+
+        Toast.makeText(requireContext(),"Exported ${ingredients.size} ingredients to\n${file.absolutePath}",Toast.LENGTH_LONG).show()
+
+
     }
 }

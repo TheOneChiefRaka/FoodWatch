@@ -13,6 +13,7 @@ import java.time.YearMonth
 class MealsRepository(private val mealDao: MealDao) {
     val allMeals: Flow<List<Meal>> = mealDao.getAll()
 
+
     @WorkerThread
     suspend fun findMealsByDate(dateEaten: String): List<Meal> {
         return mealDao.findMealsByDate(dateEaten)
@@ -60,4 +61,6 @@ class MealsRepository(private val mealDao: MealDao) {
     suspend fun deleteMealById(mealId: Int) {
         return mealDao.deleteMealById(mealId)
     }
+
+    fun getAll(): Flow<List<Meal>> = mealDao.getAll()
 }
