@@ -81,22 +81,22 @@ class CalendarFragment : Fragment() {
         calendar.daySize = DaySize.Square
 
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        suspend fun updateDayData(adapter: ReactionDotAdapter, day: LocalDate, mealCountText: TextView) {
-            val currentDay = day.format(formatter)
-            val mealCount = mealViewModel.findMealsByDate(currentDay).await().count()
-            var reactionList = reactionViewModel.findReactionsByDate(currentDay).await()
-            //don't display more than 4 reactions
-            if(reactionList.count() > 4)
-                reactionList = reactionList.take(4)
-            //easter egg or lazy UI design? you decide!
-            if(mealCount == 0)
-                mealCountText.text = ""
-            else if(mealCount > 99)
-                mealCountText.text = "∞"
-            else
-                mealCountText.text = mealCount.toString()
-            adapter.submitList(reactionList)
-        }
+//        suspend fun updateDayData(adapter: ReactionDotAdapter, day: LocalDate, mealCountText: TextView) {
+//            val currentDay = day.format(formatter)
+//            val mealCount = mealViewModel.findMealsByDate(currentDay).await().count()
+//            var reactionList = reactionViewModel.findReactionsByDate(currentDay).await()
+//            //don't display more than 4 reactions
+//            if(reactionList.count() > 4)
+//                reactionList = reactionList.take(4)
+//            //easter egg or lazy UI design? you decide!
+//            if(mealCount == 0)
+//                mealCountText.text = ""
+//            else if(mealCount > 99)
+//                mealCountText.text = "∞"
+//            else
+//                mealCountText.text = mealCount.toString()
+//            adapter.submitList(reactionList)
+//        }
 
         suspend fun updateList(date: String) {
             val meals = mealViewModel.findMealsByDate(date).await().sortedBy { it.timeEaten }

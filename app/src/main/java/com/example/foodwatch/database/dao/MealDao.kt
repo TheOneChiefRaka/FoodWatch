@@ -42,9 +42,9 @@ interface MealDao {
     @Delete
     suspend fun delete(meal: Meal)
 
-    /*
+/*
     @Transaction
     @Query("SELECT * FROM Meal")
     fun getReactionsWithMeals(): List<ReactionWithMeal>
-    */
+*/
 }
