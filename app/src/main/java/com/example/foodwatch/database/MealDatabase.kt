@@ -14,11 +14,9 @@ import com.example.foodwatch.database.entities.Meal
 import com.example.foodwatch.database.entities.Reaction
 import com.example.foodwatch.database.entities.relations.MealIngredientCrossRef
 import kotlinx.coroutines.CoroutineScope
-import com.example.foodwatch.database.Converters
 
 
 @Database(entities = [Meal::class, Reaction::class, Ingredient::class, MealIngredientCrossRef::class], version = 3)
-@TypeConverters(Converters::class)  // Added
 abstract class MealsDatabase : RoomDatabase() {
     abstract fun mealDao(): MealDao
     abstract fun reactionDao(): ReactionDao

@@ -11,7 +11,7 @@ import android.view.View
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.foodwatch.ReactionListAdapter.ReactionViewHolder
 import com.example.foodwatch.database.entities.Ingredient
-import com.example.foodwatch.database.entities.ReactionWithIngredients
+import com.example.foodwatch.database.entities.IngredientData
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -23,7 +23,7 @@ import kotlin.compareTo
 import kotlin.text.toFloat
 
 
-class ReportListAdapter : ListAdapter<ReactionWithIngredients, ReportListAdapter.ReactionViewHolder>(ReactionsComparator()) {
+class ReportListAdapter : ListAdapter<IngredientData, ReportListAdapter.ReactionViewHolder>(ReactionsComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReactionViewHolder {
         return ReactionViewHolder.create(parent)
@@ -31,15 +31,8 @@ class ReportListAdapter : ListAdapter<ReactionWithIngredients, ReportListAdapter
 
     override fun onBindViewHolder(holder: ReactionViewHolder, position: Int) {
         val current = getItem(position)
-        val ingredientCounts = current.ingredientCounts
-        val severity = current.severity
-        val timesEaten = ingredientCounts.values.sum()
-        val mild = if (severity == "mild") timesEaten else 0
-        val medium = if (severity == "medium") timesEaten else 0
-        val severe = if (severity == "severe") timesEaten else 0
-        val name = ingredientCounts.keys.firstOrNull() ?: "Unknown"
 
-        holder.bind(name, timesEaten, mild, medium, severe)
+        holder.bind(current.name, current.timesEaten, current.mild, current.medium, current.severe)
     }
 
     class ReactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -103,14 +96,17 @@ class ReportListAdapter : ListAdapter<ReactionWithIngredients, ReportListAdapter
         }
     }
 
-    class ReactionsComparator : DiffUtil.ItemCallback<ReactionWithIngredients>() {
-        override fun areItemsTheSame(oldItem: ReactionWithIngredients, newItem: ReactionWithIngredients): Boolean {
+    class ReactionsComparator : DiffUtil.ItemCallback<IngredientData>() {
+        override fun areItemsTheSame(oldItem: IngredientData, newItem: IngredientData): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: ReactionWithIngredients, newItem: ReactionWithIngredients): Boolean {
-            return  oldItem.severity == newItem.severity &&
-                    oldItem == newItem
+        override fun areContentsTheSame(oldItem: IngredientData, newItem: IngredientData): Boolean {
+            return  oldItem.name == newItem.name &&
+                    oldItem.timesEaten == newItem.timesEaten &&
+                    oldItem.mild == newItem.mild &&
+                    oldItem.medium == newItem.medium &&
+                    oldItem.severe == newItem.severe
         }
     }
 }

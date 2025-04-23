@@ -17,18 +17,23 @@ import java.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.widget.DatePicker
 import com.example.foodwatch.database.entities.Reaction
-import com.example.foodwatch.database.entities.ReactionWithIngredients
 import java.util.Date
 import java.util.Locale
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
+import com.example.foodwatch.database.viewmodel.IngredientViewModel
+import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
 
 
 class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
 
     private val reactionViewModel: ReactionViewModel by viewModels {
         ReactionViewModelFactory((activity?.application as MealsApplication).reactions_repository)
+    }
+
+    private val ingredientViewModel: IngredientViewModel by viewModels {
+        IngredientViewModelFactory((activity?.application as MealsApplication).ingredients_repository)
     }
 
     private lateinit var reportListAdapter: ReportListAdapter
@@ -47,14 +52,14 @@ class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
         val endDateButton = view.findViewById<Button>(R.id.btn_end)
 
         // Load all reactions
-        loadAllReactions()
+        loadReportData()
 
         // Setting click listener for start date button
         startDateButton.setOnClickListener {
             showDatePickerDialog { selectedDate ->
                 startDate = selectedDate
                 // Update the button text with new date
-                startDateButton.text = SimpleDateFormat("d MMM yy", Locale.ENGLISH).format(selectedDate)
+                startDateButton.text = SimpleDateFormat("dd-MM-yy", Locale.ENGLISH).format(selectedDate)
                 updateReactionsList()
             }
         }
@@ -64,7 +69,7 @@ class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
             showDatePickerDialog { selectedDate ->
                 endDate = selectedDate
                 // Update the button text with new date
-                endDateButton.text = SimpleDateFormat("d MMM yy", Locale.ENGLISH).format(selectedDate)
+                endDateButton.text = SimpleDateFormat("dd-MMM-yy", Locale.ENGLISH).format(selectedDate)
                 updateReactionsList()
             }
         }
@@ -78,114 +83,23 @@ class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
     private fun updateReactionsList() {
         if (startDate == null && endDate == null) {
             // Load all reactions
-            loadAllReactions()
+            loadReportData()
         }
         else if (startDate != null && endDate != null) {
             val startDateString = dateFormat.format(startDate!!)
             val endDateString = dateFormat.format(endDate!!)
             // Only one day
             if (startDateString == endDateString) {
-                loadReactionsForDate(startDateString)
+                //loadReactionsForDate(startDateString)
             } else {
-                loadReactionsForTimeRange("$startDateString 00:00", "$endDateString 23:59")
+                //loadReactionsForTimeRange("$startDateString 00:00", "$endDateString 23:59")
             }
         }
     }
 
-//    private fun updateReactionsList() {
-//        if (startDate != null && endDate != null) {
-//            val startDateString = dateFormat.format(startDate!!)
-//            val endDateString = dateFormat.format(endDate!!)
-//
-//            // Only one day
-//            if (startDateString == endDateString) {
-//                loadReactionsForDate(startDateString)
-//            } else {
-//                lifecycleScope.launch {
-//                    val reactions = reactionViewModel.findReactionsByTimeRange(
-//                        "$startDateString 00:00",
-//                        "$endDateString 23:59"
-//                    ).await()
-//
-//                    val reactionsWithIngredients = mutableListOf<ReactionWithIngredients>()
-//                    for (reaction in reactions) {
-//                        val ingredientCounts = reactionViewModel.getIngredientReactionCounts(reaction.reactionId)
-//                        reactionsWithIngredients.add(
-//                            ReactionWithIngredients(
-//                                reaction.severity,
-//                                ingredientCounts
-//                            )
-//                        )
-//                    }
-//                    reportListAdapter.submitList(reactionsWithIngredients)
-//                }
-//            }
-//        }
-//    }
-    private fun loadAllReactions() {
-        reactionViewModel.getAllReactions().observe(viewLifecycleOwner, Observer { reactionsWithIngredients ->
-            reportListAdapter.submitList(reactionsWithIngredients)
-        })
+    private fun loadReportData() {
+        lifecycleScope.launch { reportListAdapter.submitList(ingredientViewModel.getIngredientData().await()) }
     }
-
-    private fun loadReactionsForDate(date: String) {
-        lifecycleScope.launch {
-            reactionViewModel.getReactionsWithIngredientsByDate(date).observe(
-                viewLifecycleOwner
-            ) { reactionsWithIngredients ->
-                reportListAdapter.submitList(reactionsWithIngredients)
-            }
-        }
-    }
-
-    private fun loadReactionsForTimeRange(min: String, max: String) {
-        lifecycleScope.launch {
-            val reactions = reactionViewModel.findReactionsByTimeRange(min, max).await()
-
-            val reactionsWithIngredients = mutableListOf<ReactionWithIngredients>()
-            for (reaction in reactions) {
-                val ingredientCounts = reactionViewModel.getIngredientReactionCounts(reaction.reactionId)
-                reactionsWithIngredients.add(
-                    ReactionWithIngredients(
-                        reaction.severity,
-                        ingredientCounts
-                    )
-                )
-            }
-            reportListAdapter.submitList(reactionsWithIngredients)
-        }
-    }
-
-//    private fun updateReactionsList() {
-//        if (startDate != null && endDate != null) {
-//            val startDateString = dateFormat.format(startDate!!)
-//            val endDateString = dateFormat.format(endDate!!)
-//
-//            // If only one day is selected
-//            if (startDateString == endDateString) {
-//                loadReactionsForDate(startDateString)
-//            } else {
-//                lifecycleScope.launch {
-//                    val reactions = reactionViewModel.findReactionsByTimeRange (
-//                        "$startDateString 00:00",
-//                        "$endDateString 23:59"
-//                    ).await()
-//
-//                    val reactionsWithIngredients = mutableListOf<ReactionWithIngredients>()
-//                    for (reaction in reactions) {
-//                        val ingredientCounts =
-//                            reactionViewModel.getIngredientReactionCounts(reaction.reactionId)
-//                        reactionsWithIngredients.add(
-//                            ReactionWithIngredients(
-//                                reaction.severity,
-//                                ingredientCounts
-//                            )
-//                        )
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     private fun showDatePickerDialog(onDateSelected: (Date) -> Unit) {
         val calendar = Calendar.getInstance()

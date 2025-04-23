@@ -50,6 +50,14 @@ class IngredientViewModel(private val repository: IngredientsRepository) : ViewM
         repository.getIngredientNames()
     }
 
+    fun getIngredientData() = viewModelScope.async {
+        repository.getIngredientData()
+    }
+
+    fun getIngredientDataTimeRange(startDate: String, endDate: String) = viewModelScope.async {
+        repository.getIngredientDataTimeRange(startDate, endDate)
+    }
+
     fun deleteIngredient(ingredient: Ingredient) = viewModelScope.launch{
         repository.deleteIngredient(ingredient)
     }

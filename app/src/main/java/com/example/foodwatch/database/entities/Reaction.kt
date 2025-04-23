@@ -50,16 +50,3 @@ data class Reaction(
     @ColumnInfo val reactionTime: String,               //format of yyyy-MM-dd HH:mm so that it can be sorted into chronological order
     @ColumnInfo val severity: String,                   //severity of the reaction: mild, medium, or severe
 )
-
-data class ReactionWithIngredients(
-    val severity: String,
-    val ingredientCounts: Map<String, Int>
-)
-
-data class ReactionIngredientResult(
-    val reactionId: Int,
-    val reactionTime: String?,
-    val severity: String?,
-    val ingredientId: Int?,
-    val ingredientName: String?
-)

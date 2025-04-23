@@ -8,18 +8,12 @@ import androidx.lifecycle.LiveData
 //import androidx.paging.map
 import com.example.foodwatch.database.dao.ReactionDao
 import com.example.foodwatch.database.entities.Reaction
-import com.example.foodwatch.database.entities.ReactionIngredientResult
-import com.example.foodwatch.database.entities.ReactionWithIngredients
 import kotlinx.coroutines.flow.Flow
 import java.time.YearMonth
 import kotlinx.coroutines.flow.map
 
 class ReactionsRepository(private val reactionDao: ReactionDao) {
     val allReactionsWithoutIngredients: Flow<List<Reaction>> = reactionDao.getAll()
-
-    fun getAllReactionsWithIngredients(): LiveData<List<ReactionWithIngredients>> {
-        return reactionDao.getAllReactionsWithIngredients()
-    }
 
     @WorkerThread
     suspend fun findReactionsByDate(date: String): List<Reaction> {
@@ -70,60 +64,6 @@ class ReactionsRepository(private val reactionDao: ReactionDao) {
     @WorkerThread
     suspend fun insert(reaction: Reaction): Long {
         return reactionDao.insert(reaction)
-    }
-
-    fun getIngredientReactionCountsForReaction(reactionId: Int): Map<String, Int> {
-        return reactionDao.getIngredientReactionCountsForReaction(reactionId)
-            .associate { it.ingredientName to it.count }
-    }
-
-    fun getAllReactions(): Flow<List<ReactionWithIngredients>> {
-        return reactionDao.getAllReactions().map { rawResults ->
-            // Process the raw results into ReactionWithIngredients
-            val groupedByReaction = rawResults.groupBy { it.reactionId }
-
-            groupedByReaction.map { (_, reactions) ->
-                val severity = reactions.first().severity ?: ""
-                val ingredientCounts = reactions
-                    .filter { it.ingredientName != null }
-                    .groupBy { it.ingredientName!! }
-                    .mapValues { it.value.size }
-
-                ReactionWithIngredients(severity, ingredientCounts)
-            }
-        }
-    }
-
-    fun getReactionsWithIngredientsByDate(date: String): Flow<List<ReactionWithIngredients>> {
-        return reactionDao.getReactionsWithIngredientsByDate(date).map { rawResults ->
-            // Process the raw results into ReactionWithIngredients
-            val groupedByReaction = rawResults.groupBy { it.reactionId }
-
-            groupedByReaction.map { (_, reactions) ->
-                val severity = reactions.first().severity ?: ""
-                val ingredientCounts = reactions
-                    .filter { it.ingredientName != null }
-                    .groupBy { it.ingredientName!! }
-                    .mapValues { it.value.size }
-
-                ReactionWithIngredients(severity, ingredientCounts)
-            }
-        }
-    }
-
-    private fun transformToReactionWithIngredients(reactionIngredientResults: List<ReactionIngredientResult>): List<ReactionWithIngredients> {
-        val grouped = reactionIngredientResults.groupBy { it.reactionId }
-        return grouped.map { (reactionId, results) ->
-            val reaction = results.first()
-            val ingredientCounts = results.groupingBy { it.ingredientName }
-                .eachCount()
-                .filterKeys { it != null }
-                .mapKeys { it.key!! }
-            ReactionWithIngredients(
-                severity = reaction.severity ?: "",
-                ingredientCounts = ingredientCounts
-            )
-        }
     }
 
 //    class ReactionsRepository(private val reactionDao: ReactionDao) {

@@ -8,8 +8,6 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.foodwatch.database.repository.ReactionsRepository
 import com.example.foodwatch.database.entities.Reaction
-import com.example.foodwatch.database.entities.ReactionIngredientResult
-import com.example.foodwatch.database.entities.ReactionWithIngredients
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
@@ -27,9 +25,6 @@ class ReactionViewModel(private val repository: ReactionsRepository) : ViewModel
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-    fun getAllReactions(): LiveData<List<ReactionWithIngredients>> {
-        return repository.getAllReactionsWithIngredients() // Assuming you have this method in your repository
-    }
 
     fun insert(reaction: Reaction) = viewModelScope.async {
         repository.insert(reaction)
@@ -58,9 +53,6 @@ class ReactionViewModel(private val repository: ReactionsRepository) : ViewModel
         repository.deleteReaction(reaction)
     }
 
-    suspend fun getIngredientReactionCounts(reactionId: Int): Map<String, Int> {
-        return repository.getIngredientReactionCountsForReaction(reactionId).filterKeys { it != null }.mapKeys { it.key!! }
-    }
 
 
 //    fun processReactionIngredients(rawData: List<ReactionIngredientResult>): List<ReactionWithIngredients> {
@@ -75,14 +67,6 @@ class ReactionViewModel(private val repository: ReactionsRepository) : ViewModel
 //            ReactionWithIngredients(severity, ingredientCounts)
 //        }
 //    }
-
-    fun getReactionsWithIngredientsByDate(date: String?): LiveData<List<ReactionWithIngredients>> {
-        return if (date.isNullOrEmpty()) {
-            MutableLiveData(emptyList())
-        } else {
-            repository.getReactionsWithIngredientsByDate(date).asLiveData()
-        }
-    }
 
 }
 

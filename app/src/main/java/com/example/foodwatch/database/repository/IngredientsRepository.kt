@@ -5,6 +5,7 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.example.foodwatch.database.dao.IngredientDao
 import com.example.foodwatch.database.entities.Ingredient
+import com.example.foodwatch.database.entities.IngredientData
 import kotlinx.coroutines.flow.Flow
 
 class IngredientsRepository(private val ingredientDao: IngredientDao) {
@@ -65,12 +66,23 @@ class IngredientsRepository(private val ingredientDao: IngredientDao) {
         return ingredientDao.getIngredientIdByName(name)
     }
 
+    @WorkerThread
     suspend fun getAllIngredientNames(): List<String>{
         return ingredientDao.getAllIngredientNames()
     }
 
+    @WorkerThread
     suspend fun getIngredientNames(): List<Ingredient>{
         return ingredientDao.getIngredientNames()
+    }
+
+    @WorkerThread
+    suspend fun getIngredientData(): List<IngredientData> {
+        return ingredientDao.getIngredientData()
+    }
+
+    suspend fun getIngredientDataTimeRange(startDate: String, endDate: String): List<IngredientData> {
+        return ingredientDao.getIngredientDataTimeRange(startDate, endDate)
     }
 
     suspend fun deleteIngredient(ingredient: Ingredient){
