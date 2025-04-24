@@ -21,7 +21,6 @@
     <color name="calendar_different_month_body">#E0EAD6</color>
     <color name="calendar_different_month_text_day">#B8D3AA</color>
 
-    <color name="title_text_color">#81B266</color>
     <color name="options_settings_text_color">#606060</color>
     <color name="options_drawable_tint">#000000</color>
 

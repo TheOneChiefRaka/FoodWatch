@@ -53,7 +53,7 @@
         android:background="@drawable/roundstyle"
         android:backgroundTint="@color/button_drawable_tint"
         android:drawableLeft="@android:drawable/ic_menu_recent_history"
-        android:drawableTint="#61E54B"
+        android:drawableTint="#4E9F3D"
         android:ems="10"
         android:inputType="text"
         android:paddingLeft="10dp"
