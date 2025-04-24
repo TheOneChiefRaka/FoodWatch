@@ -27,7 +27,7 @@ view = "2.6.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-androidx-fragment-ktx-v186 = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
+
 androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigationSafeArgsGradlePlugin" }
 calendar-compose = { module = "com.kizitonwose.calendar:compose", version.ref = "view" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

@@ -40,13 +40,13 @@ class OptionsFragment : Fragment(R.layout.fragment_options) {
         val editor = sharedPreferences.edit()
         val darkModeSwitch = view.findViewById<SwitchCompat>(R.id.darkModeSwitch)
         val nightMode = sharedPreferences.getBoolean("darkMode", false)
-        val exportButton = view.findViewById<Button>(R.id.exportData)
+        val exportButton = view.findViewById<Button>(R.id.exportDataButton)
 
         ingredientViewModel.allIngredients.observe(viewLifecycleOwner) { list ->
             latestIngredients = list
         }
 
-        view.findViewById<Button>(R.id.exportData).setOnClickListener {
+        view.findViewById<Button>(R.id.exportDataButton).setOnClickListener {
             if (latestIngredients.isEmpty()) {
                 Toast.makeText(requireContext(), "No ingredients to export", Toast.LENGTH_SHORT)
                     .show()
