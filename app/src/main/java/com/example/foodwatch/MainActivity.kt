@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         //find bottom navigation bar
         val navBar = findViewById<BottomNavigationView>(R.id.navBar)
-        navBar.selectedItemId = R.id.calendarButton
+        navBar.selectedItemId = R.id.homeButton
 
         //set listener for when a button is selected
         navBar.setOnItemSelectedListener { item ->

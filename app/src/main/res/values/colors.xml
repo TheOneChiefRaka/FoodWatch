@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Light Version -->
-    <color name="background">#FFFFFF</color>
+    <color name="background">#EEF5EB</color>
     <color name="background_text_color">#000000</color>
     <color name="icon_selected_tint">#4CAF50</color>
     <color name="icon_unselected_tint">#000000</color>
@@ -24,7 +24,7 @@
     <!-- Button Text Colors -->
     <color name="button_background">#EFEFEF</color>
     <color name="button_text_color">#000000</color>
-    <color name="button_drawable_tint">#000000</color>
+    <color name="button_drawable_tint">#c4deb8</color>
     <color name="delete_button_background_tint">#B02222</color>
     <color name="text_highlight">#EEF5EB</color>
     <color name="highlighted_text">#000000</color>
