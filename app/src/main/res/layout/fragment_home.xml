@@ -22,14 +22,14 @@
         android:layout_width="190dp"
         android:layout_height="77dp"
         android:layout_marginTop="30dp"
-        android:backgroundTint="@color/nav_bar_button_color"
+        android:backgroundTint="@color/home_buttons"
         android:text="@string/add_reaction"
-        style="@style/buttonTextColor"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addMealButton"
-        app:strokeColor="@color/nav_bar_button_color"
+        app:strokeColor="@color/home_buttons_stroke"
         app:strokeWidth="3dp" />
 
     <Button
@@ -37,14 +37,14 @@
         android:layout_width="190dp"
         android:layout_height="77dp"
         android:layout_marginTop="25dp"
-        android:backgroundTint="@color/nav_bar_button_color"
+        android:backgroundTint="@color/home_buttons"
         android:text="@string/add_meal"
-        style="@style/buttonTextColor"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:strokeColor="@color/nav_bar_button_color"
+        app:strokeColor="@color/home_buttons_stroke"
         app:strokeWidth="3dp" />
 
     <TextView
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="@string/app_subtitle"
-        android:textColor="@color/nav_bar_button_color"
+        android:textColor="@color/home_buttons_stroke"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
@@ -68,7 +68,7 @@
         android:fontFamily="@font/inter_bold"
         android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/nav_bar_button_color"
+        android:textColor="#4E9F3D"
         android:textSize="38sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

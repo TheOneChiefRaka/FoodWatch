@@ -20,6 +20,8 @@
     <color name="calendar_different_month_text_day">#B8D3AA</color>
 
     <!-- Button Text Colors -->
+    <color name="home_buttons_stroke">#6BA54B</color>
+    <color name="home_buttons">#81B266</color>
     <color name="button_background">#2A2C2A</color>
     <color name="button_text_color">#FFFFFF</color>
     <color name="button_drawable_tint">#2A2C2A</color>
