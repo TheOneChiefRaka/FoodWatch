@@ -8,11 +8,14 @@
 
     <TextView
         android:id="@+id/ingredientTitle"
-        android:layout_width="264dp"
-        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="Title"
         android:textColor="@color/button_text_color"
         android:textSize="24sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/deleteIngredient"
         app:layout_constraintStart_toStartOf="parent"
