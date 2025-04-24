@@ -40,7 +40,7 @@ class IngredientsDatabaseAdapter(private val lifecycleScope: CoroutineScope) : R
                     lifecycleScope.launch {
                         val ingredientDao = (holder.itemView.context.applicationContext as MealsApplication).database.ingredientDao()
                         ingredientDao.delete(ingredient)
-                        //deleteIngredient(ingredient)
+                        deleteIngredient(ingredient)
                 }
             }
                 .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
@@ -60,7 +60,6 @@ class IngredientsDatabaseAdapter(private val lifecycleScope: CoroutineScope) : R
 
     fun deleteIngredient(ingredient: Ingredient) {
         val index = ingredients.indexOfFirst { it.name == ingredient.name }
-        Log.d("IngredientsTab", "I'm going to delete ${ingredient.name}!")
 
         if (index >= 0){
             ingredients.removeAt(index)
