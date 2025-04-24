@@ -35,7 +35,7 @@
         android:id="@+id/accountFragment"
         android:name="com.example.foodwatch.FAQFragment"
         android:label="AccountFragment"
-        tools:layout="@layout/fragment_help"/>
+        tools:layout="@layout/fragment_faq"/>
     <fragment
         android:id="@+id/reportsFragment"
         android:name="com.example.foodwatch.ReportsFragment"

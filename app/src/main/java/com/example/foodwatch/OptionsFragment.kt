@@ -1,8 +1,11 @@
 package com.example.foodwatch
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Context
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,19 +35,22 @@ class OptionsFragment : Fragment(R.layout.fragment_options) {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_options, container, false)
-        val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         val nightMode = sharedPreferences.getBoolean("darkMode", false)
         val darkModeSwitch = view.findViewById<SwitchCompat>(R.id.darkModeSwitch)
         val exportButton = view.findViewById<Button>(R.id.exportData)
 
-        ingredientViewModel.allIngredients.observe(viewLifecycleOwner) { list -> latestIngredients = list }
+        ingredientViewModel.allIngredients.observe(viewLifecycleOwner) { list ->
+            latestIngredients = list
+        }
 
         view.findViewById<Button>(R.id.exportData).setOnClickListener {
             if (latestIngredients.isEmpty()) {
-                Toast.makeText(requireContext(), "No ingredients to export", Toast.LENGTH_SHORT).show()
-            }
-            else {
+                Toast.makeText(requireContext(), "No ingredients to export", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
                 exportIngredientsCSV(latestIngredients)
             }
         }
@@ -76,12 +82,23 @@ class OptionsFragment : Fragment(R.layout.fragment_options) {
         val notificationSwitch = view.findViewById<SwitchCompat>(R.id.notificationSwitch)
         notificationSwitch.setOnCheckedChangeListener { _, isChecked -> {} }
         val soundSwitch = view.findViewById<SwitchCompat>(R.id.soundSwitch)
-        soundSwitch.setOnCheckedChangeListener { _, isChecked ->{}}
+        soundSwitch.setOnCheckedChangeListener { _, isChecked -> {} }
 
         return view
     }
 
     private fun exportIngredientsCSV(ingredients: List<Ingredient>) {
+        val resolver = requireContext().contentResolver
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, "ingredients_export.csv")
+            put(MediaStore.MediaColumns.MIME_TYPE, "text/csv")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+        }
+        val uri = resolver.insert(
+            MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY),
+            contentValues
+        ) ?: return
+
         val header = listOf(
             "id",
             "name",
@@ -92,7 +109,7 @@ class OptionsFragment : Fragment(R.layout.fragment_options) {
         ).joinToString(",") + "\n"
 
         val rows = ingredients.joinToString("\n") { ing ->
-            val safeName = "\"${ing.name.replace("\"","\"\"")}\""
+            val safeName = "\"${ing.name.replace("\"", "\"\"")}\""
             listOf(
                 ing.ingredientId.toString(),
                 safeName
@@ -101,11 +118,16 @@ class OptionsFragment : Fragment(R.layout.fragment_options) {
 
         val csvText = header + rows
 
-        val file = File(requireContext().getExternalFilesDir(null), "ingredients_export.csv")
-        file.writeText(csvText)
+        resolver.openOutputStream(uri)?.use { out ->
+            out.write(csvText.toByteArray())
 
-        Toast.makeText(requireContext(),"Exported ${ingredients.size} ingredients to\n${file.absolutePath}",Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                requireContext(),
+                "Exported ${ingredients.size} ingredients to Downloads",
+                Toast.LENGTH_LONG
+            ).show()
 
 
+        }
     }
 }
