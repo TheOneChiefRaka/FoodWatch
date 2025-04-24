@@ -24,23 +24,11 @@ class IngredientViewModel(private val repository: IngredientsRepository) : ViewM
         repository.findIngredientById(ingredientId)
     }
 
-    //launching the function because we don't care about its result
-    /*
-    fun addIngredientsReactionMild(ingredientIds: List<Int>) = viewModelScope.launch {
-        repository.addIngredientsReactionMild(ingredientIds)
-    }
-
-    fun addIngredientsReactionMedium(ingredientIds: List<Int>) = viewModelScope.launch {
-        repository.addIngredientsReactionMedium(ingredientIds)
-    }
-
-    fun addIngredientsReactionSevere(ingredientIds: List<Int>) = viewModelScope.launch {
-        repository.addIngredientsReactionSevere(ingredientIds)
-    }
-
+/*
     fun findAllPossibleAllergens() = viewModelScope.async {
         repository.findAllPossibleAllergens()
-    }*/
+    }
+*/
 
     fun insert(ingredient: Ingredient) = viewModelScope.launch {
         repository.insert(ingredient)
@@ -60,6 +48,14 @@ class IngredientViewModel(private val repository: IngredientsRepository) : ViewM
 
     fun getIngredientNames() = viewModelScope.async{
         repository.getIngredientNames()
+    }
+
+    fun getIngredientData() = viewModelScope.async {
+        repository.getIngredientData()
+    }
+
+    fun getIngredientDataTimeRange(startDate: String, endDate: String) = viewModelScope.async {
+        repository.getIngredientDataTimeRange(startDate, endDate)
     }
 
     fun deleteIngredient(ingredient: Ingredient) = viewModelScope.launch{

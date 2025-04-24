@@ -1,6 +1,5 @@
 [versions]
-agp = "8.8.0"
-fragmentKtx = "1.8.6"
+agp = "8.9.0"
 kotlin = "2.0.21"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -51,6 +50,7 @@ kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutin
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
 calendar = { module = "com.kizitonwose.calendar:view", version.ref = "view" }
+
 
 
 [plugins]

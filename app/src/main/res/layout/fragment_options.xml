@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,184 +8,207 @@
     style="@style/background"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:alpha="0.05"
+        android:background="@drawable/background_tiled">
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/settings_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings"
+        android:paddingTop="20dp"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/preferencesText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PREFERENCES"
+        android:paddingStart="40dp"
+        android:paddingEnd="0dp"
+        android:textStyle="bold"
+        style="@style/backgroundTextColor"
+        app:layout_constraintTop_toBottomOf="@id/settings_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/darkmodeSwitchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="5dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@drawable/constraint_rounded_background"
+        app:layout_constraintTop_toBottomOf="@+id/preferencesText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:text="Settings"
-            android:paddingTop="20dp"
-            android:layout_centerInParent="true"
-            android:textStyle="bold"
-            android:textSize="24sp">
-        </TextView>
-    </RelativeLayout>
-
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:paddingStart="15dp"
+            android:paddingEnd="0dp"
+            android:drawablePadding="5dp"
+            android:text="Dark Mode"
+            style="@style/buttonTransitionColor"
+            app:drawableStartCompat="@drawable/dark_mode_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="60dp"
-                android:src="@drawable/profile_icon"></ImageView>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/darkModeSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:clickable="true"
+            android:drawablePadding="10dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="0dp"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:theme="@style/buttonSwitch"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Zach Cooksey"
-                android:textColor="#FFFF"
-                android:textSize="24sp"></TextView>
+    <!-- Box Background for Switch -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/soundSwitchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="5dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@drawable/constraint_rounded_background"
+        app:layout_constraintTop_toBottomOf="@+id/darkmodeSwitchContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/options_edit_profile_round_background"
-                android:paddingStart="40dp"
-                android:paddingEnd="30dp"
-                android:text="Edit Profile"
-                android:textColor="#FFFFFF">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="15dp"
+            android:paddingEnd="0dp"
+            android:drawablePadding="5dp"
+            android:text="Sounds"
+            style="@style/buttonTransitionColor"
+            app:drawableStartCompat="@drawable/calendar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
-            </androidx.appcompat.widget.AppCompatButton>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/soundSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:clickable="true"
+            android:drawablePadding="10dp"
+            android:focusable="true"
+            android:paddingStart="15dp"
+            android:paddingEnd="0dp"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:theme="@style/buttonSwitch"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/options_round_background"
-                android:orientation="vertical"
-                android:padding="15dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/notificationSwitchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@drawable/constraint_rounded_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/soundSwitchContainer">
 
-                <!-- Dark Mode -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+        <TextView
+            style="@style/buttonTransitionColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="0dp"
+            android:text="Notifications"
+            app:drawableStartCompat="@drawable/notifications_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/darkModeIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/dark_mode_round_background"
-                        android:padding="12dp"
-                        android:src="@drawable/darkmode_icon"></ImageView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:layout_toEndOf="@+id/darkModeIcon"
-                        android:text="Dark Mode"
-                        android:textColor="#FFFFFF"
-                        android:textSize="15dp"
-                        android:textStyle="bold"></TextView>
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/darkModeSwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:switchMinWidth="50dp"
-                        android:theme="@style/darkModeSwitch"></androidx.appcompat.widget.SwitchCompat>
-                </RelativeLayout>
-                <!-- Notifications -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <ImageView
-                        android:id="@+id/notificationIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/notifications_round_background"
-                        android:padding="12dp"
-                        android:src="@drawable/notifications"></ImageView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:layout_toEndOf="@+id/notificationIcon"
-                        android:text="Notifications"
-                        android:textColor="#FFFFFF"
-                        android:textSize="15dp"
-                        android:textStyle="bold"></TextView>
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/notificationSwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:switchMinWidth="50dp"
-                        android:theme="@style/notificationsSwitch"></androidx.appcompat.widget.SwitchCompat>
-                </RelativeLayout>
-                <!-- Sounds -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <ImageView
-                        android:id="@+id/soundIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/sounds_round_background"
-                        android:padding="12dp"
-                        android:src="@drawable/sounds"></ImageView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:layout_toEndOf="@+id/soundIcon"
-                        android:text="Sounds"
-                        android:textColor="#FFFFFF"
-                        android:textSize="15dp"
-                        android:textStyle="bold"></TextView>
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/soundSwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:switchMinWidth="50dp"
-                        android:theme="@style/soundsSwitch"></androidx.appcompat.widget.SwitchCompat>
-                </RelativeLayout>
-
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/notificationSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:clickable="true"
+            android:drawablePadding="10dp"
+            android:focusable="true"
+            android:paddingStart="15dp"
+            android:paddingEnd="0dp"
+            android:theme="@style/buttonSwitch"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/exportData"
-        android:layout_width="181dp"
-        android:layout_height="70dp"
-        android:text="Export"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        android:id="@+id/languageButton"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="Language"
+        android:background="@drawable/constraint_rounded_background"
+        style="@style/buttonTransitionColor"
+        android:textAlignment="textStart"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="5dp"
+        android:drawableEnd="@drawable/navigate_next"
+        app:layout_constraintTop_toBottomOf="@id/notificationSwitchContainer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
-        app:layout_constraintVertical_bias="0.333" />
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/exportDataButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/constraint_rounded_background"
+        android:text="EXPORT DATA"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/languageButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

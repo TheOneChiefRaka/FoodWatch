@@ -32,7 +32,7 @@ class IngredientListAdapter(
         return ingredients.size
     }
 
-    fun removeItem(position: Int){
+    private fun removeItem(position: Int){
         ingredients.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, ingredients.size)

@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/calendarFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.foodwatch.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/home_to_addmeal"
             app:destination="@id/addMealFragment" />
@@ -28,6 +28,9 @@
         <action
             android:id="@+id/calendar_to_edit_meal"
             app:destination="@id/editMealFragment" />
+        <action
+            android:id="@+id/action_calendarFragment_to_editReactionFragment"
+            app:destination="@id/editReactionFragment" />
     </fragment>
     <action android:id="@+id/to_home" app:destination="@id/homeFragment" />
     <action android:id="@+id/to_calendar" app:destination="@id/calendarFragment" />
@@ -70,6 +73,15 @@
         tools:layout="@layout/fragment_editmeal">
         <argument
             android:name="mealId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/editReactionFragment"
+        android:name="com.example.foodwatch.EditReactionFragment"
+        android:label="EditReactionFragment"
+        tools:layout="@layout/fragment_editreaction">
+        <argument
+            android:name="reactionId"
             app:argType="integer" />
     </fragment>
 </navigation>

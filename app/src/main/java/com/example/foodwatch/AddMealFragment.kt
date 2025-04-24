@@ -180,7 +180,7 @@ class AddMealFragment : Fragment(R.layout.fragment_addmeal) {
                 ingredientViewModel.addOrUpdateIngredients(ingredient).join()
                 val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient).await()
                 if(ingredientId != null){
-                    ingredientIds.add(ingredientId)
+                    ingredientIds.add(ingredientId.toInt())
                 }
                 else{
                     Toast.makeText(requireContext(), "Error finding ingredientID!", Toast.LENGTH_LONG).show()

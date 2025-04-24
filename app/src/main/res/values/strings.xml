@@ -6,6 +6,16 @@
     <string name="app_subtitle">Allergy Awareness</string>
     <string name="pass_test">Test passed!</string>
     <string name="return_home">Return Home</string>
+    <string name="notifications">Notifications</string>
+    <string name="notification_description">Notification Description</string>
+    <string name="sounds">Sounds</string>
+    <string name="sounds_description">Sounds Description</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="dark_mode_description">Dark Mode Description</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="profile_picture_description">Profile Picture Description</string>
+    <string name="profile_name">Zachary</string>
+    <string name="settings">Settings</string>
     <string-array name="reaction_severity_array">
         <item>Mild</item>
         <item>Medium</item>

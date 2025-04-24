@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="nav_bar_color">#222322</color>
+    <color name="background">#191A19</color>
+    <color name="background_text_color">#FFFFFF</color>
+    <color name="icon_selected_tint">#4CAF50</color>
+    <color name="icon_unselected_tint">#FFFFFF</color>
+    <color name="icon_selected_background">#333333</color>
+    <color name="icon_unselected_background">#333333</color>
+    <color name="calendar_normal_top_border">#97BF80</color>
+    <color name="calendar_normal_body">#191A19</color>
+    <color name="calendar_normal_text_day">#81B266</color>
+    <color name="calendar_normal_text_count">#629348</color>
+    <color name="calendar_selected_top_border">#99c680</color>
+    <color name="calendar_selected_body">#5a744b</color>
+    <color name="calendar_selected_text_day">#a4e281</color>
+    <color name="calendar_selected_text_count">#8dbd74</color>
+    <color name="calendar_different_month_top_border">#BDD6B0</color>
+    <color name="calendar_different_month_body">#191A19</color>
+    <color name="calendar_different_month_text_day">#B8D3AA</color>
+
+    <!-- Button Text Colors -->
+    <color name="button_background">#2A2C2A</color>
+    <color name="button_text_color">#FFFFFF</color>
+    <color name="button_drawable_tint">#FFFFFF</color>
+    <color name="delete_button_background_tint">#B02222</color>
+    <color name="text_highlight">#E0FFD8</color>
+    <color name="highlighted_text">#000000</color>
+</resources>

@@ -5,17 +5,17 @@ import com.google.gson.Gson
 import java.net.IDN
 
 //converters to convert an array of integers to a json array; used to store ingredients lists into the table (hopefully)
-class Converters {
-    @TypeConverter
-    fun listToJson(value: List<Int>?) = Gson().toJson(value)
-
-    @TypeConverter
-    fun jsonToList(value: String) = Gson().fromJson(value, Array<Int>::class.java).toList()
-}
+//class Converters {
+//    @TypeConverter
+//    fun listToJson(value: List<Int>?) = Gson().toJson(value)
+//
+//    @TypeConverter
+//    fun jsonToList(value: String) = Gson().fromJson(value, Array<Int>::class.java).toList()
+//}
 
 // This defines the meal table columns
 @Entity
-@TypeConverters(Converters::class)
+//@TypeConverters(Converters::class)
 data class Meal(
 
     @PrimaryKey(autoGenerate = true) val mealId: Int = 0,

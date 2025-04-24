@@ -6,31 +6,28 @@
         android:id="@+id/accountButton"
         android:checked="false"
         android:enabled="true"
-        android:icon="@drawable/user_icon"
-        android:title="Account" />
+        android:icon="@drawable/faq"
+        android:title="FAQ" />
     <item
         android:id="@+id/calendarButton"
-        android:checkable="false"
         android:checked="false"
+        android:enabled="true"
         android:icon="@drawable/calendar"
         android:title="Calendar" />
     <item
         android:id="@+id/homeButton"
-        android:checkable="false"
         android:checked="false"
         android:enabled="true"
         android:icon="@drawable/house"
         android:title="Home" />
     <item
         android:id="@+id/reportsButton"
-        android:checkable="false"
         android:checked="false"
         android:enabled="true"
         android:icon="@drawable/chart"
         android:title="Reports" />
     <item
         android:id="@+id/optionsButton"
-        android:checkable="false"
         android:checked="false"
         android:enabled="true"
         android:icon="@drawable/settings"

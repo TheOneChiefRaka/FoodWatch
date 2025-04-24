@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -26,7 +25,6 @@ import com.example.foodwatch.database.viewmodel.ReactionViewModel
 import com.example.foodwatch.database.viewmodel.ReactionViewModelFactory
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.CalendarMonth
-import com.kizitonwose.calendar.core.CalendarYear
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.nextMonth
@@ -46,11 +44,11 @@ import java.util.Locale
 
 class CalendarFragment : Fragment() {
 
-    val mealViewModel: MealViewModel by viewModels {
+    private val mealViewModel: MealViewModel by viewModels {
         MealViewModelFactory((activity?.application as MealsApplication).meals_repository)
     }
 
-    val reactionViewModel: ReactionViewModel by viewModels {
+    private val reactionViewModel: ReactionViewModel by viewModels {
         ReactionViewModelFactory((activity?.application as MealsApplication).reactions_repository)
     }
 
@@ -83,30 +81,34 @@ class CalendarFragment : Fragment() {
         calendar.daySize = DaySize.Square
 
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        suspend fun updateDayData(adapter: ReactionDotAdapter, day: LocalDate, mealCountText: TextView) {
-            val currentDay = day.format(formatter)
-            val mealCount = mealViewModel.findMealsByDate(currentDay).await().count()
-            var reactionList = reactionViewModel.findReactionsByDate(currentDay).await()
-            //don't display more than 4 reactions
-            if(reactionList.count() > 4)
-                reactionList = reactionList.take(4)
-            //easter egg or lazy UI design? you decide!
-            if(mealCount == 0)
-                mealCountText.text = ""
-            else if(mealCount > 99)
-                mealCountText.text = "∞"
-            else
-                mealCountText.text = mealCount.toString()
-            adapter.submitList(reactionList)
-        }
+//        suspend fun updateDayData(adapter: ReactionDotAdapter, day: LocalDate, mealCountText: TextView) {
+//            val currentDay = day.format(formatter)
+//            val mealCount = mealViewModel.findMealsByDate(currentDay).await().count()
+//            var reactionList = reactionViewModel.findReactionsByDate(currentDay).await()
+//            //don't display more than 4 reactions
+//            if(reactionList.count() > 4)
+//                reactionList = reactionList.take(4)
+//            //easter egg or lazy UI design? you decide!
+//            if(mealCount == 0)
+//                mealCountText.text = ""
+//            else if(mealCount > 99)
+//                mealCountText.text = "∞"
+//            else
+//                mealCountText.text = mealCount.toString()
+//            adapter.submitList(reactionList)
+//        }
 
         suspend fun updateList(date: String) {
             val meals = mealViewModel.findMealsByDate(date).await().sortedBy { it.timeEaten }
             val reactions = reactionViewModel.findReactionsByDate(date).await().sortedBy { it.reactionTime }
-            if(meals.count() > 0 || reactions.count() > 0) {   //if there's data to display
+            if(meals.isNotEmpty() || reactions.isNotEmpty()) {   //if there's data to display
                 listRecyclerContainer.background = ContextCompat.getDrawable(view.context, R.drawable.calendar_recycler_border)
+                reactionRecyclerView.setBackgroundColor(ContextCompat.getColor(view.context, R.color.background))
+                mealRecyclerView.setBackgroundColor(ContextCompat.getColor(view.context, R.color.background))
             }
             else {
+                reactionRecyclerView.background = null
+                mealRecyclerView.background = null
                 listRecyclerContainer.background = null
             }
             mealAdapter.submitList(meals)
@@ -153,7 +155,7 @@ class CalendarFragment : Fragment() {
             }
         }
 
-        var currentMonth = YearMonth.now()
+        val currentMonth = YearMonth.now()
         selectedDay = LocalDate.now()
         lifecycleScope.launch { updateList(selectedDay.format(formatter)) }
         val startMonth = currentMonth.minusMonths(120)
@@ -184,11 +186,17 @@ class CalendarFragment : Fragment() {
                 container.reactionDotRecycler.adapter = dotAdapter
                 container.reactionDotRecycler.layoutManager = GridLayoutManager(calendar.context, 4)
                 if(data.position == DayPosition.MonthDate) {  //true if day is part of the current month
-                    if(data.date == selectedDay)
+                    if(data.date == selectedDay) {
                         container.view.background = ContextCompat.getDrawable(view.context, R.drawable.calendar_day_border_selected)
-                    else
+                        container.dayOfMonth.setTextColor(ContextCompat.getColor(view.context, R.color.calendar_selected_text_day))
+                        container.mealCountTextView.setTextColor(ContextCompat.getColor(view.context, R.color.calendar_selected_text_count))
+                    }
+                    else {
                         container.view.background = ContextCompat.getDrawable(view.context, R.drawable.calendar_day_border)
-                    container.dayOfMonth.setTextColor(Color.parseColor("#81B266"))
+                        container.dayOfMonth.setTextColor(ContextCompat.getColor(view.context, R.color.calendar_normal_text_day))
+                        container.mealCountTextView.setTextColor(ContextCompat.getColor(view.context, R.color.calendar_normal_text_count))
+                    }
+
                     //lifecycleScope.launch { updateDayData(dotAdapter, data.date, container.mealCountTextView) }
                     if(reactionsLists[data.date.yearMonth.year]?.get(data.date.yearMonth.month.value) != null && mealsEatenCounts[data.date.yearMonth.year]?.get(data.date.yearMonth.month.value) != null) {
                         val mealCount = mealsEatenCounts[data.date.yearMonth.year]?.get(data.date.yearMonth.month.value)?.get(data.date.dayOfMonth-1)
@@ -202,7 +210,7 @@ class CalendarFragment : Fragment() {
                 else {
                     container.mealCountTextView.text = ""
                     container.view.background = ContextCompat.getDrawable(view.context, R.drawable.calendar_day_border_different_month)
-                    container.dayOfMonth.setTextColor(Color.parseColor("#B8D3AA"))
+                    container.dayOfMonth.setTextColor(ContextCompat.getColor(view.context, R.color.calendar_different_month_text_day))
                 }
             }
         }

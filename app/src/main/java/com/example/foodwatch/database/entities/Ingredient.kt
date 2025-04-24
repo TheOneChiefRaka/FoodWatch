@@ -9,3 +9,6 @@ data class Ingredient(
     @PrimaryKey(autoGenerate = true) val ingredientId: Int = 0,
     @ColumnInfo val name: String
 )
+
+data class IngredientData(val name: String, val timesEaten: Int, val mild: Int, val medium: Int, val severe: Int)
+

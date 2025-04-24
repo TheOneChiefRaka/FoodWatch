@@ -24,6 +24,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.foodwatch.database.entities.Meal
 import com.example.foodwatch.database.entities.Reaction
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
@@ -39,26 +40,8 @@ import java.time.LocalTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-class MealNotFoundDialogFragment : DialogFragment() {
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return activity?.let {
-            // Use the Builder class for convenient dialog construction.
-            val builder = AlertDialog.Builder(it)
-            builder.setMessage("A reaction cannot be more than 3 hours after a meal. Please add a meal or correct the date and time fields.")
-                .setPositiveButton("Add Meal") { dialog, id ->
-                    //navigate to addmeal page
-                    this.findNavController().navigate(R.id.addReaction_to_addMeal)
-                }
-                .setNegativeButton("Close") { dialog, id ->
-                    //close dialog
-                }
-            // Create the AlertDialog object and return it.
-            builder.create()
-        } ?: throw IllegalStateException("Activity cannot be null")
-    }
-}
-
-class AddReactionFragment : Fragment() {
+class EditReactionFragment : Fragment() {
+    val args: EditReactionFragmentArgs by navArgs()
 
     val reactionViewModel: ReactionViewModel by viewModels {
         ReactionViewModelFactory((activity?.application as MealsApplication).reactions_repository)
@@ -78,20 +61,40 @@ class AddReactionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         //inflate view
-        val view: View = inflater.inflate(R.layout.fragment_addreaction, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_editreaction, container, false)
 
         //get navFragment
         val navFragment = activity?.supportFragmentManager?.findFragmentById(R.id.navFragment) as NavHostFragment
 
         //get form fields
+        val reactionId = args.reactionId
         val reactionDate = view.findViewById<EditText>(R.id.reactionDate)
-        val addReactionButton = view.findViewById<Button>(R.id.addReactionButton)
+        val editReactionButton = view.findViewById<Button>(R.id.editReactionButton)
         val reactionTimeField = view.findViewById<EditText>(R.id.reactionTime)
         val reactionSeverityField = view.findViewById<Spinner>(R.id.reactionSeverity)
+        val deleteReactionButton = view.findViewById<Button>(R.id.deleteReactionButton)
+
+        //query reaction data
+
+        var originalTime: String? = null
+
+        lifecycleScope.launch {
+            val reaction = reactionViewModel.findReactionById(reactionId).await()
+            originalTime = reaction.reactionTime
+            reactionTimeField.setText(reaction.reactionTime.takeLast(5))
+            reactionDate.setText(reaction.reactionTime.take(10))
+            reactionSeverityField.setSelection(
+                when(reaction.severity) {
+                    "Mild" -> 0
+                    "Medium" -> 1
+                    "Severe" -> 2
+                    else -> 0
+                }
+            )
+        }
 
         val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
         val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        reactionDate.setText(LocalDate.now().format(dateFormat).toString())
 
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -99,7 +102,6 @@ class AddReactionFragment : Fragment() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
-        reactionTimeField.setText(String.format("%02d:%02d", hour, minute))
 
         // Date picker
         val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
@@ -129,32 +131,41 @@ class AddReactionFragment : Fragment() {
         }
 
         suspend fun updateMeals() {
-            //get the timestamp 3 hours before the reaction
-            val reactionTime = LocalDateTime.parse("${reactionDate.text} ${reactionTimeField.text}", dateTimeFormat).toEpochSecond(ZoneOffset.UTC)
-            val minimumTimestamp = reactionTime - 3600 * 2 //3 hours before reaction
-            val minTime = LocalDateTime.ofEpochSecond(minimumTimestamp, 0, ZoneOffset.UTC)
+            //if the time hasn't been changed, no reason to update meals
+            if("${reactionDate.text} ${reactionTimeField.text}" != originalTime) {
+                //remove the reaction from all meals currently
+                mealViewModel.removeReactionFromMeals(reactionId).join()
 
-            //check whether any meals are present in the last 3 hours
-            val recentMeals = mealViewModel.findMealsByTimeRange(minTime.format(dateTimeFormat), "${reactionDate.text} ${reactionTimeField.text}").await()
-            if(recentMeals.isEmpty()) {
-                MealNotFoundDialogFragment().show(parentFragmentManager, "MEAL_NOT_FOUND")
-                return
+                //get the timestamp 3 hours before the reaction
+                val reactionTime = LocalDateTime.parse("${reactionDate.text} ${reactionTimeField.text}", dateTimeFormat).toEpochSecond(ZoneOffset.UTC)
+                val minimumTimestamp = reactionTime - 3600 * 2 //3 hours before reaction
+                val minTime = LocalDateTime.ofEpochSecond(minimumTimestamp, 0, ZoneOffset.UTC)
+
+                //check whether any meals are present in the last 3 hours
+                val recentMeals = mealViewModel.findMealsByTimeRange(minTime.format(dateTimeFormat), "${reactionDate.text} ${reactionTimeField.text}").await()
+//                if(recentMeals.isEmpty()) {
+//                    MealNotFoundDialogFragment().show(parentFragmentManager, "MEAL_NOT_FOUND")
+//                    return
+//                }
+
+                //add reaction id to all meals within the last 3 hours
+                for(meal in recentMeals) {
+                    mealViewModel.updateMealById(Meal(meal.mealId, reactionId, meal.timeEaten, meal.name), {})
+                }
             }
 
-            val newReaction =
-                Reaction(0, "${reactionDate.text} ${reactionTimeField.text}", reactionSeverityField.selectedItem.toString())
-            val newReactionId = reactionViewModel.insert(newReaction).await()
+            //update reaction
+            reactionViewModel.updateReactionById("${reactionDate.text} ${reactionTimeField.text}", reactionSeverityField.selectedItem.toString(), reactionId)
 
-            val updatedRecentMeals = mutableListOf<Meal>()
-
-            //add reaction id to all meals within the last 3 hours
-            for(meal in recentMeals) {
-                mealViewModel.updateMealById(Meal(meal.mealId, newReactionId.toInt(), meal.timeEaten, meal.name), {})
-            }
-            navFragment.navController.navigate(R.id.to_home)
+            navFragment.navController.navigateUp()
         }
 
-        addReactionButton.setOnClickListener {
+        deleteReactionButton.setOnClickListener {
+            reactionViewModel.deleteReaction(Reaction(reactionId, "${reactionDate.text} ${reactionTimeField.text}", reactionSeverityField.selectedItem.toString()))
+            navFragment.navController.navigateUp()
+        }
+
+        editReactionButton.setOnClickListener {
             if(reactionSeverityField.selectedItem.toString() != "" || reactionTimeField.text.toString() != "") {
                 lifecycleScope.launch { updateMeals() }
             }

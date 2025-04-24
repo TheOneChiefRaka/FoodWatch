@@ -6,23 +6,32 @@
     </style>
 
     <style name="background" parent="Theme.AppCompat.Light">
-        <item name="android:background">@color/light_background</item>
+        <item name="android:background">@color/background</item>
     </style>
-
+    <style name="buttonTextColor" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/button_text_color</item>
+    </style>
+    <style name="backgroundTextColor" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/background_text_color</item>
+    </style>
+    <style name="navigationBarIconTint" parent="Theme.AppCompat.Light">
+        <item name="android:tint">@color/icon_unselected_background</item>
+    </style>
+    <style name="navigationBarIconBackground" parent="Theme.AppCompat.Light">
+        <item name="android:background">@color/icon_unselected_background</item>
+    </style>
+    <style name="buttonSwitch" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">#B8B8B8</item>
+        <item name="colorSwitchThumbNormal">#FFFFFF</item>
+        <item name="android:colorForeground">#99979797</item>
+    </style>
+    <style name="buttonTheme" parent="Theme.AppCompat.Light">
+    </style>
     <style name="Theme.FoodWatch" parent="Base.Theme.FoodWatch" />
-    <style name="darkModeSwitch" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">@color/dark_mode</item>
-        <item name="colorSwitchThumbNormal">#FFFFFF</item>
-        <item name="android:colorForeground">#99FFFFFF</item>
-    </style>
-    <style name="notificationsSwitch" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">@color/notifications</item>
-        <item name="colorSwitchThumbNormal">#FFFFFF</item>
-        <item name="android:colorForeground">#99FFFFFF</item>
-    </style>
-    <style name="soundsSwitch" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">@color/sounds</item>
-        <item name="colorSwitchThumbNormal">#FFFFFF</item>
-        <item name="android:colorForeground">#99FFFFFF</item>
+    <style name="buttonTransitionColor" parent="Theme.AppCompat.Light">
+        <item name="android:background">@color/button_background</item>
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="backgroundTint">@color/button_background</item>
+        <item name="android:drawableTint">@color/button_drawable_tint</item>
     </style>
 </resources>

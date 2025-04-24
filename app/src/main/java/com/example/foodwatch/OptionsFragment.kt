@@ -38,8 +38,8 @@ class OptionsFragment : Fragment(R.layout.fragment_options) {
         val sharedPreferences =
             requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        val nightMode = sharedPreferences.getBoolean("darkMode", false)
         val darkModeSwitch = view.findViewById<SwitchCompat>(R.id.darkModeSwitch)
+        val nightMode = sharedPreferences.getBoolean("darkMode", false)
         val exportButton = view.findViewById<Button>(R.id.exportData)
 
         ingredientViewModel.allIngredients.observe(viewLifecycleOwner) { list ->
@@ -82,7 +82,7 @@ class OptionsFragment : Fragment(R.layout.fragment_options) {
         val notificationSwitch = view.findViewById<SwitchCompat>(R.id.notificationSwitch)
         notificationSwitch.setOnCheckedChangeListener { _, isChecked -> {} }
         val soundSwitch = view.findViewById<SwitchCompat>(R.id.soundSwitch)
-        soundSwitch.setOnCheckedChangeListener { _, isChecked -> {} }
+        soundSwitch.setOnCheckedChangeListener { _, isChecked ->{}}
 
         return view
     }

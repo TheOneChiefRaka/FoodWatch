@@ -7,6 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.foodwatch.database.entities.Ingredient
+import com.example.foodwatch.database.entities.IngredientData
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,29 +17,12 @@ interface IngredientDao {
 
     @Query("SELECT * FROM ingredient WHERE name IN (:ingredientNames)")
     suspend fun findIngredientsByName(ingredientNames: List<String>): List<Ingredient>
-    /*
-    @Query("UPDATE ingredient SET mildReactions = mildReactions + 1 WHERE ingredient_id IN (:ingredientIds)" )
-    suspend fun addIngredientsReactionMild(ingredientIds: List<Int>)
 
-    @Query("UPDATE ingredient SET mediumReactions = mediumReactions + 1 WHERE id IN (:ingredientIds)" )
-    suspend fun addIngredientsReactionMedium(ingredientIds: List<Int>)
-
-    @Query("UPDATE ingredient SET severeReactions = severeReactions + 1 WHERE id IN (:ingredientIds)" )
-    suspend fun addIngredientsReactionSevere(ingredientIds: List<Int>)
-
-    @Query("SELECT * FROM Ingredient WHERE (mildReactions + mediumReactions + severeReactions) > 0")
-    suspend fun findAllPossibleAllergens(): List<Ingredient>
-    */
     @Query("SELECT * FROM Ingredient WHERE name = :name LIMIT 1")
     suspend fun checkForIngredient(name: String): Ingredient?
 
-    /*
-    @Query("UPDATE ingredient SET timesEaten = timesEaten + 1 WHERE name = :name")
-    suspend fun incrementTimesEaten(name: String)
-    */
-
     @Query("SELECT ingredientId FROM Ingredient WHERE name = :name LIMIT 1")
-    suspend fun getIngredientIdByName(name: String): Int?
+    suspend fun getIngredientIdByName(name: String): Long?
 
     @Query("SELECT name FROM Ingredient")
     suspend fun getAllIngredientNames(): List<String>
@@ -49,11 +33,30 @@ interface IngredientDao {
     @Query("SELECT * FROM Ingredient ORDER BY name ASC")
     suspend fun getIngredientNames(): List<Ingredient>
 
+    @Query("SELECT i.name, COUNT(*) AS timesEaten, COUNT(CASE r.severity WHEN 'Mild' THEN 1 ELSE NULL END) AS mild, COUNT(CASE r.severity WHEN 'Medium' THEN 1 ELSE NULL END) AS medium, COUNT(CASE r.severity WHEN 'Severe' THEN 1 ELSE NULL END) AS severe\n" +
+            "FROM ingredient AS i INNER JOIN mealingredientcrossref AS mi ON i.ingredientId = mi.ingredientId\n" +
+            "INNER JOIN meal AS m ON mi.mealId = m.mealId\n" +
+            "LEFT OUTER JOIN reaction AS r ON m.reactionId = r.reactionId\n" +
+            "GROUP BY i.name\n" +
+            "HAVING mild + medium + severe > 0\n" +
+            "ORDER BY ((mild + medium + severe)) DESC, timesEaten DESC")
+    suspend fun getIngredientData(): List<IngredientData>
+
+    @Query("SELECT i.name, COUNT(*) AS timesEaten, COUNT(CASE r.severity WHEN 'Mild' THEN 1 ELSE NULL END) AS mild, COUNT(CASE r.severity WHEN 'Medium' THEN 1 ELSE NULL END) AS medium, COUNT(CASE r.severity WHEN 'Severe' THEN 1 ELSE NULL END) AS severe\n" +
+            "FROM ingredient AS i INNER JOIN mealingredientcrossref AS mi ON i.ingredientId = mi.ingredientId\n" +
+            "INNER JOIN meal AS m ON mi.mealId = m.mealId\n" +
+            "LEFT OUTER JOIN reaction AS r ON m.reactionId = r.reactionId\n" +
+            "WHERE :startDate || \" 00:00\" <= m.timeEaten AND m.timeEaten <= :endDate || \" 23:59\"\n" +
+            "GROUP BY i.name\n" +
+            "HAVING mild + medium + severe > 0\n" +
+            "ORDER BY ((mild + medium + severe)) DESC, timesEaten DESC")
+    suspend fun getIngredientDataTimeRange(startDate: String, endDate: String): List<IngredientData>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertIngredientToTable(ingredient: Ingredient)
+    suspend fun insertIngredientToTable(ingredient: Ingredient): Long
 
     @Insert
-    suspend fun insert(ingredient: Ingredient)
+    suspend fun insert(ingredient: Ingredient): Long
 
     @Query("SELECT * FROM ingredient ORDER BY name ASC")
     fun getAllIngredients(): LiveData<List<Ingredient>>

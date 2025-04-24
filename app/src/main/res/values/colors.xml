@@ -1,24 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Light Version -->
-    <color name="light_background">#EEF5EB</color>
+    <color name="background">#FFFFFF</color>
+    <color name="background_text_color">#000000</color>
+    <color name="icon_selected_tint">#4CAF50</color>
+    <color name="icon_unselected_tint">#000000</color>
+    <color name="icon_selected_background">#FFFFFF</color>
+    <color name="icon_unselected_background">#FFFFFF</color>
+    <color name="nav_bar_color">#FFFFFF</color>
+    <color name="nav_bar_button_color">#606060</color>
+    <color name="calendar_normal_top_border">#97BF80</color>
+    <color name="calendar_normal_body">#E1E9D1</color>
+    <color name="calendar_normal_text_day">#81B266</color>
+    <color name="calendar_normal_text_count">#3BA900</color>
+    <color name="calendar_selected_top_border">#8DB776</color>
+    <color name="calendar_selected_body">#D2E0C1</color>
+    <color name="calendar_selected_text_day">#81B266</color>
+    <color name="calendar_selected_text_count">#3BA900</color>
+    <color name="calendar_different_month_top_border">#BDD6B0</color>
+    <color name="calendar_different_month_body">#E0EAD6</color>
+    <color name="calendar_different_month_text_day">#B8D3AA</color>
 
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="darkGreen">#569831</color>
-    <color name="lightGreen">#81B266</color>
-    <color name="strokeGreen">#6BA54B</color>
-    <color name="navButtonColor">#606060</color>
+    <!-- Button Text Colors -->
+    <color name="button_background">#EFEFEF</color>
+    <color name="button_text_color">#000000</color>
+    <color name="button_drawable_tint">#000000</color>
+    <color name="delete_button_background_tint">#B02222</color>
+    <color name="text_highlight">#EEF5EB</color>
+    <color name="highlighted_text">#000000</color>
+
+
+    <!-- Common Colors -->
+    <color name="darkGreen">#3BA900</color>
+    <color name="common_switch">#47FF31</color>
     <color name="noReaction">#48D479</color>
     <color name="mildReaction">#FFE733</color>
     <color name="mediumReaction">#FF8C01</color>
     <color name="severeReaction">#ED2938</color>
-
-    <!-- Dark Version -->
-    <color name="dark_background">#191A19</color>
-
-    <!-- Options Display Colors -->
-    <color name="dark_mode">#6124B1</color>
-    <color name="notifications">#13B2C3</color>
-    <color name="sounds">#8BF67D</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>

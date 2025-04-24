@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +11,10 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,21 +35,21 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
-    val args: EditMealFragmentArgs by navArgs()
+    private val args: EditMealFragmentArgs by navArgs()
 
-    val mealViewModel: MealViewModel by viewModels {
+    private val mealViewModel: MealViewModel by viewModels {
         MealViewModelFactory((activity?.application as MealsApplication).meals_repository)
     }
 
-    val reactionViewModel: ReactionViewModel by viewModels {
+    private val reactionViewModel: ReactionViewModel by viewModels {
         ReactionViewModelFactory((activity?.application as MealsApplication).reactions_repository)
     }
 
-    val ingredientViewModel: IngredientViewModel by viewModels {
+    private val ingredientViewModel: IngredientViewModel by viewModels {
         IngredientViewModelFactory((activity?.application as MealsApplication).ingredients_repository)
     }
 
-    val mealIngredientViewModel: MealIngredientViewModel by viewModels {
+    private val mealIngredientViewModel: MealIngredientViewModel by viewModels {
         MealIngredientViewModelFactory((activity?.application as MealsApplication).mealingredient_repository)
     }
 
@@ -165,7 +161,7 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
         }
 
         //executes when autocomplete option is clicked
-        ingredientInput.setOnItemClickListener {listAdapter, view, pos, id ->
+        ingredientInput.setOnItemClickListener {listAdapter, _, pos, _ ->
             val title = listAdapter.getItemAtPosition(pos).toString()
             val ingredientText = ingredientInput.text.toString().trim()
             //no empty ingredient names, no duplicates
@@ -201,7 +197,7 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
                 ingredientViewModel.addOrUpdateIngredients(ingredient).join()
                 val ingredientId = ingredientViewModel.getIngredientIdByName(ingredient).await()
                 if(ingredientId != null){
-                    ingredientIds.add(ingredientId)
+                    ingredientIds.add(ingredientId.toInt())
                 }
                 else{
                     Toast.makeText(requireContext(), "Error finding ingredientID!", Toast.LENGTH_LONG).show()
@@ -268,7 +264,7 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
         }
     }
 
-    fun setupAutoComplete(ingredientInput: AutoCompleteTextView, ingredientNames: List<String>) {
+    private fun setupAutoComplete(ingredientInput: AutoCompleteTextView, ingredientNames: List<String>) {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, ingredientNames)
         ingredientInput.setAdapter(adapter)
     }

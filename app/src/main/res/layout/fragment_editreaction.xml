@@ -18,25 +18,39 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/addReactionButton"
+        android:id="@+id/deleteReactionButton"
+        android:layout_width="166dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/design_default_color_error"
+        android:forceDarkAllowed="false"
+        android:text="Delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editReactionButton" />
+
+    <Button
+        android:id="@+id/editReactionButton"
         android:layout_width="166dp"
         android:layout_height="56dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/button_background"
         android:forceDarkAllowed="false"
-        android:text="Add Reaction"
-        android:textColor="@color/button_text_color"
+        android:text="Edit Reaction"
+        android:textColor="@color/background_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/deleteReactionButton"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/addReactionHeader"
+        android:id="@+id/editReactionHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleX="3"
         android:scaleY="3"
-        android:text="Add Reaction"
+        android:text="Edit Reaction"
         android:textColor="@color/background_text_color"
         app:layout_constraintBottom_toTopOf="@+id/reactionTime"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +77,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/reactionDate"
-        app:layout_constraintTop_toBottomOf="@+id/addReactionHeader"
+        app:layout_constraintTop_toBottomOf="@+id/editReactionHeader"
         tools:text="Time" />
 
     <EditText
@@ -87,7 +101,7 @@
         app:layout_constraintEnd_toStartOf="@+id/reactionTime"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addReactionHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/editReactionHeader" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -95,7 +109,7 @@
         android:layout_height="56dp"
         android:background="@drawable/roundstyle"
         android:backgroundTint="@color/button_background"
-        app:layout_constraintBottom_toTopOf="@+id/addReactionButton"
+        app:layout_constraintBottom_toTopOf="@+id/editReactionButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reactionTime"

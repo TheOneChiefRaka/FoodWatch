@@ -10,22 +10,37 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.foodwatch.database.viewmodel.IngredientViewModel
-import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
+import com.example.foodwatch.database.viewmodel.ReactionViewModel
+import com.example.foodwatch.database.viewmodel.ReactionViewModelFactory
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import android.icu.util.Calendar
+import android.widget.DatePicker
+import com.example.foodwatch.database.entities.Reaction
 import java.util.Date
 import java.util.Locale
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
+import com.example.foodwatch.database.viewmodel.IngredientViewModel
+import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
+
 
 class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
+
+    private val reactionViewModel: ReactionViewModel by viewModels {
+        ReactionViewModelFactory((activity?.application as MealsApplication).reactions_repository)
+    }
 
     private val ingredientViewModel: IngredientViewModel by viewModels {
         IngredientViewModelFactory((activity?.application as MealsApplication).ingredients_repository)
     }
 
+    private val reportListAdapter = ReportListAdapter()
     private var startDate: Date? = null
     private var endDate: Date? = null
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+//    private val currentDate = Date()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,12 +51,20 @@ class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
         val startDateButton = view.findViewById<Button>(R.id.btn_start)
         val endDateButton = view.findViewById<Button>(R.id.btn_end)
 
+        val reportList = view.findViewById<RecyclerView>(R.id.reportsRecyclerList)
+        reportList.adapter = reportListAdapter
+        reportList.layoutManager = LinearLayoutManager(requireContext())
+
+        // Load all reactions
+        loadReportData()
+
         // Setting click listener for start date button
         startDateButton.setOnClickListener {
             showDatePickerDialog { selectedDate ->
                 startDate = selectedDate
                 // Update the button text with new date
-                startDateButton.text = SimpleDateFormat("d MMM yy", Locale.ENGLISH).format(selectedDate)
+                startDateButton.text = SimpleDateFormat("dd-MM-yy", Locale.ENGLISH).format(selectedDate)
+                updateReactionsList()
             }
         }
 
@@ -50,32 +73,35 @@ class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
             showDatePickerDialog { selectedDate ->
                 endDate = selectedDate
                 // Update the button text with new date
-                endDateButton.text = SimpleDateFormat("d MMM yy", Locale.ENGLISH).format(selectedDate)
+                endDateButton.text = SimpleDateFormat("dd-MMM-yy", Locale.ENGLISH).format(selectedDate)
+                updateReactionsList()
             }
         }
+    }
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.reportsRecyclerList)
-        val adapter = ReportListAdapter()
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        /*
-        lifecycleScope.launch{
-            val ingredients = ingredientViewModel.findAllPossibleAllergens().await()
-            Log.d("ReactionsTab", "Loaded ${ingredients.size} ingredients")
-
-            ingredients.forEach{
-                Log.d("ReactionsTab", "Ingredient: ${it.name}, timesEaten=${it.timesEaten}")
-            }
-            adapter.submitList(ingredients)
+    private fun updateReactionsList() {
+        if (startDate == null && endDate == null) {
+            // Load all reactions
+            loadReportData()
         }
+        else if (startDate != null && endDate != null) {
+            val startDateString = dateFormat.format(startDate!!)
+            val endDateString = dateFormat.format(endDate!!)
+            loadReportDataForRange("$startDateString 00:00", "$endDateString 23:59")
+        }
+    }
 
-         */
+    private fun loadReportData() {
+        lifecycleScope.launch { reportListAdapter.submitList(ingredientViewModel.getIngredientData().await()) }
+    }
+
+    private fun loadReportDataForRange(startDate: String, endDate: String) {
+        lifecycleScope.launch { reportListAdapter.submitList(ingredientViewModel.getIngredientDataTimeRange(startDate, endDate).await()) }
     }
 
     private fun showDatePickerDialog(onDateSelected: (Date) -> Unit) {
         val calendar = Calendar.getInstance()
-        val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
+        val datePickerDialog = DatePickerDialog(requireContext(), { _: DatePicker, year, month, dayOfMonth ->
             val selectedDate = Calendar.getInstance().apply {
                 set(year, month, dayOfMonth, 0, 0, 0)
                 set(Calendar.MILLISECOND, 0)

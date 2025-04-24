@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import androidx.core.content.ContentProviderCompat.requireContext
+import com.example.foodwatch.ReactionListAdapter.ReactionViewHolder
 import com.example.foodwatch.database.entities.Ingredient
+import com.example.foodwatch.database.entities.IngredientData
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -17,20 +19,23 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
+import kotlin.compareTo
+import kotlin.text.toFloat
 
 
-class ReportListAdapter : ListAdapter<Ingredient, ReportListAdapter.IngredientViewHolder>(IngredientsComparator()) {
+class ReportListAdapter : ListAdapter<IngredientData, ReportListAdapter.ReactionViewHolder>(ReactionsComparator()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
-        return IngredientViewHolder.create(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReactionViewHolder {
+        return ReactionViewHolder.create(parent)
     }
 
-    override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ReactionViewHolder, position: Int) {
         val current = getItem(position)
-        //holder.bind(current.name, current.timesEaten, current.mildReactions, current.mediumReactions, current.severeReactions)
+
+        holder.bind(current.name, current.timesEaten, current.mild, current.medium, current.severe)
     }
 
-    class IngredientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ReactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameView: TextView = itemView.findViewById(R.id.ingredientName)
         private val mealsEatenView: TextView = itemView.findViewById(R.id.mealsEaten)
         private val pieChart: PieChart = itemView.findViewById(R.id.pieChart)
@@ -42,6 +47,7 @@ class ReportListAdapter : ListAdapter<Ingredient, ReportListAdapter.IngredientVi
             val entries = mutableListOf<PieEntry>()
             val reportColors = mutableListOf<Int>()
             val noReaction = timesEaten.toFloat() - mild.toFloat() - medium.toFloat() - severe.toFloat()
+
             if(noReaction > 0) {
                 entries.add(PieEntry(noReaction / timesEaten, "No Reaction"))
                 reportColors.add(R.color.noReaction)
@@ -68,7 +74,6 @@ class ReportListAdapter : ListAdapter<Ingredient, ReportListAdapter.IngredientVi
             pieData.setValueFormatter(PercentFormatter(pieChart))
 
             pieChart.setDrawEntryLabels(false) // Get rid of the labels
-
             pieChart.isDrawHoleEnabled = false
             pieChart.isRotationEnabled = false
             pieChart.data = pieData
@@ -83,22 +88,25 @@ class ReportListAdapter : ListAdapter<Ingredient, ReportListAdapter.IngredientVi
         }
 
         companion object {
-            fun create(parent: ViewGroup): IngredientViewHolder {
+            fun create(parent: ViewGroup): ReactionViewHolder {
                 val view: View = LayoutInflater.from(parent.context)
                     .inflate(R.layout.reportlist_item, parent, false)
-                return IngredientViewHolder(view)
+                return ReactionViewHolder(view)
             }
         }
     }
 
-    class IngredientsComparator : DiffUtil.ItemCallback<Ingredient>() {
-        override fun areItemsTheSame(oldItem: Ingredient, newItem: Ingredient): Boolean {
-            return oldItem.name == newItem.name
+    class ReactionsComparator : DiffUtil.ItemCallback<IngredientData>() {
+        override fun areItemsTheSame(oldItem: IngredientData, newItem: IngredientData): Boolean {
+            return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Ingredient, newItem: Ingredient): Boolean {
-            return     oldItem.ingredientId == newItem.ingredientId
-                    && oldItem.name == newItem.name
+        override fun areContentsTheSame(oldItem: IngredientData, newItem: IngredientData): Boolean {
+            return  oldItem.name == newItem.name &&
+                    oldItem.timesEaten == newItem.timesEaten &&
+                    oldItem.mild == newItem.mild &&
+                    oldItem.medium == newItem.medium &&
+                    oldItem.severe == newItem.severe
         }
     }
 }
