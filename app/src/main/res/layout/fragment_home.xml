@@ -30,13 +30,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addMealButton"
         app:strokeColor="@color/home_buttons_stroke"
-        app:strokeWidth="3dp" />
+        app:strokeWidth="4dp" />
 
     <Button
         android:id="@+id/addMealButton"
         android:layout_width="190dp"
         android:layout_height="77dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="60dp"
         android:backgroundTint="@color/home_buttons"
         android:text="@string/add_meal"
         android:textColor="@color/white"
@@ -45,7 +45,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:strokeColor="@color/home_buttons_stroke"
-        app:strokeWidth="3dp" />
+        app:strokeWidth="4dp" />
 
     <TextView
         android:id="@+id/textView5"
@@ -55,6 +55,7 @@
         android:text="@string/app_subtitle"
         android:textColor="@color/home_buttons_stroke"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"

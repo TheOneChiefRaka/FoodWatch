@@ -21,12 +21,20 @@
     <color name="calendar_different_month_body">#E0EAD6</color>
     <color name="calendar_different_month_text_day">#B8D3AA</color>
 
+    <color name="options_settings_text_color">#606060</color>
+    <color name="options_drawable_tint">#000000</color>
+
+    <color name="color_control_activated">#B269FF</color>
+    <color name="color_switch_thumb_normal">#AE80FF</color>
+    <color name="color_foreground">#99979797</color>
+
     <!-- Button Text Colors -->
     <color name="home_buttons_stroke">#6BA54B</color>
     <color name="home_buttons">#81B266</color>
     <color name="button_background">#EFEFEF</color>
     <color name="button_text_color">#000000</color>
     <color name="button_drawable_tint">#c4deb8</color>
+    <color name="button_stroke_color">#A8C89A</color>
     <color name="delete_button_background_tint">#B02222</color>
     <color name="text_highlight">#EEF5EB</color>
     <color name="highlighted_text">#000000</color>

@@ -3,7 +3,7 @@
     <color name="nav_bar_color">#222322</color>
     <color name="background">#191A19</color>
     <color name="background_text_color">#FFFFFF</color>
-    <color name="icon_selected_tint">#4CAF50</color>
+    <color name="icon_selected_tint">#81ED84</color>
     <color name="icon_unselected_tint">#FFFFFF</color>
     <color name="icon_selected_background">#333333</color>
     <color name="icon_unselected_background">#333333</color>
@@ -18,6 +18,13 @@
     <color name="calendar_different_month_top_border">#BDD6B0</color>
     <color name="calendar_different_month_body">#191A19</color>
     <color name="calendar_different_month_text_day">#B8D3AA</color>
+
+    <color name="options_settings_text_color">#81ED84</color>
+    <color name="options_drawable_tint">@color/color_control_activated</color>
+
+    <color name="color_control_activated">#81ED84</color>
+    <color name="color_switch_thumb_normal">#97BF80</color>
+    <color name="color_foreground">#99979797</color>
 
     <!-- Button Text Colors -->
     <color name="home_buttons_stroke">#6BA54B</color>
