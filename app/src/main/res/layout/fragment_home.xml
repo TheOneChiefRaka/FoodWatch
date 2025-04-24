@@ -22,30 +22,30 @@
         android:layout_width="190dp"
         android:layout_height="77dp"
         android:layout_marginTop="30dp"
-        android:backgroundTint="@color/nav_bar_button_color"
+        android:backgroundTint="@color/button_drawable_tint"
         android:text="@string/add_reaction"
         style="@style/buttonTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addMealButton"
-        app:strokeColor="@color/nav_bar_button_color"
-        app:strokeWidth="3dp" />
+        app:strokeColor="@color/button_stroke_color"
+        app:strokeWidth="4dp" />
 
     <Button
         android:id="@+id/addMealButton"
         android:layout_width="190dp"
         android:layout_height="77dp"
-        android:layout_marginTop="25dp"
-        android:backgroundTint="@color/nav_bar_button_color"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="@color/button_drawable_tint"
         android:text="@string/add_meal"
         style="@style/buttonTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:strokeColor="@color/nav_bar_button_color"
-        app:strokeWidth="3dp" />
+        app:strokeColor="@color/button_stroke_color"
+        app:strokeWidth="4dp" />
 
     <TextView
         android:id="@+id/textView5"
@@ -53,8 +53,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="@string/app_subtitle"
-        android:textColor="@color/nav_bar_button_color"
+        android:textColor="@color/title_text_color"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +69,7 @@
         android:fontFamily="@font/inter_bold"
         android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/nav_bar_button_color"
+        android:textColor="@color/title_text_color"
         android:textSize="38sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
