@@ -90,7 +90,7 @@ class ReportListAdapter : ListAdapter<IngredientData, ReportListAdapter.Reaction
         companion object {
             fun create(parent: ViewGroup): ReactionViewHolder {
                 val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.fragment_reactions_tab, parent, false)
+                    .inflate(R.layout.reportlist_item, parent, false)
                 return ReactionViewHolder(view)
             }
         }

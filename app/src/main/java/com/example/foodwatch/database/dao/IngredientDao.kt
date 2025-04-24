@@ -38,6 +38,7 @@ interface IngredientDao {
             "INNER JOIN meal AS m ON mi.mealId = m.mealId\n" +
             "LEFT OUTER JOIN reaction AS r ON m.reactionId = r.reactionId\n" +
             "GROUP BY i.name\n" +
+            "HAVING mild + medium + severe > 0\n" +
             "ORDER BY ((mild + medium + severe)) DESC, timesEaten ASC")
     suspend fun getIngredientData(): List<IngredientData>
 
@@ -47,6 +48,7 @@ interface IngredientDao {
             "LEFT OUTER JOIN reaction AS r ON m.reactionId = r.reactionId\n" +
             "WHERE :startDate || \" 00:00\" <= m.timeEaten AND m.timeEaten <= :endDate || \" 23:59\"\n" +
             "GROUP BY i.name\n" +
+            "HAVING mild + medium + severe > 0\n" +
             "ORDER BY ((mild + medium + severe)) DESC, timesEaten ASC")
     suspend fun getIngredientDataTimeRange(startDate: String, endDate: String): List<IngredientData>
 

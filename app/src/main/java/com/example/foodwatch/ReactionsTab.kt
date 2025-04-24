@@ -36,7 +36,7 @@ class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
         IngredientViewModelFactory((activity?.application as MealsApplication).ingredients_repository)
     }
 
-    private lateinit var reportListAdapter: ReportListAdapter
+    private val reportListAdapter = ReportListAdapter()
     private var startDate: Date? = null
     private var endDate: Date? = null
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
@@ -50,6 +50,10 @@ class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
         // Added buttons
         val startDateButton = view.findViewById<Button>(R.id.btn_start)
         val endDateButton = view.findViewById<Button>(R.id.btn_end)
+
+        val reportList = view.findViewById<RecyclerView>(R.id.reportsRecyclerList)
+        reportList.adapter = reportListAdapter
+        reportList.layoutManager = LinearLayoutManager(requireContext())
 
         // Load all reactions
         loadReportData()
@@ -73,11 +77,6 @@ class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
                 updateReactionsList()
             }
         }
-
-        val recyclerView: RecyclerView = view.findViewById(R.id.reportsRecyclerList)
-        reportListAdapter = ReportListAdapter()
-        recyclerView.adapter = reportListAdapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun updateReactionsList() {
@@ -88,17 +87,16 @@ class ReactionsTab : Fragment(R.layout.fragment_reactions_tab) {
         else if (startDate != null && endDate != null) {
             val startDateString = dateFormat.format(startDate!!)
             val endDateString = dateFormat.format(endDate!!)
-            // Only one day
-            if (startDateString == endDateString) {
-                //loadReactionsForDate(startDateString)
-            } else {
-                //loadReactionsForTimeRange("$startDateString 00:00", "$endDateString 23:59")
-            }
+            loadReportDataForRange("$startDateString 00:00", "$endDateString 23:59")
         }
     }
 
     private fun loadReportData() {
         lifecycleScope.launch { reportListAdapter.submitList(ingredientViewModel.getIngredientData().await()) }
+    }
+
+    private fun loadReportDataForRange(startDate: String, endDate: String) {
+        lifecycleScope.launch { reportListAdapter.submitList(ingredientViewModel.getIngredientDataTimeRange(startDate, endDate).await()) }
     }
 
     private fun showDatePickerDialog(onDateSelected: (Date) -> Unit) {
