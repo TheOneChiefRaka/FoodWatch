@@ -21,8 +21,8 @@ class ReactionListAdapter : ListAdapter<Reaction, ReactionListAdapter.ReactionVi
     override fun onBindViewHolder(holder: ReactionViewHolder, position: Int) {
         val current = getItem(position)
         holder.itemView.setOnClickListener {
-            val action = CalendarFragmentDirections.calendarToEditMeal(current.reactionId)
-            //navcontroller?.navigate(action)
+            val action = CalendarFragmentDirections.actionCalendarFragmentToEditReactionFragment(current.reactionId)
+            navcontroller?.navigate(action)
         }
         holder.bind(current.severity, current.reactionTime)
     }
