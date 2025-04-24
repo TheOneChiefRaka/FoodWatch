@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="?attr/colorOnSurface" />
+        android:textColor="@color/background_text_color" />
 
     <!-- The answer is initially hidden -->
     <TextView
@@ -25,6 +25,6 @@
         android:visibility="gone"
         android:paddingTop="8dp"
         android:textSize="14sp"
-        android:textColor="?attr/colorOnSurface" />
+        android:textColor="@color/background_text_color" />
 
 </LinearLayout>
