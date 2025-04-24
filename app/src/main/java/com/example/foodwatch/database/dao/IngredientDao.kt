@@ -39,7 +39,7 @@ interface IngredientDao {
             "LEFT OUTER JOIN reaction AS r ON m.reactionId = r.reactionId\n" +
             "GROUP BY i.name\n" +
             "HAVING mild + medium + severe > 0\n" +
-            "ORDER BY ((mild + medium + severe)) DESC, timesEaten ASC")
+            "ORDER BY ((mild + medium + severe)) DESC, timesEaten DESC")
     suspend fun getIngredientData(): List<IngredientData>
 
     @Query("SELECT i.name, COUNT(*) AS timesEaten, COUNT(CASE r.severity WHEN 'Mild' THEN 1 ELSE NULL END) AS mild, COUNT(CASE r.severity WHEN 'Medium' THEN 1 ELSE NULL END) AS medium, COUNT(CASE r.severity WHEN 'Severe' THEN 1 ELSE NULL END) AS severe\n" +
@@ -49,7 +49,7 @@ interface IngredientDao {
             "WHERE :startDate || \" 00:00\" <= m.timeEaten AND m.timeEaten <= :endDate || \" 23:59\"\n" +
             "GROUP BY i.name\n" +
             "HAVING mild + medium + severe > 0\n" +
-            "ORDER BY ((mild + medium + severe)) DESC, timesEaten ASC")
+            "ORDER BY ((mild + medium + severe)) DESC, timesEaten DESC")
     suspend fun getIngredientDataTimeRange(startDate: String, endDate: String): List<IngredientData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
