@@ -9,6 +9,17 @@
     <color name="icon_unselected_background">#FFFFFF</color>
     <color name="nav_bar_color">#FFFFFF</color>
     <color name="nav_bar_button_color">#606060</color>
+    <color name="calendar_normal_top_border">#97BF80</color>
+    <color name="calendar_normal_body">#E1E9D1</color>
+    <color name="calendar_normal_text_day">#81B266</color>
+    <color name="calendar_normal_text_count">#3BA900</color>
+    <color name="calendar_selected_top_border">#8DB776</color>
+    <color name="calendar_selected_body">#D2E0C1</color>
+    <color name="calendar_selected_text_day">#81B266</color>
+    <color name="calendar_selected_text_count">#3BA900</color>
+    <color name="calendar_different_month_top_border">#BDD6B0</color>
+    <color name="calendar_different_month_body">#E0EAD6</color>
+    <color name="calendar_different_month_text_day">#B8D3AA</color>
 
     <!-- Button Text Colors -->
     <color name="button_background">#EFEFEF</color>

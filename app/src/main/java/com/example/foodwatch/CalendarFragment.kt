@@ -186,11 +186,17 @@ class CalendarFragment : Fragment() {
                 container.reactionDotRecycler.adapter = dotAdapter
                 container.reactionDotRecycler.layoutManager = GridLayoutManager(calendar.context, 4)
                 if(data.position == DayPosition.MonthDate) {  //true if day is part of the current month
-                    if(data.date == selectedDay)
+                    if(data.date == selectedDay) {
                         container.view.background = ContextCompat.getDrawable(view.context, R.drawable.calendar_day_border_selected)
-                    else
+                        container.dayOfMonth.setTextColor(ContextCompat.getColor(view.context, R.color.calendar_selected_text_day))
+                        container.mealCountTextView.setTextColor(ContextCompat.getColor(view.context, R.color.calendar_selected_text_count))
+                    }
+                    else {
                         container.view.background = ContextCompat.getDrawable(view.context, R.drawable.calendar_day_border)
-                    container.dayOfMonth.setTextColor(Color.parseColor("#81B266"))
+                        container.dayOfMonth.setTextColor(ContextCompat.getColor(view.context, R.color.calendar_normal_text_day))
+                        container.mealCountTextView.setTextColor(ContextCompat.getColor(view.context, R.color.calendar_normal_text_count))
+                    }
+
                     //lifecycleScope.launch { updateDayData(dotAdapter, data.date, container.mealCountTextView) }
                     if(reactionsLists[data.date.yearMonth.year]?.get(data.date.yearMonth.month.value) != null && mealsEatenCounts[data.date.yearMonth.year]?.get(data.date.yearMonth.month.value) != null) {
                         val mealCount = mealsEatenCounts[data.date.yearMonth.year]?.get(data.date.yearMonth.month.value)?.get(data.date.dayOfMonth-1)
@@ -204,7 +210,7 @@ class CalendarFragment : Fragment() {
                 else {
                     container.mealCountTextView.text = ""
                     container.view.background = ContextCompat.getDrawable(view.context, R.drawable.calendar_day_border_different_month)
-                    container.dayOfMonth.setTextColor(Color.parseColor("#B8D3AA"))
+                    container.dayOfMonth.setTextColor(ContextCompat.getColor(view.context, R.color.calendar_different_month_text_day))
                 }
             }
         }
