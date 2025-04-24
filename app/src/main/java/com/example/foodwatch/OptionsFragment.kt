@@ -15,18 +15,17 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.foodwatch.database.entities.Ingredient
+import com.example.foodwatch.database.entities.IngredientData
 import com.example.foodwatch.database.viewmodel.IngredientViewModel
 import com.example.foodwatch.database.viewmodel.IngredientViewModelFactory
+import kotlinx.coroutines.launch
 import java.io.File
 
 class OptionsFragment : Fragment(R.layout.fragment_options) {
 
-    private val ingredientViewModel: IngredientViewModel by viewModels {
-        IngredientViewModelFactory((requireActivity().application as MealsApplication).ingredients_repository)
-    }
-
-    private var latestIngredients: List<Ingredient> = emptyList()
+    private val viewModel: IngredientViewModel by viewModels { IngredientViewModelFactory((requireActivity().application as MealsApplication).ingredients_repository) }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -42,17 +41,18 @@ class OptionsFragment : Fragment(R.layout.fragment_options) {
         val nightMode = sharedPreferences.getBoolean("darkMode", false)
         val exportButton = view.findViewById<Button>(R.id.exportDataButton)
 
-        ingredientViewModel.allIngredients.observe(viewLifecycleOwner) { list ->
-            latestIngredients = list
-        }
-
-        view.findViewById<Button>(R.id.exportDataButton).setOnClickListener {
-            if (latestIngredients.isEmpty()) {
-                Toast.makeText(requireContext(), "No ingredients to export", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                exportIngredientsCSV(latestIngredients)
+        exportButton.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                val stats = viewModel.getIngredientData().await()
+                if (stats.isEmpty()) {
+                    Toast.makeText(requireContext(),
+                        "No ingredient data to export",
+                        Toast.LENGTH_SHORT).show()
+                } else {
+                    exportStatsCsv(stats)
+                }
             }
+
         }
 
         if (nightMode) {
@@ -87,47 +87,44 @@ class OptionsFragment : Fragment(R.layout.fragment_options) {
         return view
     }
 
-    private fun exportIngredientsCSV(ingredients: List<Ingredient>) {
+    // Export ingredient information to CSV file for download
+    private fun exportStatsCsv(stats: List<IngredientData>) {
+        val header = listOf("name","timesEaten","mild","medium","severe")
+            .joinToString(",") + "\n"
+
+        val rows = stats.joinToString("\n") { s ->
+            listOf(
+                "\"${s.name.replace("\"","\"\"")}\"",
+                s.timesEaten.toString(),
+                s.mild.toString(),
+                s.medium.toString(),
+                s.severe.toString()
+            ).joinToString(",")
+        }
+
+        val csv = header + rows
+
+        // Save CSV file to downloads folder on device
         val resolver = requireContext().contentResolver
-        val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, "ingredients_export.csv")
+        val cv = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, "ingredient_stats.csv")
             put(MediaStore.MediaColumns.MIME_TYPE, "text/csv")
             put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
         }
         val uri = resolver.insert(
             MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY),
-            contentValues
-        ) ?: return
-
-        val header = listOf(
-            "id",
-            "name",
-            "timesEaten",
-            "mildReactions",
-            "mediumReactions",
-            "severeReactions"
-        ).joinToString(",") + "\n"
-
-        val rows = ingredients.joinToString("\n") { ing ->
-            val safeName = "\"${ing.name.replace("\"", "\"\"")}\""
-            listOf(
-                ing.ingredientId.toString(),
-                safeName
-            ).joinToString(",")
+            cv
+        ) ?: run {
+            Toast.makeText(requireContext(), "Export failed", Toast.LENGTH_SHORT).show()
+            return
         }
 
-        val csvText = header + rows
+        resolver.openOutputStream(uri)?.use { it.write(csv.toByteArray()) }
 
-        resolver.openOutputStream(uri)?.use { out ->
-            out.write(csvText.toByteArray())
-
-            Toast.makeText(
-                requireContext(),
-                "Exported ${ingredients.size} ingredients to Downloads",
-                Toast.LENGTH_LONG
-            ).show()
-
-
-        }
+        Toast.makeText(
+            requireContext(),
+            "Exported ${stats.size} rows to Downloads/ingredient_stats.csv",
+            Toast.LENGTH_LONG
+        ).show()
     }
 }
