@@ -8,6 +8,7 @@ import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Adapter
@@ -74,8 +75,21 @@ class EditReactionFragment : Fragment() {
         val reactionSeverityField = view.findViewById<Spinner>(R.id.reactionSeverity)
         val deleteReactionButton = view.findViewById<Button>(R.id.deleteReactionButton)
 
-        //query reaction data
+        //prevents manually editing
+        reactionDate.setOnTouchListener { view, motionEvent ->
+            if (motionEvent.action == MotionEvent.ACTION_UP)
+                view.performClick()
+            else
+                false
+        }
+        reactionTimeField.setOnTouchListener { view, motionEvent ->
+            if (motionEvent.action == MotionEvent.ACTION_UP)
+                view.performClick()
+            else
+                false
+        }
 
+        //query reaction data
         var originalTime: String? = null
 
         lifecycleScope.launch {

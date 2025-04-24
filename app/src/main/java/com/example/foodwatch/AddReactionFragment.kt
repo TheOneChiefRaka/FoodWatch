@@ -8,6 +8,7 @@ import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Adapter
@@ -100,6 +101,20 @@ class AddReactionFragment : Fragment() {
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
         reactionTimeField.setText(String.format("%02d:%02d", hour, minute))
+
+        //prevents manually editing
+        reactionDate.setOnTouchListener { view, motionEvent ->
+            if (motionEvent.action == MotionEvent.ACTION_UP)
+                view.performClick()
+            else
+                false
+        }
+        reactionTimeField.setOnTouchListener { view, motionEvent ->
+            if (motionEvent.action == MotionEvent.ACTION_UP)
+                view.performClick()
+            else
+                false
+        }
 
         // Date picker
         val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->

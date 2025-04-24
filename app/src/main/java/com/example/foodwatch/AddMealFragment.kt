@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -75,6 +76,20 @@ class AddMealFragment : Fragment(R.layout.fragment_addmeal) {
         val mealDate = view.findViewById<EditText>(R.id.mealDate) // Date of meal eaten
         val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         mealDate.setText(LocalDate.now().format(dateFormat).toString())
+
+        //prevents being able to type in these
+        mealDate.setOnTouchListener { view, motionEvent ->
+            if (motionEvent.action == MotionEvent.ACTION_UP)
+                view.performClick()
+            else
+                false
+        }
+        timeInput.setOnTouchListener { view, motionEvent ->
+            if (motionEvent.action == MotionEvent.ACTION_UP)
+                view.performClick()
+            else
+                false
+        }
 
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)

@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -81,6 +82,20 @@ class EditMealFragment : Fragment(R.layout.fragment_editmeal) {
         val ingredientInput = view.findViewById<AutoCompleteTextView>(R.id.mealIngredientInput)
         val saveButton = view.findViewById<Button>(R.id.saveEditsButton)
         val deleteButton = view.findViewById<Button>(R.id.deleteButton)
+
+        //prevents being able to type in these
+        mealDateView.setOnTouchListener { view, motionEvent ->
+            if (motionEvent.action == MotionEvent.ACTION_UP)
+                view.performClick()
+            else
+                false
+        }
+        mealTimeView.setOnTouchListener { view, motionEvent ->
+            if (motionEvent.action == MotionEvent.ACTION_UP)
+                view.performClick()
+            else
+                false
+        }
 
         val ingredients = mutableListOf<String>() // List of ingredients
 
